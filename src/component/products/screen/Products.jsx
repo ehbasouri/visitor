@@ -17,7 +17,7 @@ function Products(params) {
             <ProductItem/>
             <ProductItem/>
             <ProductItem/>
-            <AddButton/>
+            <AddButton link={"addproduct"} />
         </div>
     )
 }

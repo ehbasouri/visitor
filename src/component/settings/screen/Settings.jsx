@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import StoreIcon from '@material-ui/icons/Store';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
+import { Header } from '../../common/Header';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,7 +42,11 @@ function Settings() {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={"mainScreen"}>
+        <Header
+            backEnabled={false}
+            title={"تنظیمات"}
+        />
       <List component="nav" aria-label="main mailbox folders">
         <Link to={"categories"} style={{color: "#222"}} >
             <ListItem button>

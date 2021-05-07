@@ -14,6 +14,7 @@ import ClientDetail from "../component/clients/screen/clientDetail";
 import AddClient from "../component/clients/screen/AddClient";
 import Products from "../component/products/screen/Products";
 import Categories from "../component/categories/screen/Categories";
+import AddProduct from "../component/products/screen/AddProduct";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   const Auth = useContext(AuthContext);
@@ -53,6 +54,7 @@ function AppRouter() {
     <Router>
         <Switch>
         <PrivateRoute path={"/clientdetail"} component={ClientDetail} />
+        <PrivateRoute path={"/addproduct"} component={AddProduct} />
         <PrivateRoute path={"/categories"} component={Categories} />
         <PrivateRoute path={"/addclient"} component={AddClient} />
         <PrivateRoute path={"/products"} component={Products} />

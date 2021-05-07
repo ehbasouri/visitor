@@ -7,11 +7,15 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
+import { blueGrey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
+  avatar: {
+    backgroundColor: blueGrey[500]
+  }
 }));
 
 export default function ClientItem() {
@@ -21,10 +25,10 @@ export default function ClientItem() {
       <Link to={"clientdetail"} >
         <ListItem alignItems="flex-start">
             <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar className={classes.avatar} alt="Remy Sharp" />
             </ListItemAvatar>
             <ListItemText
-            primary="Brunch this weekend?"
+            primary="تنظیمات"
             secondary={
                 <React.Fragment>
                 <Typography
@@ -40,7 +44,7 @@ export default function ClientItem() {
             }
             />
         </ListItem>
-        <Divider variant="inset" component="li" />
+        <Divider variant="inset" />
       </Link>
 
   );

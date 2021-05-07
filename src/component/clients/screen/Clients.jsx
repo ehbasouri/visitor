@@ -32,7 +32,7 @@ function Clients() {
         <ClientItem/>
         <ClientItem/>
         <ClientItem/>
-        <AddButton/>
+        <AddButton link={"addclient"} />
     </div>
   );
 }
