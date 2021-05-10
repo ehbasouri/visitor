@@ -15,6 +15,7 @@ import AddClient from "../component/clients/screen/AddClient";
 import Products from "../component/products/screen/Products";
 import Categories from "../component/categories/screen/Categories";
 import AddProduct from "../component/products/screen/AddProduct";
+import Register from "../component/authentication/screen/Register";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   const Auth = useContext(AuthContext);
@@ -59,6 +60,7 @@ function AppRouter() {
         <PrivateRoute path={"/addclient"} component={AddClient} />
         <PrivateRoute path={"/products"} component={Products} />
         <ProtectedLogin path={"/login"} component={Login} />
+        <ProtectedLogin path={"/register"} component={Register} />
         <PrivateRoute path={"/"} component={Home} />
         </Switch>
     </Router>

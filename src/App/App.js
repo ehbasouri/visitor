@@ -3,6 +3,7 @@ import AppRouter from "./AppRouter";
 import AuthContext from "./AuthApi";
 import Cookies from "js-cookie";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { refreshToken } from "../service/api";
 
 export default function App() {
   const [auth, setAuth] = useState(false);
@@ -12,16 +13,24 @@ export default function App() {
   },[]);
 
   function readCookies() {
-    const user = Cookies.get("token");
+    const user = Cookies.get("token"); 
     if(user) setAuth(true);
-    // Cookies.remove("token");
   }
 
-  console.log(auth);
+  function signIn(data) {
+    Cookies.set("token", data.accessToken);
+    refreshToken(data.accessToken);
+    setAuth(true);
+  }
+
+  function signOut(data) {
+    Cookies.remove("token");
+    setAuth(false);
+  }
 
   return (
     //   <StoreProvider store={createStore(reducers, {}, applyMiddleware(reduxThunk))} >
-        <AuthContext.Provider value={{auth, setAuth}} >
+        <AuthContext.Provider value={{auth, signIn, signOut}} >
           <AppRouter/>
         </AuthContext.Provider>
     //   </StoreProvider>

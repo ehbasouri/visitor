@@ -6,8 +6,11 @@ function AddClient(params) {
     return(
         <div className={"mainScreen"}>
             <Header/>
-            <h1>
-                AddClient Screen
+            <h1 className={"fontTest"} >
+                سلام
+            </h1>
+            <h1 >
+                سلام
             </h1>
         </div>
     )

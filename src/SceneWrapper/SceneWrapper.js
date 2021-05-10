@@ -19,6 +19,11 @@ const theme = createMuiTheme({
       main: cyan[100]
     },
   },
+  // typography: {
+  //   fontFamily: [
+  //     "IranianSans"
+  //   ].join(','),
+  // },
 });
 
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });

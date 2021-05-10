@@ -2,22 +2,30 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
+import { makeStyles } from '@material-ui/core/styles';
 
-function handleClick(event) {
-  event.preventDefault();
-  console.info('You clicked a breadcrumb.');
-}
 
-export default function SimpleBreadcrumbs() {
+const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingRight: 20,
+    paddingLeft: 20
+  },
+}));
+
+export default function SimpleBreadcrumbs({tree = [], onClick}) {
+
+  const classes = useStyles()
+
   return (
-    <Breadcrumbs aria-label="breadcrumb">
-      <Link color="inherit" href="/" onClick={handleClick}>
-        Material-UI
-      </Link>
-      <Link color="inherit" href="/getting-started/installation/" onClick={handleClick}>
-        Core
-      </Link>
-      <Typography color="textPrimary">Breadcrumb</Typography>
+    <Breadcrumbs className={classes.container} aria-label="breadcrumb">
+      {tree.map((item, index)=>(
+        ( index + 1 ) !== tree.length ? <Typography onClick={()=>onClick(item, index)}>
+          {item.name}
+        </Typography> :
+        <Typography color="textPrimary">
+          {item.name}
+        </Typography>
+      ))}
     </Breadcrumbs>
   );
 }

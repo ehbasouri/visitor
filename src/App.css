@@ -1,3 +1,13 @@
+
+@font-face {
+  font-family: 'IranianSans';
+  src: local('IranianSans'), url(./font/IranianSans.ttf) format('truetype');
+}
+
+.fontTest {
+  font-family: IranianSans;
+}
+
 .App {
   text-align: center;
 }

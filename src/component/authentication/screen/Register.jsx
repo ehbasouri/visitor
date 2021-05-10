@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import AuthContext from '../../../App/AuthApi';
+import Cookies from "js-cookie";
 import SimpleBackdrop from '../../common/SimpleBackdrop';
 import { API } from '../../../service/api';
 import { Alert } from '../../common/Alert';
@@ -22,7 +23,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link to={"register"}>
+      <Link to={"login"}>
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -30,6 +31,7 @@ function Copyright() {
     </Typography>
   );
 }
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,12 +53,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login() {
+function Register() {
 
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const classes = useStyles();
   const Auth = useContext(AuthContext);
@@ -65,14 +68,15 @@ function Login() {
   async function onSubmit(params) {
     if(username.length < 1 || password.length < 1){
       setShowAlert(true);
-      setMessage("please enter username and password")
+      setMessage("please enter name and username and password")
       return;
     }
     setLoading(true);
     try {
-      const {data} = await API.post("business/login",{
+      const {data} = await API.post("business/register",{
         username,
-        password
+        password,
+        name
       })
       Auth.signIn(data);
     } catch (error) {
@@ -87,6 +91,10 @@ function Login() {
     setUsername(value.target.value)
   }
 
+  function onNameChange(value) {
+    setName(value.target.value)
+  }
+
   function onPasswordChange(value) {
     setPassword(value.target.value)
   }
@@ -98,7 +106,7 @@ function Login() {
               <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                {"Login page"}
+                {"Register page"}
               </Typography>
               {/* <form className={classes.form} > */}
               <TextField
@@ -106,8 +114,16 @@ function Login() {
                   margin="normal"
                   required
                   fullWidth
-                  label="username"
+                  label="name"
                   autoFocus
+                  onChange={onNameChange}
+              />
+              <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="username"
                   onChange={onUsernameChange}
               />
               <TextField
@@ -130,12 +146,12 @@ function Login() {
                   className={classes.submit}
                   onClick={onSubmit}
               >
-                  {"login"}
+                  {"Register"}
               </Button>
               {/* </form> */}
           </div>
           <Box mt={8}>
-            <Copyright/>
+              <Copyright />
           </Box>
           <AlertComponent
             open={showAlert}
@@ -150,4 +166,4 @@ function Login() {
   );
 }
 
-export default SceneWrapper(Login)
+export default SceneWrapper(Register)

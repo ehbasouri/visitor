@@ -38,7 +38,7 @@ function Settings() {
 
   function onLogout(params) {
     Cookies.remove("token");
-    Auth.setAuth(false);
+    Auth.signOut();
   }
 
   return (
