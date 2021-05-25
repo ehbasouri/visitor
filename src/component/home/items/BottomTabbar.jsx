@@ -10,6 +10,7 @@ import {
     useLocation
   } from "react-router-dom";
 
+
 const useStyles = makeStyles({
   root: {
     position: "fixed" ,
@@ -57,15 +58,16 @@ export default function BottomTabbar({setValue, value}) {
         {/* <BottomNavigationAction label="تنظیمات" icon={<SettingsIcon />} />
         <BottomNavigationAction label="مشتریها" icon={<PeopleIcon />} />
         <BottomNavigationAction label="سفارشات" icon={<ViewListIcon />} /> */}
-        <BottomNavigationAction 
-            label={
-            <Link 
-                style={{color: value === 0 ? "blue" : "gray" }} 
-                to={"/settings"}
-            >
-                <SettingsIcon color={ value === 0 ? "primary" : "disabled"} /> 
-            </Link>}
-        />
+          <BottomNavigationAction 
+              label={
+                  <Link 
+                      style={{color: value === 0 ? "blue" : "gray" }} 
+                      to={"/settings"}
+                  >
+                      <SettingsIcon color={ value === 0 ? "primary" : "disabled"} /> 
+                  </Link>
+              }
+          />
         <BottomNavigationAction 
             label={
             <Link 
@@ -74,7 +76,7 @@ export default function BottomTabbar({setValue, value}) {
             >
                 <PeopleIcon color={ value === 1 ? "primary" : "disabled"} /> 
             </Link>}/>
-        <BottomNavigationAction 
+          <BottomNavigationAction 
             label={
             <Link 
                 style={{color: value === 2 ? "blue" : "gray" }} 

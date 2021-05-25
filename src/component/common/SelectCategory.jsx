@@ -48,7 +48,6 @@ function SelectCategory({
     function onItemClick(category, index) {
         if(category.edge) {
             set_category(category);
-            console.log("category : ", category)
             return
         }
         setParId(category._id);

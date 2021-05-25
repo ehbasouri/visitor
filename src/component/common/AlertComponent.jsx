@@ -6,7 +6,8 @@ import Alert from '@material-ui/lab/Alert';
 
 export function AlertComponent({
     message = "hello",
-    open, setOpen
+    open, setOpen,
+    severity = "error"
 }) {
 
     const handleClose = (event, reason) => {
@@ -36,7 +37,7 @@ export function AlertComponent({
                 </React.Fragment>
             }
         >
-            <Alert variant="filled" severity="error">
+            <Alert variant="filled" severity={severity}>
                 {message}
             </Alert>
         </Snackbar>

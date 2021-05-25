@@ -2,7 +2,7 @@ import axios from "axios";
 import _ from "lodash";
 import Cookies from "js-cookie";
 
-export const HOST = "http://192.168.1.172:5600/";
+export const HOST = "http://192.168.1.108:5600/";
 export const BASE_URL = HOST + "api/";
 
 
@@ -69,14 +69,17 @@ function del(url, params = {}, secured, headerOptions) {
 }
 
 async function multipartPost(file) {
+    console.log("image : ", file)
     const data = new FormData();
     data.append("file", file, file.name);
-    const headers = await getHeaders();
-    headers["Content-Type"] = `multipart/form-data; boundary=${data._boundary}`;
+    const headers = getHeaders();
+    headers["Content-Type"] = "multipart/form-data" 
+    // boundary=${data._boundary}`;
     const options = {
-        url: "process.env.REACT_APP_FILE_SERVER_UPLOAD_API",
+        url: HOST + "file",
         method: "post",
         headers,
+        data
     };
     return axios(options);
 }

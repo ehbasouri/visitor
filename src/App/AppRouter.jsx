@@ -56,6 +56,7 @@ function AppRouter() {
         <Switch>
         <PrivateRoute path={"/clientdetail"} component={ClientDetail} />
         <PrivateRoute path={"/addproduct"} component={AddProduct} />
+        <Route path="/editproduct/:id" children={<AddProduct />} />
         <PrivateRoute path={"/categories"} component={Categories} />
         <PrivateRoute path={"/addclient"} component={AddClient} />
         <PrivateRoute path={"/products"} component={Products} />

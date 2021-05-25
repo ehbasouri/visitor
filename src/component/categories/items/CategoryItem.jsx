@@ -5,8 +5,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import DeleteCategoryModal from './DeleteCategoryModal';
 import AddCategoryModal from '../items/AddCategoryModal';
+import { DeleteModal } from '../../common/DeleteModal';
 
 const useStyles = makeStyles((theme) => ({
     text: {
@@ -40,11 +40,12 @@ export default function CategoryItem({icon, delCategory, category, updateCategor
                     {!category.edge && icon}
                 </ListItemIcon>
             </ListItem>
-            <DeleteCategoryModal
+            <DeleteModal
                 open={showDelModal}
                 setOpen={setShowDelModal}
-                catId={category._id}
-                delCategory={delCategory}
+                onDelete={delCategory}
+                url={"business/category"}
+                params={{catId : category._id}}
             />
             <AddCategoryModal
               open={showEditModal}

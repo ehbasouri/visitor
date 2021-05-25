@@ -9,20 +9,26 @@ import {
   Route
 } from "react-router-dom";
 import { PrivateRoute } from "../../../App/AppRouter";
+import Grid from '@material-ui/core/Grid';
 
-function Home(params) {
+function HomeRouter(params) {
+    return(
+        <Switch>
+            <PrivateRoute path={"/orders"} component={Orders} />
+            <PrivateRoute path={"/clients"} component={Clients} />
+            <PrivateRoute path={"/settings"} component={Settings} />
+        </Switch>
+    )
+}
+
+ 
+
+function Home() {
   const [value, setValue] = React.useState(2);
 
     return(
         <div>
-            {/* {value === 2 && <Orders/>}
-            {value === 1 && <Clients/>}
-            {value === 0 && <Settings/>} */}
-            <Switch>
-                <PrivateRoute path={"/orders"} component={Orders} />
-                <PrivateRoute path={"/clients"} component={Clients} />
-                <PrivateRoute path={"/settings"} component={Settings} />
-            </Switch>
+            <HomeRouter/>
             <BottomTabbar
                 setValue={setValue}
                 value={value}
@@ -31,4 +37,4 @@ function Home(params) {
     )
 }
 
-export default SceneWrapper(Home)
+export default SceneWrapper(Home, "lg")
