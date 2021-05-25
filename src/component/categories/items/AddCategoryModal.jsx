@@ -5,6 +5,8 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { API } from '../../../service/api';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,8 +37,8 @@ export default function AddCategoryModal({
 }) {
     const classes = useStyles();
     const [name, setName] = React.useState(category ? category.name : "");
+    const [edge, setEdge] = React.useState(category ? category.edge : false);
     const [loading, setLoading] = React.useState(false);
-    // getModalStyle is not a pure function, we roll the style only on the first render
 
     const handleClose = () => {
         setOpen(false);
@@ -49,9 +51,8 @@ export default function AddCategoryModal({
     async function updateCategoryItem(params) {
         setLoading(true);
         try {
-            const {data} = await API.put("business/category", {name},{catId: category._id});
-            console.log("data : ", data);
-            updateCategories({...data, name})
+            const {data} = await API.put("business/category", {name, edge},{catId: category._id});
+            updateCategories({...data, name, edge})
         } catch (error) {
             console.log("error : ", error);
         }
@@ -63,7 +64,7 @@ export default function AddCategoryModal({
     async function addNewCategory(params) {
         setLoading(true);
         try {
-            const {data} = await API.post("business/category",{name, edge: false, parId});
+            const {data} = await API.post("business/category",{name, edge, parId});
             addCategories(data)
             console.log("data : ", data);
         } catch (error) {
@@ -80,6 +81,10 @@ export default function AddCategoryModal({
         } else {
             addNewCategory()
         }
+    }
+
+    function handleChange(value) {
+        setEdge(value.target.checked)
     }
 
   return (
@@ -101,6 +106,16 @@ export default function AddCategoryModal({
                 autoFocus
                 onChange={onNameChange}
                 value={name}
+            />
+             <FormControlLabel
+                control={
+                <Switch
+                    checked={edge}
+                    onChange={handleChange}
+                    color="primary"
+                />
+                }
+                label="Primary"
             />
             <Button
                 loa

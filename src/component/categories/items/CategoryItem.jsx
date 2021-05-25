@@ -19,21 +19,25 @@ export default function CategoryItem({icon, delCategory, category, updateCategor
     const [showDelModal, setShowDelModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
+    function onItemClick() {
+        if(!category.edge) onClick();
+    }
+
     return (
         <div>
             <ListItem
                 button
                 alignItems={"center"}
                 >
-                <ListItemText onClick={onClick} className={classes.text} primary={category.name} />
+                <ListItemText onClick={onItemClick} className={classes.text} primary={category.name} />
                 <ListItemIcon onClick={()=>setShowEditModal(true)} >
                     <EditIcon/>
                 </ListItemIcon>
                 <ListItemIcon onClick={()=>setShowDelModal(true)} >
                     <DeleteIcon/>
                 </ListItemIcon>
-                <ListItemIcon onClick={onClick} >
-                    {icon}
+                <ListItemIcon onClick={onItemClick} >
+                    {!category.edge && icon}
                 </ListItemIcon>
             </ListItem>
             <DeleteCategoryModal
