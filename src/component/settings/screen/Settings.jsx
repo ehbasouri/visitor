@@ -16,7 +16,8 @@ import {
 } from "react-router-dom";
 import StoreIcon from '@material-ui/icons/Store';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
-import { Header } from '../../common/Header';
+import { Header } from '../../../common/Header';
+import MainScreen from '../../../common/MainScreen';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,41 +48,43 @@ function Settings() {
             backEnabled={false}
             title={"تنظیمات"}
         />
-      <List component="nav" aria-label="main mailbox folders">
-        <Link to={"categories"} style={{color: "#222"}} >
-            <ListItem button>
-                <ListItemIcon>
-                    <CategoryIcon />
-                </ListItemIcon>
-                <ListItemText className={classes.text}   primary="دسته بندی" />
-            </ListItem>
-        </Link>
-        <Link style={{color: "#222"}} to={"products"} >
-            <ListItem button>
+      <MainScreen>
+        <List component="nav" aria-label="main mailbox folders">
+          <Link to={"categories"} style={{color: "#222"}} >
+              <ListItem button>
+                  <ListItemIcon>
+                      <CategoryIcon />
+                  </ListItemIcon>
+                  <ListItemText className={classes.text}   primary="دسته بندی" />
+              </ListItem>
+          </Link>
+          <Link style={{color: "#222"}} to={"products"} >
+              <ListItem button>
+              <ListItemIcon>
+                  <BallotIcon />
+              </ListItemIcon>
+              <ListItemText className={classes.text} primary="محصولات" />
+              </ListItem>
+          </Link>
+          <Link style={{color: "#222"}}>
+              <ListItem button>
+              <ListItemIcon>
+                  <StoreIcon />
+              </ListItemIcon>
+              <ListItemText className={classes.text} primary="انبار" />
+              </ListItem>
+          </Link>
+        </List>
+        <Divider />
+        <List component="nav" aria-label="secondary mailbox folders">
+          <ListItem onClick={onLogout} button>
             <ListItemIcon>
-                <BallotIcon />
+              <ExitToApp />
             </ListItemIcon>
-            <ListItemText className={classes.text} primary="محصولات" />
-            </ListItem>
-        </Link>
-        <Link style={{color: "#222"}}>
-            <ListItem button>
-            <ListItemIcon>
-                <StoreIcon />
-            </ListItemIcon>
-            <ListItemText className={classes.text} primary="انبار" />
-            </ListItem>
-        </Link>
-      </List>
-      <Divider />
-      <List component="nav" aria-label="secondary mailbox folders">
-        <ListItem onClick={onLogout} button>
-          <ListItemIcon>
-            <ExitToApp />
-          </ListItemIcon>
-          <ListItemText className={classes.text} primary="خروج" />
-        </ListItem>
-      </List>
+            <ListItemText className={classes.text} primary="خروج" />
+          </ListItem>
+        </List>
+      </MainScreen>
     </div>
   );
 }

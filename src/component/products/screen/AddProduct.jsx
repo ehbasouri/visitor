@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import SceneWrapper from "../../../SceneWrapper/SceneWrapper";
-import { Header } from "../../common/Header";
+import { Header } from "../../../common/Header";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import DropDown from "../../common/DropDown";
+import DropDown from "../../../common/DropDown";
 import SelectCategoryModal from "../items/SelectCategoryModal";
-import SimpleBackdrop from "../../common/SimpleBackdrop";
+import SimpleBackdrop from "../../../common/SimpleBackdrop";
 import { API, HOST } from "../../../service/api";
 import { handleApiErrors } from "../../../utils/handleApiErrors";
-import { AlertComponent } from "../../common/AlertComponent";
+import { AlertComponent } from "../../../common/AlertComponent";
 
 import {
     useParams
@@ -18,6 +18,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import MainScreen from "../../../common/MainScreen";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -176,94 +177,96 @@ function AddClient(params) {
         <div className={"mainScreen"}>
             <Header/>
             <div className={"mainContainer"} >
-                <div className={classes.imageContainer} >
-                    <input accept="image/*" onChange={onChangeFile} className={classes.input} name={"file"} id="icon-button-file" type="file" />
-                    <label htmlFor="icon-button-file">
-                        <IconButton color="primary" aria-label="upload picture" component="span">
-                        <PhotoCamera />
-                        </IconButton>
-                    </label>
-                    <CardMedia
-                        component="img"
-                        alt="Contemplative Reptile"
-                        height="140"
-                        image={localImage}
-                        title="Contemplative Reptile"
-                        className={classes.image}
-                    />
-                </div>
+                <MainScreen>
+                    <div className={classes.imageContainer} >
+                        <input accept="image/*" onChange={onChangeFile} className={classes.input} name={"file"} id="icon-button-file" type="file" />
+                        <label htmlFor="icon-button-file">
+                            <IconButton color="primary" aria-label="upload picture" component="span">
+                            <PhotoCamera />
+                            </IconButton>
+                        </label>
+                        <CardMedia
+                            component="img"
+                            alt="Contemplative Reptile"
+                            height="140"
+                            image={localImage}
+                            title="Contemplative Reptile"
+                            className={classes.image}
+                        />
+                    </div>
 
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="name"
-                    autoFocus
-                    onChange={e=>setName(e.target.value)}
-                    value={name}
-                    defaultValue={name}
-                />
-                <DropDown
-                    label={"store"}
-                />
-                <SelectCategoryModal
-                    category={category}
-                    set_category={set_category}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    type="number"
-                    fullWidth
-                    label="price"
-                    onChange={e=>setPrice(e.target.value)}
-                    value={price}
-                    defaultValue={price}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    type="number"
-                    fullWidth
-                    label="buy price"
-                    onChange={e=>set_buy_price(e.target.value)}
-                    value={buy_price}
-                    defaultValue={buy_price}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    type="number"
-                    fullWidth
-                    label="count"
-                    onChange={e=>setCount(e.target.value)}
-                    value={count}
-                    defaultValue={count}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="description"
-                    onChange={e=>setDescription(e.target.value)}
-                    value={description}
-                    defaultValue={description}
-                />
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    // className={classes.submit}
-                    onClick={onRegister}
-                >
-                  {"Register"}
-              </Button>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="name"
+                        autoFocus
+                        onChange={e=>setName(e.target.value)}
+                        value={name}
+                        defaultValue={name}
+                    />
+                    <DropDown
+                        label={"store"}
+                    />
+                    <SelectCategoryModal
+                        category={category}
+                        set_category={set_category}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        type="number"
+                        fullWidth
+                        label="price"
+                        onChange={e=>setPrice(e.target.value)}
+                        value={price}
+                        defaultValue={price}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        type="number"
+                        fullWidth
+                        label="buy price"
+                        onChange={e=>set_buy_price(e.target.value)}
+                        value={buy_price}
+                        defaultValue={buy_price}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        type="number"
+                        fullWidth
+                        label="count"
+                        onChange={e=>setCount(e.target.value)}
+                        value={count}
+                        defaultValue={count}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="description"
+                        onChange={e=>setDescription(e.target.value)}
+                        value={description}
+                        defaultValue={description}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        // className={classes.submit}
+                        onClick={onRegister}
+                    >
+                    {"Register"}
+                </Button>
+            </MainScreen>
             </div>
 
             <SimpleBackdrop

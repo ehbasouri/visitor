@@ -21,13 +21,13 @@ const useStyles = makeStyles({
 
 function getRouteValue(key) {
     switch (key) {
-        case "/orders":
+        case "/admin/orders":
             
             return 2;
-        case "/clients":
+        case "/admin/clients":
             
             return 1;
-        case "/settings":
+        case "/admin/settings":
             
             return 0;
     
@@ -62,7 +62,7 @@ export default function BottomTabbar({setValue, value}) {
               label={
                   <Link 
                       style={{color: value === 0 ? "blue" : "gray" }} 
-                      to={"/settings"}
+                      to={"/admin/settings"}
                   >
                       <SettingsIcon color={ value === 0 ? "primary" : "disabled"} /> 
                   </Link>
@@ -72,7 +72,7 @@ export default function BottomTabbar({setValue, value}) {
             label={
             <Link 
                 style={{color: value === 1 ? "blue" : "gray" }} 
-                to={"/clients"} 
+                to={"/admin/clients"} 
             >
                 <PeopleIcon color={ value === 1 ? "primary" : "disabled"} /> 
             </Link>}/>
@@ -80,7 +80,7 @@ export default function BottomTabbar({setValue, value}) {
             label={
             <Link 
                 style={{color: value === 2 ? "blue" : "gray" }} 
-                to={"/orders"} 
+                to={"/admin/orders"} 
             >
                 <ViewListIcon color={ value === 2 ? "primary" : "disabled"} /> 
             </Link>}/>

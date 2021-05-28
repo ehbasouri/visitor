@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { API } from '../../service/api';
+import { API } from '../service/api';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

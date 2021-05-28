@@ -2,6 +2,7 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import fa from '../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +62,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function SearchInput() {
+export function SearchInput({
+  value = "",
+  onChange = ()=>null
+}) {
   const classes = useStyles();
 
   return (
@@ -70,13 +74,14 @@ export function SearchInput() {
               <SearchIcon />
             </div>
             <InputBase 
-              
-              placeholder="جستجو ..."
+              placeholder={fa["search"]}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              value={value}
+              onChange={onChange}
             />
           </div>
   );

@@ -13,10 +13,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { 
   Link
 } from "react-router-dom";
-import { DeleteModal } from '../../common/DeleteModal';
+import { DeleteModal } from '../../../common/DeleteModal';
 
 const useStyles = makeStyles({
   root: {
+    marginTop: 16
   },
 });
 

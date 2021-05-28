@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import SimpleBreadcrumbs from '../items/SimpleBreadcrumbs';
-import { Header } from '../../common/Header';
+import { Header } from '../../../common/Header';
 import CategoryItem from '../items/CategoryItem';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import { API } from '../../../service/api';
 import AddCategoryModal from '../items/AddCategoryModal';
-import SimpleBackdrop from '../../common/SimpleBackdrop';
+import SimpleBackdrop from '../../../common/SimpleBackdrop';
 import DeleteCategoryModal from '../items/DeleteCategoryModal';
 import Button from '@material-ui/core/Button';
+import MainScreen from '../../../common/MainScreen';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,30 +88,32 @@ function Categories() {
   return (
     <div className={"mainScreen"}>
         <Header/>
-        <SimpleBreadcrumbs onClick={onItemClick} tree={tree} />
-        <List component="nav" aria-label="main mailbox folders">
-        {categories.map(category=>(
-          <CategoryItem 
-            onClick={()=>onItemClick(category)} 
-            key={category._id} 
-            category={category} 
-            icon={<ArrowBackIosIcon />} 
-            delCategory={delCategory}
-            updateCategories={updateCategories}
-          />
-        ))}
-        <Button
-            loa
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleOpenModal}
-        >
-            {"Add New"}
-        </Button>
-        </List>
+        <MainScreen>
+          <SimpleBreadcrumbs onClick={onItemClick} tree={tree} />
+          <List component="nav" aria-label="main mailbox folders">
+          {categories.map(category=>(
+            <CategoryItem 
+              onClick={()=>onItemClick(category)} 
+              key={category._id} 
+              category={category} 
+              icon={<ArrowBackIosIcon />} 
+              delCategory={delCategory}
+              updateCategories={updateCategories}
+            />
+          ))}
+          <Button
+              loa
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleOpenModal}
+          >
+              {"Add New"}
+          </Button>
+          </List>
+        </MainScreen>
         <AddCategoryModal
           open={showAddModal}
           setOpen={setShowAddModal}

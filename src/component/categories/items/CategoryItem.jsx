@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCategoryModal from '../items/AddCategoryModal';
-import { DeleteModal } from '../../common/DeleteModal';
+import { DeleteModal } from '../../../common/DeleteModal';
 
 const useStyles = makeStyles((theme) => ({
     text: {

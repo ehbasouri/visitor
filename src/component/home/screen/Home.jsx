@@ -8,15 +8,15 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import { PrivateRoute } from "../../../App/AppRouter";
+import { PrivateBusinessRoute } from "../../../App/AppRouter";
 import Grid from '@material-ui/core/Grid';
 
 function HomeRouter(params) {
     return(
         <Switch>
-            <PrivateRoute path={"/orders"} component={Orders} />
-            <PrivateRoute path={"/clients"} component={Clients} />
-            <PrivateRoute path={"/settings"} component={Settings} />
+            <PrivateBusinessRoute path={"/admin/orders"} component={Orders} />
+            <PrivateBusinessRoute path={"/admin/clients"} component={Clients} />
+            <PrivateBusinessRoute path={"/admin/settings"} component={Settings} />
         </Switch>
     )
 }

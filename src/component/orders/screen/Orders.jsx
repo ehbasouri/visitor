@@ -7,34 +7,12 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import OrderItem from '../items/OrderItem';
-import { SearchInput } from '../../common/SearchInput';
-import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
+import { SearchInput } from '../../../common/SearchInput';
+import MainScreen from '../../../common/MainScreen';
+import fa from '../../../translation/fa';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { API } from '../../../service/api';
 
 function a11yProps(index) {
   return {
@@ -53,32 +31,55 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Orders() {
+function Orders({history}) {
+
+
   const classes = useStyles();
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = useState(1);
+  const [orders, setOrders] = useState([]);
+  const user_info = useSelector(state=>state.general_reducer.user_info)
+
+  useEffect(()=>{
+    fetchOrders()
+  },[])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  async function fetchOrders() {
+      const queries = {business_id : user_info._id }
+      try {
+          const {data} = await API.get("business/order", queries);
+          setOrders(data);
+      } catch (error) {
+          console.log("error : ", error);
+      }
+  }
+
+  console.log("value : ", value)
+
+  function onDetailsClick(order_id) {
+    history.push("/admin/archiveorderdetail/" + order_id);
+    
+  }
 
   return (
     <div className={"mainScreen"}>
       <AppBar >
         <Tabs 
           variant="fullWidth" value={value} onChange={handleChange}>
-          <Tab label="بایگانی" {...a11yProps(0)} />
-          <Tab label="فعال" {...a11yProps(1)} />
+          <Tab label={fa["archive"]} {...a11yProps(0)} />
+          <Tab label={fa["active"]} {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      <div>
+      <MainScreen>
         <SearchInput/>
-        <OrderItem/>
-        <OrderItem/>
-        <OrderItem/>
-        <OrderItem/>
-        <OrderItem/>
-        <OrderItem/>
-      </div>
+        {orders.map(order=>(
+          value === 1 && order.status === "active" || value === 0 && order.status !== "active"  ?
+          <OrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} /> : null
+        ))}
+      </MainScreen>
     </div>
   );
 }

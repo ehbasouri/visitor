@@ -1,6 +1,6 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
-import { Header } from "../../common/Header";
+import { Header } from "../../../common/Header";
 
 
 export default function OrderDetail(params) {

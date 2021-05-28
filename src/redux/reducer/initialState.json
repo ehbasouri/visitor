@@ -1,0 +1,18 @@
+{
+    "basket": {
+        "products": [],
+        "discount": 0,
+        "price": 0,
+        "comment": "" 
+    },
+    "user_info": null,
+    "business": {
+        "role": "admin",
+        "created_at": "2021-05-27T09:16:55.359Z",
+        "updated_at": "2021-05-27T09:16:55.359Z",
+        "_id": "60af7c5b596a15642b1c924a",
+        "username": "mohammad",
+        "name": "mohammad",
+        "__v": 0
+    }
+}

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ClientItem() {
+export default function ClientItem({user}) {
   const classes = useStyles();
 
   return (
@@ -28,20 +28,19 @@ export default function ClientItem() {
             <Avatar className={classes.avatar} alt="Remy Sharp" />
             </ListItemAvatar>
             <ListItemText
-            primary="تنظیمات"
-            secondary={
-                <React.Fragment>
-                <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                >
-                    Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-                </React.Fragment>
-            }
+              primary={user.name}
+              secondary={
+                  <React.Fragment>
+                  <Typography
+                      component="span"
+                      variant="body2"
+                      className={classes.inline}
+                      color="textPrimary"
+                  >
+                      {user.username}
+                  </Typography>
+                  </React.Fragment>
+              }
             />
         </ListItem>
         <Divider variant="inset" />

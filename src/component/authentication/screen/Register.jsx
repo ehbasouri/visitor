@@ -11,23 +11,22 @@ import Container from '@material-ui/core/Container';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import AuthContext from '../../../App/AuthApi';
 import Cookies from "js-cookie";
-import SimpleBackdrop from '../../common/SimpleBackdrop';
+import SimpleBackdrop from '../../../common/SimpleBackdrop';
 import { API } from '../../../service/api';
-import { Alert } from '../../common/Alert';
+import { Alert } from '../../../common/Alert';
 import { handleApiErrors } from '../../../utils/handleApiErrors';
 import {Link} from "react-router-dom";
-import { AlertComponent } from '../../common/AlertComponent';
+import { AlertComponent } from '../../../common/AlertComponent';
+import fa from '../../../translation/fa';
 
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link to={"login"}>
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      
+      <Link to={"/admin/login"}>
+        {fa["login"]}
+      </Link>
     </Typography>
   );
 }
@@ -68,7 +67,7 @@ function Register() {
   async function onSubmit(params) {
     if(username.length < 1 || password.length < 1){
       setShowAlert(true);
-      setMessage("please enter name and username and password")
+      setMessage(fa["please enter name and username and password"])
       return;
     }
     setLoading(true);
@@ -106,7 +105,7 @@ function Register() {
               <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                {"Register page"}
+                {fa["Register page"]}
               </Typography>
               {/* <form className={classes.form} > */}
               <TextField
@@ -114,7 +113,7 @@ function Register() {
                   margin="normal"
                   required
                   fullWidth
-                  label="name"
+                  label={fa["name"]}
                   autoFocus
                   onChange={onNameChange}
               />
@@ -123,7 +122,7 @@ function Register() {
                   margin="normal"
                   required
                   fullWidth
-                  label="username"
+                  label={fa["username"]}
                   onChange={onUsernameChange}
               />
               <TextField
@@ -132,7 +131,7 @@ function Register() {
                   required
                   fullWidth
                   name="password"
-                  label="password"
+                  label={fa["password"]}
                   type="password"
                   // id="password"
                   autoComplete="current-password"
@@ -146,7 +145,7 @@ function Register() {
                   className={classes.submit}
                   onClick={onSubmit}
               >
-                  {"Register"}
+                  {fa["register"]}
               </Button>
               {/* </form> */}
           </div>

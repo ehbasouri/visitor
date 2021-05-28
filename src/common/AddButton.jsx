@@ -15,13 +15,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AddButton({link}) {
+export default function AddButton({link, icon = <AddIcon/>}) {
   const classes = useStyles();
 
   return (
         <Fab aria-label={"Add"} className={classes.fab} color={"primary"}>
           <Link style={{color: "#fff"}} to={link} >
-            <AddIcon />
+            {icon}
           </Link>
         </Fab>
   );

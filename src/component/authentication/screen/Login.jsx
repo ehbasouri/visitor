@@ -10,23 +10,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import AuthContext from '../../../App/AuthApi';
-import SimpleBackdrop from '../../common/SimpleBackdrop';
+import SimpleBackdrop from '../../../common/SimpleBackdrop';
 import { API } from '../../../service/api';
-import { Alert } from '../../common/Alert';
+import { Alert } from '../../../common/Alert';
 import { handleApiErrors } from '../../../utils/handleApiErrors';
 import {Link} from "react-router-dom";
-import { AlertComponent } from '../../common/AlertComponent';
+import { AlertComponent } from '../../../common/AlertComponent';
+import fa from '../../../translation/fa';
 
 
-function Copyright() {
+function Copyright({title, link}) {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link to={"register"}>
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      <Link to={link}>
+         {title}
+      </Link>
     </Typography>
   );
 }
@@ -65,7 +63,7 @@ function Login() {
   async function onSubmit(params) {
     if(username.length < 1 || password.length < 1){
       setShowAlert(true);
-      setMessage("please enter username and password")
+      setMessage(fa["please enter username and password"])
       return;
     }
     setLoading(true);
@@ -98,7 +96,7 @@ function Login() {
               <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                {"Login page"}
+                {fa["Login page"]}
               </Typography>
               {/* <form className={classes.form} > */}
               <TextField
@@ -106,7 +104,7 @@ function Login() {
                   margin="normal"
                   required
                   fullWidth
-                  label="username"
+                  label={fa["username"]}
                   autoFocus
                   onChange={onUsernameChange}
               />
@@ -116,7 +114,7 @@ function Login() {
                   required
                   fullWidth
                   name="password"
-                  label="password"
+                  label={fa["password"]}
                   type="password"
                   // id="password"
                   autoComplete="current-password"
@@ -130,12 +128,15 @@ function Login() {
                   className={classes.submit}
                   onClick={onSubmit}
               >
-                  {"login"}
+                  {fa["login"]}
               </Button>
               {/* </form> */}
           </div>
           <Box mt={8}>
-            <Copyright/>
+            <Copyright link={"/admin/register"} title={fa["register"]} />
+          </Box>
+          <Box mt={8}>
+            <Copyright link={"/login"} title={fa["client"]} />
           </Box>
           <AlertComponent
             open={showAlert}

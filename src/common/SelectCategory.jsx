@@ -3,10 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import SimpleBreadcrumbs from './SimpleBreadcrumbs';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import SceneWrapper from '../../SceneWrapper/SceneWrapper';
-import { API } from '../../service/api';
+import { API } from '../service/api';
 import SimpleBackdrop from './SimpleBackdrop';
 import ReadOnlyCatItem from './ReadOnlyCatItem';
+import SceneWrapper from '../SceneWrapper/SceneWrapper';
+import MainScreen from './MainScreen';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,21 +67,23 @@ function SelectCategory({
 
   return (
     <div className={"mainScreen"}>
-        <SimpleBreadcrumbs onClick={onItemClick} tree={tree} />
-        <List component="nav" aria-label="main mailbox folders">
-        {categories.map(category=>(
-          <ReadOnlyCatItem 
-            onClick={()=>onItemClick(category)} 
-            key={category._id} 
-            category={category} 
-            icon={<ArrowBackIosIcon />} 
+        <MainScreen>          
+          <SimpleBreadcrumbs onClick={onItemClick} tree={tree} />
+          <List component="nav" aria-label="main mailbox folders">
+          {categories.map(category=>(
+            <ReadOnlyCatItem 
+              onClick={()=>onItemClick(category)} 
+              key={category._id} 
+              category={category} 
+              icon={<ArrowBackIosIcon />} 
+            />
+          ))}
+          </List>
+          <SimpleBackdrop
+            open={loading}
+            setOpen={setLoading}
           />
-        ))}
-        </List>
-        <SimpleBackdrop
-          open={loading}
-          setOpen={setLoading}
-        />
+        </MainScreen>
     </div>
   );
 }
