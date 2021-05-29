@@ -40,7 +40,8 @@ const fa = {
     "latest level": "آخرین سطح",
     "delete": "حذف",
     "Are you sure to delete ?": "مطمئناً حذف می کنید؟",
-    "edit": "ویرایش"
+    "edit": "ویرایش",
+    "buy price": "قیمت خرید"
 }
 
 export default fa;

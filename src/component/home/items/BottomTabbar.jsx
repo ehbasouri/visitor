@@ -21,16 +21,16 @@ const useStyles = makeStyles({
 
 function getRouteValue(key) {
     switch (key) {
+        case "/admin/orders/active":
+            return 2;
+        case "/admin/orders/archive":
+            return 2;
         case "/admin/orders":
-            
             return 2;
         case "/admin/clients":
-            
             return 1;
         case "/admin/settings":
-            
             return 0;
-    
         default:
             return 0;
     }
