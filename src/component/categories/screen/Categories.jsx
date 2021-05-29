@@ -12,6 +12,7 @@ import SimpleBackdrop from '../../../common/SimpleBackdrop';
 import DeleteCategoryModal from '../items/DeleteCategoryModal';
 import Button from '@material-ui/core/Button';
 import MainScreen from '../../../common/MainScreen';
+import fa from '../../../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function Categories() {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [tree, setTree] = useState([{name: "root", _id: "1"}]);
+  const [tree, setTree] = useState([{name: fa["category"], _id: "1"}]);
   const [categories, setCategories] = useState([]);
   const [parId, setParId] = useState("1");
   const [showAddModal, setShowAddModal] = useState(false);
@@ -110,7 +111,7 @@ function Categories() {
               className={classes.submit}
               onClick={handleOpenModal}
           >
-              {"Add New"}
+              {fa["add new"]}
           </Button>
           </List>
         </MainScreen>

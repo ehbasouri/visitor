@@ -15,10 +15,11 @@ moment.locale('fa', { useGregorianParser: true });
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    // maxWidth: 345,
   },
   media: {
     height: 140,
+    width: 140
   },
 });
 
@@ -31,7 +32,6 @@ export default function SignItem({date}) {
         <CardMedia
           className={classes.media}
           image={HOST + "8bbb0a53ab33342af0f83199f6b843bc"}
-          title="Contemplative Reptile"
         />
         <CardContent>
           <Typography align={"left"} gutterBottom variant="h5" component="h2">

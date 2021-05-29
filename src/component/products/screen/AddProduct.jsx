@@ -19,6 +19,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import MainScreen from "../../../common/MainScreen";
+import fa from "../../../translation/fa";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -200,14 +201,14 @@ function AddClient(params) {
                         margin="normal"
                         required
                         fullWidth
-                        label="name"
+                        label={fa["name"]}
                         autoFocus
                         onChange={e=>setName(e.target.value)}
                         value={name}
                         defaultValue={name}
                     />
                     <DropDown
-                        label={"store"}
+                        label={fa["store"]}
                     />
                     <SelectCategoryModal
                         category={category}
@@ -219,7 +220,7 @@ function AddClient(params) {
                         required
                         type="number"
                         fullWidth
-                        label="price"
+                        label={fa["price"]}
                         onChange={e=>setPrice(e.target.value)}
                         value={price}
                         defaultValue={price}
@@ -230,7 +231,7 @@ function AddClient(params) {
                         required
                         type="number"
                         fullWidth
-                        label="buy price"
+                        label={fa["buy price"]}
                         onChange={e=>set_buy_price(e.target.value)}
                         value={buy_price}
                         defaultValue={buy_price}
@@ -241,7 +242,7 @@ function AddClient(params) {
                         required
                         type="number"
                         fullWidth
-                        label="count"
+                        label={fa["count"]}
                         onChange={e=>setCount(e.target.value)}
                         value={count}
                         defaultValue={count}
@@ -251,7 +252,7 @@ function AddClient(params) {
                         margin="normal"
                         required
                         fullWidth
-                        label="description"
+                        label={fa["description"]}
                         onChange={e=>setDescription(e.target.value)}
                         value={description}
                         defaultValue={description}
@@ -264,7 +265,7 @@ function AddClient(params) {
                         // className={classes.submit}
                         onClick={onRegister}
                     >
-                    {"Register"}
+                    {fa["submit"]}
                 </Button>
             </MainScreen>
             </div>

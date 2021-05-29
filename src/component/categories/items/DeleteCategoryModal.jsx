@@ -4,6 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { API } from '../../../service/api';
+import fa from '../../../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -66,7 +67,7 @@ export default function DeleteCategoryModal({
                 className={classes.submit}
                 onClick={onSubmit}
             >
-                {"Register"}
+                {fa["delete"]}
             </Button>
         </div>}
     </Modal>

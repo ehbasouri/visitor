@@ -6,14 +6,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import ClientOrderItem from '../items/ClientOrderItem';
+import OrderItem from '../items/OrderItem';
 import { SearchInput } from '../../../common/SearchInput';
 import MainScreen from '../../../common/MainScreen';
 import fa from '../../../translation/fa';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { API } from '../../../service/api';
-import ClientArchiveOrderItem from '../items/ClientArchiveOrderItem';
 
 function a11yProps(index) {
   return {
@@ -32,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ClientOrders() {
+function ActiveOrders({history}) {
+
+
   const classes = useStyles();
   const [value, setValue] = useState(1);
   const [orders, setOrders] = useState([]);
@@ -47,34 +48,31 @@ function ClientOrders() {
   };
 
   async function fetchOrders() {
-      const queries = {client_id : user_info._id }
+      const queries = {business_id : user_info._id }
       try {
-          const {data} = await API.get("client/order", queries);
+          const {data} = await API.get("business/order", queries);
           setOrders(data);
       } catch (error) {
           console.log("error : ", error);
       }
   }
 
+  console.log("value : ", value)
+
+  function onDetailsClick(order_id) {
+    history.push("/admin/archiveorderdetail/" + order_id);
+    
+  }
+
   return (
-    <div className={"mainScreen"}>
-      <AppBar >
-        <Tabs 
-          variant="fullWidth" value={value} onChange={handleChange}>
-          <Tab label={fa["archive"]} {...a11yProps(0)} />
-          <Tab label={fa["active"]} {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <MainScreen>
-        <SearchInput/>
-        {orders.map(order=>(
-          value === 1 && order.status === "active"  ?
-          <ClientOrderItem key={order._id} order={order}  /> :
-          (value === 0 && order.status !== "active" ?<ClientArchiveOrderItem key={order._id} order={order} /> : null)
-        ))}
-      </MainScreen>
-    </div>
+    <MainScreen>
+      <SearchInput/>
+      {orders.map(order=>(
+        value === 1 && order.status === "active"  ?
+        <OrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} /> : null
+      ))}
+    </MainScreen>
   );
 }
 
-export default ClientOrders;
+export default ActiveOrders;

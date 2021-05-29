@@ -29,7 +29,18 @@ const fa = {
     "number": "عدد",
     "toman": "تومان",
     "date": "تاریخ",
-    "for name": "به نام"
+    "for name": "به نام",
+    "shopping store": "فروشگاه",
+    "print": "چاپ",
+    "setting": "تنظیمات",
+    "category": "دسته بندی",
+    "products": "محصولات",
+    "store": "انبار",
+    "add new": "ثبت جدید",
+    "latest level": "آخرین سطح",
+    "delete": "حذف",
+    "Are you sure to delete ?": "مطمئناً حذف می کنید؟",
+    "edit": "ویرایش"
 }
 
 export default fa;

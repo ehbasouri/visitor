@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { API } from '../../../service/api';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import fa from '../../../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -102,7 +103,7 @@ export default function AddCategoryModal({
                 margin="normal"
                 required
                 fullWidth
-                label="name"
+                label={fa["name"]}
                 autoFocus
                 onChange={onNameChange}
                 value={name}
@@ -115,7 +116,7 @@ export default function AddCategoryModal({
                     color="primary"
                 />
                 }
-                label="Primary"
+                label={fa["latest level"]}
             />
             <Button
                 loa
@@ -126,7 +127,7 @@ export default function AddCategoryModal({
                 className={classes.submit}
                 onClick={onSubmit}
             >
-                {"Register"}
+                {fa["submit"]}
             </Button>
         </div>}
     </Modal>

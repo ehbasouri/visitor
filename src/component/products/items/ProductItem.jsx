@@ -14,6 +14,7 @@ import {
   Link
 } from "react-router-dom";
 import { DeleteModal } from '../../../common/DeleteModal';
+import fa from '../../../translation/fa';
 
 const useStyles = makeStyles({
   root: {
@@ -48,11 +49,11 @@ export default function ProductItem({product, onDeleteProduct}) {
       <CardActions>
         <Link style={{color: "#fff"}} to={"editproduct/" + product._id} >
           <Button endIcon={<EditIcon/>} size="small" >
-            Edit
+            {fa["edit"]}
           </Button>
         </Link>
         <Button onClick={()=>setShowDelModal(true)} endIcon={<DeleteIcon/>} size="small" color="primary">
-          Delete
+          {fa["delete"]}
         </Button>
       </CardActions>
     </Card>

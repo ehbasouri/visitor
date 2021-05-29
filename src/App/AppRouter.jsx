@@ -27,6 +27,7 @@ import { USER_INFO } from "../consts";
 import { updateGeneralProps } from "../redux/actions";
 import Invoice from "../component/invoice/screen/Invoice";
 import ArchiveOrderDetail from "../component/orders/screen/ArchiveOrderDetailes";
+import ClientArchiveOrderDetailes from "../clientComponent/orders/screen/ClientArchiveOrderDetailes";
 
 
 function BusinessRouter(params) {
@@ -54,6 +55,7 @@ function ClientRouter(params) {
       <ProtectedLogin path={"/login"} component={ClientLogin} />
       <ProtectedLogin path={"/register"} component={ClientRegister} />
       <PrivateClientRoute path={"/basket"} component={ClientBasket} />
+      <PrivateClientRoute path={"/archiveorderdetail/:id"} component={ClientArchiveOrderDetailes} />
       <PrivateClientRoute path={"/"} component={ClientHome} />
     </Switch>
   )

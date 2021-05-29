@@ -18,6 +18,7 @@ import StoreIcon from '@material-ui/icons/Store';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import { Header } from '../../../common/Header';
 import MainScreen from '../../../common/MainScreen';
+import fa from '../../../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,7 +47,7 @@ function Settings() {
     <div className={"mainScreen"}>
         <Header
             backEnabled={false}
-            title={"تنظیمات"}
+            title={fa["setting"]}
         />
       <MainScreen>
         <List component="nav" aria-label="main mailbox folders">
@@ -55,7 +56,7 @@ function Settings() {
                   <ListItemIcon>
                       <CategoryIcon />
                   </ListItemIcon>
-                  <ListItemText className={classes.text}   primary="دسته بندی" />
+                  <ListItemText className={classes.text}   primary={fa["category"]} />
               </ListItem>
           </Link>
           <Link style={{color: "#222"}} to={"products"} >
@@ -63,7 +64,7 @@ function Settings() {
               <ListItemIcon>
                   <BallotIcon />
               </ListItemIcon>
-              <ListItemText className={classes.text} primary="محصولات" />
+              <ListItemText className={classes.text} primary={fa["products"]} />
               </ListItem>
           </Link>
           <Link style={{color: "#222"}}>
@@ -71,7 +72,7 @@ function Settings() {
               <ListItemIcon>
                   <StoreIcon />
               </ListItemIcon>
-              <ListItemText className={classes.text} primary="انبار" />
+              <ListItemText className={classes.text} primary={fa["store"]} />
               </ListItem>
           </Link>
         </List>
@@ -81,7 +82,7 @@ function Settings() {
             <ListItemIcon>
               <ExitToApp />
             </ListItemIcon>
-            <ListItemText className={classes.text} primary="خروج" />
+            <ListItemText className={classes.text} primary={fa["exit"]} />
           </ListItem>
         </List>
       </MainScreen>

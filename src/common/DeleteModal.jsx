@@ -4,6 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { API } from '../service/api';
+import fa from '../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,7 +59,7 @@ export function DeleteModal({
     >
         {loading ? <CircularProgress color="secondary" /> :
         <div className={classes.paper}>
-            <p> Are you sure to delete ? </p>
+            <p> {fa["Are you sure to delete ?"]} </p>
             <Button
                 loa
                 type="submit"
@@ -68,7 +69,7 @@ export function DeleteModal({
                 className={classes.submit}
                 onClick={onSubmit}
             >
-                {"Delete"}
+                {fa["delete"]}
             </Button>
         </div>}
     </Modal>

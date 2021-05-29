@@ -1,18 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import OrderItem from '../items/OrderItem';
-import { SearchInput } from '../../../common/SearchInput';
-import MainScreen from '../../../common/MainScreen';
 import fa from '../../../translation/fa';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { API } from '../../../service/api';
+import { 
+  Switch} from "react-router-dom";
+import ActiveOrders from './ActiveOrders';
+import ArchiveOrders from './ArchiveOrders';
+import { PrivateBusinessRoute } from "../../../App/AppRouter";
+
+function OrderRouter(params) {
+    return(
+        <Switch>
+            <PrivateBusinessRoute path={"/admin/orders/active"} component={ActiveOrders} />
+            <PrivateBusinessRoute path={"/admin/orders/archive"} component={ArchiveOrders} />
+        </Switch>
+    )
+}
+
 
 function a11yProps(index) {
   return {
@@ -21,48 +27,21 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-  appBar: {
-    //   width: "100%"
-  }
-}));
 
 function Orders({history}) {
 
-
-  const classes = useStyles();
   const [value, setValue] = useState(1);
-  const [orders, setOrders] = useState([]);
-  const user_info = useSelector(state=>state.general_reducer.user_info)
-
-  useEffect(()=>{
-    fetchOrders()
-  },[])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  async function fetchOrders() {
-      const queries = {business_id : user_info._id }
-      try {
-          const {data} = await API.get("business/order", queries);
-          setOrders(data);
-      } catch (error) {
-          console.log("error : ", error);
-      }
-  }
-
-  console.log("value : ", value)
-
-  function onDetailsClick(order_id) {
-    history.push("/admin/archiveorderdetail/" + order_id);
-    
-  }
+  useEffect(()=>{
+    console.log("value : ", value)
+    value === 1 ?
+    history.push("/admin/orders/active") : 
+    history.push("/admin/orders/archive")
+  },[value])
 
   return (
     <div className={"mainScreen"}>
@@ -73,13 +52,7 @@ function Orders({history}) {
           <Tab label={fa["active"]} {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      <MainScreen>
-        <SearchInput/>
-        {orders.map(order=>(
-          value === 1 && order.status === "active" || value === 0 && order.status !== "active"  ?
-          <OrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} /> : null
-        ))}
-      </MainScreen>
+      <OrderRouter/>
     </div>
   );
 }
