@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ClientRegister() {
+function ClientRegister({history}) {
 
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -61,8 +61,7 @@ function ClientRegister() {
   const classes = useStyles();
   const Auth = useContext(AuthContext);
 
-
-  async function onSubmit(params) {
+  async function onSubmit() {
     if(username.length < 1 || password.length < 1){
       setShowAlert(true);
       setMessage(fa["please enter name and username and password"])

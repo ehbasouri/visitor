@@ -5,14 +5,23 @@
         "price": 0,
         "comment": "" 
     },
-    "user_info": null,
+    "user_info": {},
     "business": {
         "role": "admin",
+        "_id": "60af7c5b596a15642b1c924a",
         "created_at": "2021-05-27T09:16:55.359Z",
         "updated_at": "2021-05-27T09:16:55.359Z",
-        "_id": "60af7c5b596a15642b1c924a",
         "username": "mohammad",
         "name": "mohammad",
-        "__v": 0
-    }
+        "__v": 0,
+        "avatar": "483f5b45df53a7bf97f1616c809d0b9e",
+        "updatedAt": "2021-06-04T21:10:02.094Z",
+        "address": "111",
+        "email": "test@g.com",
+        "mobile": "123",
+        "phone": "123",
+        "sign_url": "89e73162123273a543f339ce696fc19f"
+    },
+    "active_orders": [],
+    "archive_orders": []
 }

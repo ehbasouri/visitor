@@ -10,11 +10,11 @@ import Avatar from '@material-ui/core/Avatar';
 import { HOST } from '../../../service/api';
 import TextField from '@material-ui/core/TextField';
 import fa from '../../../translation/fa';
+import { AddOrRemoveItemButton } from './AddOrRemoveItemButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   count: {
@@ -40,6 +40,28 @@ export default function OrderProductItem({product, setOrder, order}) {
     }
   }
 
+
+  function findIndex(params) {
+    const index = order.products.findIndex(item=>item._id === product._id)
+    return index
+  }
+
+  function onAddOrRemovePress(add) {
+    const updatedProducts = JSON.parse(JSON.stringify(order.products));
+    const index = findIndex();
+    updatedProducts[index].countInBasket = add ? product.countInBasket + 1 : product.countInBasket - 1
+    setOrder({...order, products : updatedProducts })
+  }
+
+  function onRemovePress() {
+    if(product.countInBasket === 1){
+      const updatedProducts = order.products.filter(item=>item._id !== product._id)
+      setOrder({...order, products : updatedProducts })
+    }else {
+      onAddOrRemovePress(false)
+    }
+  }
+
   return (
     <List dense className={classes.root}>
           <ListItem button>
@@ -52,7 +74,11 @@ export default function OrderProductItem({product, setOrder, order}) {
             <ListItemText primary={product.name} />
 
             <ListItemSecondaryAction>
-                <ListItemText className={classes.count} primary={ "x" + product.countInBasket} />
+                <AddOrRemoveItemButton
+                  product={product}
+                  onAddPress={()=>onAddOrRemovePress(true)}
+                  onRemovePress={onRemovePress}
+                />
             </ListItemSecondaryAction>
           </ListItem>
               <TextField

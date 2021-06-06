@@ -8,6 +8,12 @@ import StoreIcon from '@material-ui/icons/Store';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import moment from "jalali-moment";
 import { Link } from "react-router-dom"
+import { HOST } from '../../../service/api';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import fa from '../../../translation/fa';
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -18,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: blueGrey[500],
+  },
+  canceledIcon: {
+    color: "red"
+  },
+  doneIcon: {
+    color: "green"
   }
 }));
 
@@ -30,13 +42,19 @@ function ArchiveOrder({order}) {
         <Card className={classes.root}>
         <CardHeader
             avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
+            <Avatar src={HOST + order.client.avatar} aria-label="recipe" className={classes.avatar}>
                 <StoreIcon/>
             </Avatar>
             }
             title={order.client.name}
             subheader={moment(order.created_at).format('YYYY/MM/DD  hh:mm  a')}
+            header={"test"}
             align={"right"}
+            action={
+              order.status === "cancel" ?
+                <CancelIcon className={classes.canceledIcon} /> : 
+                <CheckCircleIcon className={classes.doneIcon} />
+            }
         />
         </Card>
     </Link>

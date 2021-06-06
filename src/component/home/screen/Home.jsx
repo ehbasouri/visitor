@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import SceneWrapper from "../../../SceneWrapper/SceneWrapper";
 import Clients from "../../clients/screen/Clients";
 import Orders from "../../orders/screen/Orders";
@@ -9,7 +9,7 @@ import {
   Route
 } from "react-router-dom";
 import { PrivateBusinessRoute } from "../../../App/AppRouter";
-import Grid from '@material-ui/core/Grid';
+import { useSelector } from "react-redux";
 
 function HomeRouter(params) {
     return(
@@ -23,8 +23,17 @@ function HomeRouter(params) {
 
  
 
-function Home() {
+function Home({history}) {
   const [value, setValue] = React.useState(2);
+
+  const user_info = useSelector(state=>state.general_reducer.user_info)
+
+
+    useEffect(()=>{
+        if(user_info && !user_info.mobile){
+            history.push("/admin/updateuserinfo")
+        }
+    },[user_info])
 
     return(
         <div>

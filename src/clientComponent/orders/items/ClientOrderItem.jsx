@@ -12,10 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import { blueGrey } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import StoreIcon from '@material-ui/icons/Store';
-import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import ClientOrderProductItem from './ClientOrderProductItem';
 import fa from '../../../translation/fa';
 import moment from "jalali-moment";
+import { HOST } from '../../../service/api';
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -48,8 +48,6 @@ const useStyles = makeStyles((theme) => ({
 
 function ClientOrderItem({order}) {
 
-  console.log("order : ", order);
-
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -60,27 +58,27 @@ function ClientOrderItem({order}) {
   return (
     <Card className={classes.root}>
       <CardHeader
+        onClick={handleExpandClick}
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            <StoreIcon/>
-          </Avatar>
-        }
+                <Avatar src={HOST + order.business.avatar } aria-label="recipe" className={classes.avatar}>
+                  <StoreIcon/>
+                </Avatar>
+              }
         title={order.business.name}
         subheader={moment(new Date(order.created_at)).format('YYYY/MM/DD  hh:mm  a')}
         align={"right"}
+        action={
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded
+            })}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon/>
+          </IconButton>
+        }
       />
-      <CardActions disableSpacing>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           {order.products.map(product=>(

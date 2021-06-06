@@ -19,7 +19,6 @@ function OrderRouter(params) {
     )
 }
 
-
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -34,14 +33,21 @@ function Orders({history}) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    newValue === 1 ?
+    history.push("/admin/orders/active") : 
+    history.push("/admin/orders/archive")
   };
 
   useEffect(()=>{
-    console.log("value : ", value)
-    value === 1 ?
-    history.push("/admin/orders/active") : 
-    history.push("/admin/orders/archive")
-  },[value])
+    if(history.location.pathname === "/admin/orders/active"){
+      setValue(1)
+    }else if(history.location.pathname === "/admin/orders/archive") {
+      setValue(0)
+    } else {
+      history.push("/admin/orders/active")
+      setValue(1)
+    }
+  },[history])
 
   return (
     <div className={"mainScreen"}>

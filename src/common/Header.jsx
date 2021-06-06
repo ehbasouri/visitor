@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme) => ({
 
 export function Header({
     title,
-    backEnabled = true
+    backEnabled = true,
+    rightComponent,
+    leftComponent
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -27,12 +29,14 @@ export function Header({
     <div className={classes.root}>
       <AppBar position="fixed" >
         <Toolbar variant="dense">
+          {rightComponent}
           {backEnabled && <IconButton onClick={() => history.goBack()} edge="center" className={classes.menuButton} color="inherit" >
             <ArrowForwardIcon />
           </IconButton>}
           <Typography variant="h6" color="inherit">
             {title}
           </Typography>
+          {leftComponent}
         </Toolbar>
       </AppBar>
     </div>

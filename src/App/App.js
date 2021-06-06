@@ -9,8 +9,8 @@ import { Provider } from "react-redux";
 import reducers from "../redux/reducer";
 
 export default function App() {
+  
   const [auth, setAuth] = useState(false);
-
 
   useEffect(()=>{
     readCookies();

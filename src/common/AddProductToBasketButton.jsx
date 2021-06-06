@@ -57,11 +57,6 @@ export function AddProductToBasketButton({product}) {
 
   return (
     <div className={classes.root}>
-      {/* <ButtonGroup size="small" aria-label="small outlined button group">
-        <Button>One</Button>
-        <Button>Two</Button>
-        <Button>Three</Button>
-      </ButtonGroup> */}
       <ButtonGroup size={"small"} >
         <IconButton onClick={()=>onAddOrRemovePress(true)} >
             <AddCircleIcon className={classes.addIcon} />
@@ -75,11 +70,6 @@ export function AddProductToBasketButton({product}) {
             <RemoveCircleIcon color={"error"} />
         </IconButton>
       </ButtonGroup>
-      {/* <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
-        <Button>One</Button>
-        <Button>Two</Button>
-        <Button>Three</Button>
-      </ButtonGroup> */}
     </div>
   );
 }

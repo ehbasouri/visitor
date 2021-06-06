@@ -19,6 +19,7 @@ import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import { Header } from '../../../common/Header';
 import MainScreen from '../../../common/MainScreen';
 import fa from '../../../translation/fa';
+import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,6 +52,14 @@ function Settings() {
         />
       <MainScreen>
         <List component="nav" aria-label="main mailbox folders">
+          <Link to={"userinfo"} style={{color: "#222"}} >
+              <ListItem button>
+                  <ListItemIcon>
+                      <PersonIcon />
+                  </ListItemIcon>
+                  <ListItemText className={classes.text}   primary={fa["profile"]} />
+              </ListItem>
+          </Link>
           <Link to={"categories"} style={{color: "#222"}} >
               <ListItem button>
                   <ListItemIcon>
@@ -79,7 +88,7 @@ function Settings() {
         <Divider />
         <List component="nav" aria-label="secondary mailbox folders">
           <ListItem onClick={onLogout} button>
-            <ListItemIcon>
+            <ListItemIcon> 
               <ExitToApp />
             </ListItemIcon>
             <ListItemText className={classes.text} primary={fa["exit"]} />

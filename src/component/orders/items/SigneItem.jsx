@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { HOST } from '../../../service/api';
 import fa from '../../../translation/fa';
 import moment from "jalali-moment";
+import { useSelector } from "react-redux";
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -26,12 +27,14 @@ const useStyles = makeStyles({
 export default function SignItem({date}) {
   const classes = useStyles();
 
+  const user_info = useSelector(state=>state.general_reducer.user_info)
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={HOST + "8bbb0a53ab33342af0f83199f6b843bc"}
+          image={HOST + user_info.sign_url}
         />
         <CardContent>
           <Typography align={"left"} gutterBottom variant="h5" component="h2">

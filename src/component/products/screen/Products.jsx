@@ -10,7 +10,7 @@ import { SearchInput } from "../../../common/SearchInput";
 import ProductItem from "../items/ProductItem";
 import MainScreen from "../../../common/MainScreen";
 
-function Products({router}) {
+function Products() {
 
     const [products, setProducts] = useState([]);
     const [name, setName] = useState("");

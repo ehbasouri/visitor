@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux"
 import { updateGeneralProps } from "../../../redux/actions";
 import { BASKET } from "../../../consts";
 import initialState from "../../../redux/reducer/initialState.json"
+import { useEffect } from "react";
 
 
 function ClientBasket() {
@@ -48,7 +49,7 @@ function ClientBasket() {
             dispatch(updateGeneralProps({
                 key: BASKET, value: initialState.basket
             }))
-            history.goBack()
+            history.replace("/orders/active")
         } catch (error) {
             console.log("error : ", error.response);
         }

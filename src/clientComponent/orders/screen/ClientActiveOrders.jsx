@@ -7,13 +7,23 @@ import { useSelector } from 'react-redux';
 import { API } from '../../../service/api';
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
-import { ARCHIVE_ORDERS } from '../../../consts';
-import ArchiveOrder from '../items/ArchiveOrder';
+import { ACTIVE_ORDERS } from '../../../consts';
+import ClientOrderItem from '../items/ClientOrderItem';
 
-function ArchiveOrders({history}) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+  appBar: {
+    //   width: "100%"
+  }
+}));
+
+function ActiveOrders({history}) {
 
   const user_info = useSelector(state=>state.general_reducer.user_info)
-  const archive_orders = useSelector(state=>state.general_reducer.archive_orders)
+  const active_orders = useSelector(state=>state.general_reducer.active_orders)
 
   const dispatch = useDispatch()
 
@@ -22,11 +32,11 @@ function ArchiveOrders({history}) {
   },[])
 
   async function fetchOrders() {
-      const queries = {business_id : user_info._id, status: "archive" }
+      const queries = {client_id : user_info._id, status: "active" }
       try {
-          const {data} = await API.get("business/order", queries);
+          const {data} = await API.get("client/order", queries);
           dispatch(updateGeneralProps({
-            key: ARCHIVE_ORDERS,
+            key: ACTIVE_ORDERS,
             value: data
           }))
       } catch (error) {
@@ -42,12 +52,11 @@ function ArchiveOrders({history}) {
   return (
     <MainScreen>
       <SearchInput/>
-      {archive_orders.map(order=>(
-        <ArchiveOrder key={order._id} order={order} onDetailsClick={onDetailsClick} />
+      {active_orders.map(order=>(
+        <ClientOrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} />
       ))}
     </MainScreen>
   );
 }
 
-export default ArchiveOrders;
-
+export default ActiveOrders;

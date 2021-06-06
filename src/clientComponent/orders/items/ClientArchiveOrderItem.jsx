@@ -8,6 +8,9 @@ import StoreIcon from '@material-ui/icons/Store';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import moment from "jalali-moment";
 import { Link } from "react-router-dom"
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { HOST } from '../../../service/api';
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -18,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: blueGrey[500],
+  },
+  canceledIcon: {
+    color: "red"
+  },
+  doneIcon: {
+    color: "green"
   }
 }));
 
@@ -30,13 +39,18 @@ function ClientArchiveOrderItem({order}) {
         <Card className={classes.root}>
         <CardHeader
             avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
+            <Avatar src={HOST + order.business.avatar } aria-label="recipe" className={classes.avatar}>
                 <StoreIcon/>
             </Avatar>
             }
             title={order.business.name}
             subheader={moment(order.created_at).format('YYYY/MM/DD  hh:mm  a')}
             align={"right"}
+            action={
+              order.status === "cancel" ?
+                <CancelIcon className={classes.canceledIcon} /> : 
+                <CheckCircleIcon className={classes.doneIcon} />
+            }
         />
         </Card>
     </Link>

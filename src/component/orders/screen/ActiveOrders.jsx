@@ -13,13 +13,10 @@ import fa from '../../../translation/fa';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { API } from '../../../service/api';
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+import SimpleBackdrop from '../../../common/SimpleBackdrop';
+import { useDispatch } from "react-redux"
+import { updateGeneralProps } from '../../../redux/actions';
+import { ACTIVE_ORDERS } from '../../../consts';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,43 +30,41 @@ const useStyles = makeStyles((theme) => ({
 
 function ActiveOrders({history}) {
 
-
-  const classes = useStyles();
-  const [value, setValue] = useState(1);
-  const [orders, setOrders] = useState([]);
   const user_info = useSelector(state=>state.general_reducer.user_info)
+  const active_orders = useSelector(state=>state.general_reducer.active_orders)
+
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     fetchOrders()
   },[])
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   async function fetchOrders() {
-      const queries = {business_id : user_info._id }
+      const queries = {business_id : user_info._id, status: "active" }
       try {
           const {data} = await API.get("business/order", queries);
-          setOrders(data);
+          dispatch(updateGeneralProps({
+            key: ACTIVE_ORDERS,
+            value: data
+          }))
       } catch (error) {
           console.log("error : ", error);
       }
   }
 
-  console.log("value : ", value)
-
-  function onDetailsClick(order_id) {
-    history.push("/admin/archiveorderdetail/" + order_id);
-    
+  function onDetailsClick(order_id, cancel) {
+    if(!cancel) {
+      history.push("/admin/archiveorderdetail/" + order_id)
+    }else {
+      fetchOrders()
+    }
   }
 
   return (
     <MainScreen>
       <SearchInput/>
-      {orders.map(order=>(
-        value === 1 && order.status === "active"  ?
-        <OrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} /> : null
+      {active_orders.map(order=>(
+        <OrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} />
       ))}
     </MainScreen>
   );

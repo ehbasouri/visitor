@@ -13,11 +13,16 @@ import fa from "../../../translation/fa";
 import SignItem from "../items/SigneItem";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const useStyles = makeStyles((theme) => ({
     buttonContainer: {
         padding: "10px",
         display: "flex",
+    },
+    canceledText: {
+      color: "red"
     }
   }));
 
@@ -44,8 +49,6 @@ function ArchiveOrderDetail(params) {
         }
     }
 
-    console.log("orderDetails : ", orderDetails)
-    
     function getTotalPrice() {
         let totalPrice = 0
         orderDetails.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
@@ -79,8 +82,8 @@ function ArchiveOrderDetail(params) {
                     title={fa["total price"]}
                     value={getTotalPrice() + " " + fa["toman"]  }
                 />
-                <SignItem date={orderDetails.updated_at} />
-                { !readyToPrint && <div className={classes.buttonContainer} >
+                {orderDetails.status === "archive" &&<SignItem date={orderDetails.updated_at} />}
+                { !readyToPrint && orderDetails.status === "archive" && <div className={classes.buttonContainer} >
                     <Button
                         type="submit"
                         variant="contained"
@@ -90,6 +93,10 @@ function ArchiveOrderDetail(params) {
                         {fa["print"]}
                     </Button>
                 </div>}
+                {orderDetails.status === "cancel" && <Typography align={"left"} variant="subtitle1" className={classes.canceledText}>
+                    {fa["canceled"]}
+                    <CancelIcon/>
+                </Typography> }
             </MainScreen>}
         </div>
     )

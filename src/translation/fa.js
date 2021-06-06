@@ -41,7 +41,21 @@ const fa = {
     "delete": "حذف",
     "Are you sure to delete ?": "مطمئناً حذف می کنید؟",
     "edit": "ویرایش",
-    "buy price": "قیمت خرید"
+    "buy price": "قیمت خرید",
+    "profile": "مشخصات",
+    "email": "ایمیل",
+    "address": "آدرس",
+    "phone": "تلفن",
+    "mobile": "موبایل",
+    "sign_url": " تصویر امضاء",
+    "avatar": "تصویر پروفایل",
+    "cancel": "لغو",
+    "status": "وضعیت",
+    "canceled": "لغو شده",
+    "orders": "سفارشات",
+    "add product": "اضافه کردن محصول",
+    "add order": "افزودن سفارش جدید"
+
 }
 
 export default fa;

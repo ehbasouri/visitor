@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,11 +18,12 @@ import OrderProductItem from './OrderProductItem';
 import Button from '@material-ui/core/Button';
 import OrderInfoItem from './OrderInfoItem';
 import TextField from '@material-ui/core/TextField';
-import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import { API } from '../../../service/api';
+import { API, HOST } from '../../../service/api';
 import SimpleBackdrop from '../../../common/SimpleBackdrop';
-import { Redirect } from "react-router-dom"
+import { MyModal } from '../../../common/MyModal';
+import ProductListToAdd from '../screen/ProductListToAdd';
+import { useRef } from 'react';
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -51,6 +51,11 @@ const useStyles = makeStyles((theme) => ({
   },
   description: {
     marginTop: 16
+  },
+  cancelButton : {
+    backgroundColor: "red",
+    marginTop: 16,
+    color: "#fff"
   }
 }));
 
@@ -62,12 +67,20 @@ function OrderItem({order, onDetailsClick}) {
   const [updatedOrder, setUpdatedOrder] = React.useState(order);
   const [loading, setLoading] = React.useState(false);
 
+  const productListRef = useRef(null);
+
   function getTotalPrice() {
     let totalPrice = 0
     updatedOrder.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
     return totalPrice - discount;
   }
 
+  function getTotalBuyPrice() {
+    let totalBuyPrice = 0
+    updatedOrder.products.map(product=> totalBuyPrice = totalBuyPrice + (product.buy_price * product.countInBasket))
+    return totalBuyPrice - discount;
+  }
+  
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -76,47 +89,54 @@ function OrderItem({order, onDetailsClick}) {
     setDiscount(e.target.value)
   }
 
-  async function onDoneClick() {
+  async function onDoneClick(cancel) {
     setLoading(true);
     const options = {
       products: updatedOrder.products ,
       price: getTotalPrice(),
       discount,
-      status: "archive"
+      status: cancel ? "cancel" : "archive",
+      buy_price: getTotalBuyPrice()
     }
     try {
       const {data} = await API.put("order", options, {id: order._id})
-      onDetailsClick(order._id)
+      onDetailsClick(order._id, cancel);
     } catch (error) {
       console.log("error : ", error.response);
     }
     setLoading(false);
   }
 
+  function onAddProductPress(newProductList) {
+    const rawUpdatedOrder = JSON.parse(JSON.stringify(updatedOrder));
+    rawUpdatedOrder.products = newProductList;
+    setUpdatedOrder(rawUpdatedOrder);
+  }
+
   return (
     <Card className={classes.root}>
       <CardHeader
+        onClick={handleExpandClick}
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
+          <Avatar src={HOST + order.client.avatar} aria-label="recipe" className={classes.avatar}>
             <StoreIcon/>
           </Avatar>
         }
         title={order.client.name}
         subheader={moment(order.created_at).format('YYYY/MM/DD  hh:mm  a')}
         align={"right"}
+        action={
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        }
       />
-      <CardActions disableSpacing>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           {order.client.address && <Typography align={"left"} paragraph>{fa["address"]} : </Typography>}
@@ -128,9 +148,19 @@ function OrderItem({order, onDetailsClick}) {
             {order.comment}
           </Typography>}
           <Divider/>
-          {order.products.map(product=>(
+          {updatedOrder.products.map(product=>(
             <OrderProductItem key={product._id} setOrder={setUpdatedOrder} order={updatedOrder} product={product} />
           ))}
+          <MyModal
+            title={fa["add product"]}
+            ref={productListRef}
+            content={
+              <ProductListToAdd
+                onAddPress={onAddProductPress}
+                closeFnc={()=>productListRef.current.handleOpen(false)}
+                productList={updatedOrder.products}
+              />}
+          />
           <Divider/>
           <TextField
               variant="outlined"
@@ -152,9 +182,19 @@ function OrderItem({order, onDetailsClick}) {
               fullWidth
               variant="contained"
               color="primary"
-              onClick={onDoneClick}
+              onClick={()=>onDoneClick(false)}
           >
             {fa["done"]}
+          </Button>
+          <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="secondry"
+              onClick={()=>onDoneClick(true)}
+              className={classes.cancelButton}
+          >
+            {fa["cancel"]}
           </Button>
         </CardContent>
       </Collapse>

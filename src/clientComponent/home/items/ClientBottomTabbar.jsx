@@ -27,6 +27,12 @@ function getRouteValue(key) {
         case "/orders":
             
             return 1;
+        case "/orders/active":
+            
+            return 1;
+        case "/orders/archive":
+            
+            return 1;
         case "/settings":
             
             return 0;
@@ -72,7 +78,7 @@ export default function BottomTabbar({setValue, value}) {
             label={
             <Link 
                 style={{color: value === 1 ? "blue" : "gray" }} 
-                to={"/orders"} 
+                to={"/orders/active"} 
             >
                 <ViewListIcon color={ value === 1 ? "primary" : "disabled"} /> 
             </Link>}/>

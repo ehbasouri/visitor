@@ -58,6 +58,7 @@
 .mainScreen {
   padding-top: 56px;
   padding-bottom: 56px;
+  background-color: #fff;
   /* flex-direction: row-reverse; */
 }
 

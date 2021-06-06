@@ -80,7 +80,7 @@ export default function BottomTabbar({setValue, value}) {
             label={
             <Link 
                 style={{color: value === 2 ? "blue" : "gray" }} 
-                to={"/admin/orders"} 
+                to={"/admin/orders/active"} 
             >
                 <ViewListIcon color={ value === 2 ? "primary" : "disabled"} /> 
             </Link>}/>

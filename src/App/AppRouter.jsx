@@ -7,7 +7,6 @@ import {
   Redirect, 
 } from "react-router-dom";
 import AuthContext from "./AuthApi";
-import OrderDetail from "../component/orders/screen/OrderDetail";
 import Login from "../component/authentication/screen/Login";
 import Home from "../component/home/screen/Home";
 import ClientDetail from "../component/clients/screen/clientDetail";
@@ -28,18 +27,27 @@ import { updateGeneralProps } from "../redux/actions";
 import Invoice from "../component/invoice/screen/Invoice";
 import ArchiveOrderDetail from "../component/orders/screen/ArchiveOrderDetailes";
 import ClientArchiveOrderDetailes from "../clientComponent/orders/screen/ClientArchiveOrderDetailes";
+import UserInfo from "../component/userInfo/screen/UserInfo";
+import UpdateUserInfo from "../component/userInfo/screen/UpdateUserInfo";
+import { API } from "../service/api";
+import ClientUserInfo from "../clientComponent/userInfo/screen/ClientUserInfo";
+import ClientUpdateUserInfo from "../clientComponent/userInfo/screen/ClientUpdateUserInfo";
+import AddOrderBusiness from "../component/clients/screen/AddOrderBusiness";
 
 
 function BusinessRouter(params) {
   return(
     <Switch>
-      <PrivateBusinessRoute path={"/admin/clientdetail"} component={ClientDetail} />
+      <PrivateBusinessRoute path={"/admin/clientdetail/:id"} component={ClientDetail} />
+      <PrivateBusinessRoute path={"/admin/addorderbusiness/:id"} component={AddOrderBusiness} />
       <PrivateBusinessRoute path={"/admin/addproduct"} component={AddProduct} />
       <PrivateBusinessRoute path="/admin/editproduct/:id" children={<AddProduct />} />
       <PrivateBusinessRoute path={"/admin/categories"} component={Categories} />
       <PrivateBusinessRoute path={"/admin/addclient"} component={AddClient} />
       <PrivateBusinessRoute path={"/admin/products"} component={Products} />
       <PrivateBusinessRoute path={"/admin/invoice"} component={Invoice} />
+      <PrivateBusinessRoute path={"/admin/userinfo"} component={UserInfo} />
+      <PrivateBusinessRoute path={"/admin/updateuserinfo"} component={UpdateUserInfo} />
       <PrivateBusinessRoute path={"/admin/archiveorderdetail/:id"} component={ArchiveOrderDetail} />
       <ProtectedLogin path={"/admin/login"} component={Login} />
       <ProtectedLogin path={"/admin/register"} component={Register} />
@@ -52,10 +60,12 @@ function BusinessRouter(params) {
 function ClientRouter(params) {
   return(
     <Switch>
+      <PrivateClientRoute path={"/basket"} component={ClientBasket} />
+      <PrivateClientRoute path={"/userinfo"} component={ClientUserInfo} />
+      <PrivateClientRoute path={"/updateuserinfo"} component={ClientUpdateUserInfo} />
+      <PrivateClientRoute path={"/archiveorderdetail/:id"} component={ClientArchiveOrderDetailes} />
       <ProtectedLogin path={"/login"} component={ClientLogin} />
       <ProtectedLogin path={"/register"} component={ClientRegister} />
-      <PrivateClientRoute path={"/basket"} component={ClientBasket} />
-      <PrivateClientRoute path={"/archiveorderdetail/:id"} component={ClientArchiveOrderDetailes} />
       <PrivateClientRoute path={"/"} component={ClientHome} />
     </Switch>
   )
@@ -107,17 +117,21 @@ function AppRouter() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    getUserInfo();
+    getUserInfoToken()
   },[Auth]);
 
-  const getUserInfo = async () => {
-    const user_token = Cookies.get("token");
-    const user_info = parseJwt(user_token);
+  function getUserInfoToken() {
+    try {
+      const user_token = Cookies.get("token")
+      const user_info = parseJwt(user_token);
       dispatch(updateGeneralProps({
         key: USER_INFO,
         value: user_info
       }))
-  } 
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  }
 
   return (
     <Router>

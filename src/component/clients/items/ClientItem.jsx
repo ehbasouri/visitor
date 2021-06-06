@@ -8,6 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
 import { blueGrey } from '@material-ui/core/colors';
+import { HOST } from '../../../service/api';
 
 const useStyles = makeStyles((theme) => ({
   inline: {
@@ -19,13 +20,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ClientItem({user}) {
+  
   const classes = useStyles();
 
   return (
-      <Link to={"clientdetail"} >
+      <Link to={"clientdetail/" + user._id} >
         <ListItem alignItems="flex-start">
             <ListItemAvatar>
-            <Avatar className={classes.avatar} alt="Remy Sharp" />
+            <Avatar src={HOST + user.avatar} className={classes.avatar} alt={user.name} />
             </ListItemAvatar>
             <ListItemText
               primary={user.name}

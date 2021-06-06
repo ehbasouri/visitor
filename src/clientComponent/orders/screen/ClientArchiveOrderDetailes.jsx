@@ -32,8 +32,6 @@ function ClientArchiveOrderDetailes(params) {
         }
     }
 
-    console.log("orderDetails : ", orderDetails)
-    
     function getTotalPrice() {
         let totalPrice = 0
         orderDetails.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))

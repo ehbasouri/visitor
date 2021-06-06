@@ -8,7 +8,7 @@ import { API } from '../../../service/api';
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { ARCHIVE_ORDERS } from '../../../consts';
-import ArchiveOrder from '../items/ArchiveOrder';
+import ClientArchiveOrderItem from '../items/ClientArchiveOrderItem';
 
 function ArchiveOrders({history}) {
 
@@ -22,9 +22,9 @@ function ArchiveOrders({history}) {
   },[])
 
   async function fetchOrders() {
-      const queries = {business_id : user_info._id, status: "archive" }
+    const queries = {client_id : user_info._id, status: "archive" }
       try {
-          const {data} = await API.get("business/order", queries);
+          const {data} = await API.get("client/order", queries);
           dispatch(updateGeneralProps({
             key: ARCHIVE_ORDERS,
             value: data
@@ -43,7 +43,7 @@ function ArchiveOrders({history}) {
     <MainScreen>
       <SearchInput/>
       {archive_orders.map(order=>(
-        <ArchiveOrder key={order._id} order={order} onDetailsClick={onDetailsClick} />
+        <ClientArchiveOrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} />
       ))}
     </MainScreen>
   );

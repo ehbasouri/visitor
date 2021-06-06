@@ -19,6 +19,7 @@ import ClientSceneWrapper from '../../../SceneWrapper/ClientSceneWrapper';
 import { Header } from '../../../common/Header';
 import fa from '../../../translation/fa';
 import MainScreen from '../../../common/MainScreen';
+import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,42 +50,42 @@ function ClientSettings() {
             backEnabled={false}
             title={"تنظیمات"}
         />
-      {/* <List component="nav" aria-label="main mailbox folders">
-        <Link to={"categories"} style={{color: "#222"}} >
-            <ListItem button>
-                <ListItemIcon>
-                    <CategoryIcon />
-                </ListItemIcon>
-                <ListItemText className={classes.text}   primary="دسته بندی" />
-            </ListItem>
-        </Link>
-        <Link style={{color: "#222"}} to={"products"} >
-            <ListItem button>
-            <ListItemIcon>
-                <BallotIcon />
-            </ListItemIcon>
-            <ListItemText className={classes.text} primary="محصولات" />
-            </ListItem>
-        </Link>
-        <Link style={{color: "#222"}}>
-            <ListItem button>
-            <ListItemIcon>
-                <StoreIcon />
-            </ListItemIcon>
-            <ListItemText className={classes.text} primary="انبار" />
-            </ListItem>
-        </Link>
-      </List>
-      <Divider /> */}
       <MainScreen>
-      <List component="nav" aria-label="secondary mailbox folders">
-        <ListItem onClick={onLogout} button>
-          <ListItemIcon>
-            <ExitToApp />
-          </ListItemIcon>
-          <ListItemText className={classes.text} primary={fa["exit"]} />
-        </ListItem>
-      </List>
+        <List component="nav" aria-label="main mailbox folders">
+          <Link to={"userinfo"} style={{color: "#222"}} >
+              <ListItem button>
+                  <ListItemIcon>
+                      <PersonIcon />
+                  </ListItemIcon>
+                  <ListItemText className={classes.text}   primary={fa["profile"]} />
+              </ListItem>
+          </Link>
+          {/* <Link style={{color: "#222"}} to={"products"} >
+              <ListItem button>
+              <ListItemIcon>
+                  <BallotIcon />
+              </ListItemIcon>
+              <ListItemText className={classes.text} primary="محصولات" />
+              </ListItem>
+          </Link> */}
+          {/* <Link style={{color: "#222"}}>
+              <ListItem button>
+              <ListItemIcon>
+                  <StoreIcon />
+              </ListItemIcon>
+              <ListItemText className={classes.text} primary="انبار" />
+              </ListItem>
+          </Link> */}
+        </List>
+        <Divider />
+        <List component="nav" aria-label="secondary mailbox folders">
+          <ListItem onClick={onLogout} button>
+            <ListItemIcon>
+              <ExitToApp />
+            </ListItemIcon>
+            <ListItemText className={classes.text} primary={fa["exit"]} />
+          </ListItem>
+        </List>
       </MainScreen>
     </div>
   );
