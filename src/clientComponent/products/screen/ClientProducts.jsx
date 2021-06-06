@@ -12,12 +12,17 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MainScreen from "../../../common/MainScreen";
 import BasketIcon from "../../../common/BasketIcon";
 import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux"
+import { updateGeneralProps } from '../../../redux/actions';
+import { PRODUCTS } from "../../../consts";
 
 function ClientProducts({router}) {
 
-    const [products, setProducts] = useState([]);
     const [name, setName] = useState("");
     const basket = useSelector(state=>state.general_reducer.basket)
+
+    const products = useSelector(state=>state.general_reducer.products)
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         fetchProducts()
@@ -28,7 +33,10 @@ function ClientProducts({router}) {
         if(searchValue) queries.name= searchValue
         try {
             const {data} = await API.get("product", queries);
-            setProducts(data);
+            dispatch(updateGeneralProps({
+                key: PRODUCTS,
+                value: data
+            }));
         } catch (error) {
             console.log("error : ", error);
         }
@@ -37,7 +45,10 @@ function ClientProducts({router}) {
     function onDeleteProduct(delCat) {
         const productList = JSON.parse(JSON.stringify(products));
         const updatedLidt = productList.filter(item=>item._id != delCat._id);
-        setProducts(updatedLidt);
+        dispatch(updateGeneralProps({
+            key: PRODUCTS,
+            value: updatedLidt
+        }))
     }
 
 

@@ -36,7 +36,7 @@ function ActiveOrders({history}) {
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    fetchOrders()
+    fetchOrders()      
   },[])
 
   async function fetchOrders() {
@@ -62,7 +62,7 @@ function ActiveOrders({history}) {
 
   return (
     <MainScreen>
-      <SearchInput/>
+      {/* <SearchInput/> */}
       {active_orders.map(order=>(
         <OrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} />
       ))}

@@ -23,5 +23,7 @@
         "sign_url": "89e73162123273a543f339ce696fc19f"
     },
     "active_orders": [],
-    "archive_orders": []
+    "archive_orders": [],
+    "clients": [],
+    "products": []
 }

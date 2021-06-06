@@ -33,12 +33,17 @@ import { API } from "../service/api";
 import ClientUserInfo from "../clientComponent/userInfo/screen/ClientUserInfo";
 import ClientUpdateUserInfo from "../clientComponent/userInfo/screen/ClientUpdateUserInfo";
 import AddOrderBusiness from "../component/clients/screen/AddOrderBusiness";
+import StoreList from "../component/store/screen/StoreList";
+import AddStore from "../component/store/screen/AddStore";
 
 
 function BusinessRouter(params) {
   return(
     <Switch>
       <PrivateBusinessRoute path={"/admin/clientdetail/:id"} component={ClientDetail} />
+      <PrivateBusinessRoute path={"/admin/stores"} component={StoreList} />
+      <PrivateBusinessRoute path={"/admin/addstore"} component={AddStore} />
+      <PrivateBusinessRoute path={"/admin/updateStore/:storeName/:id"} component={AddStore} />
       <PrivateBusinessRoute path={"/admin/addorderbusiness/:id"} component={AddOrderBusiness} />
       <PrivateBusinessRoute path={"/admin/addproduct"} component={AddProduct} />
       <PrivateBusinessRoute path="/admin/editproduct/:id" children={<AddProduct />} />

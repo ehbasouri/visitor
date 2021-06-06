@@ -9,10 +9,17 @@ import { Header } from "../../../common/Header";
 import { SearchInput } from "../../../common/SearchInput";
 import ProductItem from "../items/ProductItem";
 import MainScreen from "../../../common/MainScreen";
+import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux"
+import { updateGeneralProps } from '../../../redux/actions';
+import { PRODUCTS } from "../../../consts";
 
 function Products() {
 
-    const [products, setProducts] = useState([]);
+
+  const products = useSelector(state=>state.general_reducer.products)
+  const dispatch = useDispatch()
+
     const [name, setName] = useState("");
 
     useEffect(()=>{
@@ -24,7 +31,10 @@ function Products() {
         if(searchValue) queries.name= searchValue
         try {
             const {data} = await API.get("business/product", queries);
-            setProducts(data);
+            dispatch(updateGeneralProps({
+                key: PRODUCTS,
+                value: data
+              }))
         } catch (error) {
             console.log("error : ", error);
         }
@@ -34,7 +44,10 @@ function Products() {
     function onDeleteProduct(delCat) {
         const productList = JSON.parse(JSON.stringify(products));
         const updatedLidt = productList.filter(item=>item._id != delCat._id);
-        setProducts(updatedLidt);
+        dispatch(updateGeneralProps({
+            key: PRODUCTS,
+            value: updatedLidt
+        }))
     }
 
 

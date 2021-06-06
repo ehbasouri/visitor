@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: blueGrey[500],
+    borderRadius: 3
   },
   description: {
     marginTop: 16

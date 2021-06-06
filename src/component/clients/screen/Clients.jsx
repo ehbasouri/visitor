@@ -8,7 +8,10 @@ import MainScreen from '../../../common/MainScreen';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { API } from '../../../service/api';
-
+import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux"
+import { updateGeneralProps } from '../../../redux/actions';
+import { CLIENTS } from '../../../consts';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,8 +22,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Clients() {
-  const classes = useStyles();
-  const [clients, setClients] = useState([]);
+  
+  const clients = useSelector(state=>state.general_reducer.clients)
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     fetchClients();
@@ -29,7 +33,10 @@ function Clients() {
   async function fetchClients(params) {
     try {
       const {data} = await API.get("business/getusers")
-      setClients(data.users);
+      dispatch(updateGeneralProps({
+        key: CLIENTS,
+        value: data.users
+      }))
     } catch (error) {
       console.log("error : ", error);
     }

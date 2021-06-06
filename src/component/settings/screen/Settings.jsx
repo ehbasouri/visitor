@@ -76,7 +76,7 @@ function Settings() {
               <ListItemText className={classes.text} primary={fa["products"]} />
               </ListItem>
           </Link>
-          <Link style={{color: "#222"}}>
+          <Link to={"stores"} style={{color: "#222"}}>
               <ListItem button>
               <ListItemIcon>
                   <StoreIcon />

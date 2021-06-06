@@ -18,11 +18,16 @@ function ArchiveOrders({history}) {
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    fetchOrders()
+      fetchOrders()
   },[])
 
   async function fetchOrders() {
-      const queries = {business_id : user_info._id, status: "archive" }
+      const queries = {
+        business_id : user_info._id, 
+        status: "archive",
+        // page: 20,
+        // limit: 10
+      } 
       try {
           const {data} = await API.get("business/order", queries);
           dispatch(updateGeneralProps({
@@ -41,7 +46,7 @@ function ArchiveOrders({history}) {
 
   return (
     <MainScreen>
-      <SearchInput/>
+      {/* <SearchInput/> */}
       {archive_orders.map(order=>(
         <ArchiveOrder key={order._id} order={order} onDetailsClick={onDetailsClick} />
       ))}

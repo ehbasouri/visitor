@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function AddClient(params) {
+function AddClient({history}) {
     
     let { id } = useParams();
 
@@ -45,7 +45,7 @@ function AddClient(params) {
     const [price, setPrice] = useState(0)
     const [buy_price, set_buy_price] = useState(0)
     const [category, set_category] = useState(null)
-    const [store_id, set_store_id] = useState("1")
+    const [store_id, set_store_id] = useState(null)
     const [count, setCount] = useState(0)
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
@@ -60,6 +60,21 @@ function AddClient(params) {
         if(id) fetchOrderDetail()
     },[])
 
+    useEffect(()=>{
+        fetchClients();
+      },[])
+    
+    async function fetchClients(params) {
+        try {
+        const {data} = await API.get("business/store")
+            if(data.length > 0){
+                set_store_id(data[0]._id);
+            }
+        } catch (error) {
+        console.log("error : ", error);
+        }
+    }
+      
     async function fetchOrderDetail(params) {
         try {
             const {data} = await API.get("business/product",{_id: id});
@@ -91,7 +106,13 @@ function AddClient(params) {
             setMessage("please fill items")
             setSeverity("error")
             return;
-        }
+        } 
+        if(!store_id ){
+            setShowAlert(true);
+            setMessage("please create your store")
+            setSeverity("error")
+            return;
+        } 
         setLoading(true);
         const productData = {
             name,
@@ -110,6 +131,7 @@ function AddClient(params) {
             setMessage("product is created");
             setShowAlert(true);
             setSeverity("success")
+            history.goBack();
         } catch (error) {
             console.log("error : ", error);
             const errorMessage = handleApiErrors(error);
@@ -207,9 +229,9 @@ function AddClient(params) {
                         value={name}
                         defaultValue={name}
                     />
-                    <DropDown
+                    {/* <DropDown
                         label={fa["store"]}
-                    />
+                    /> */}
                     <SelectCategoryModal
                         category={category}
                         set_category={set_category}
