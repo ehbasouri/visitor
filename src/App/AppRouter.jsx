@@ -29,17 +29,19 @@ import ArchiveOrderDetail from "../component/orders/screen/ArchiveOrderDetailes"
 import ClientArchiveOrderDetailes from "../clientComponent/orders/screen/ClientArchiveOrderDetailes";
 import UserInfo from "../component/userInfo/screen/UserInfo";
 import UpdateUserInfo from "../component/userInfo/screen/UpdateUserInfo";
-import { API } from "../service/api";
 import ClientUserInfo from "../clientComponent/userInfo/screen/ClientUserInfo";
 import ClientUpdateUserInfo from "../clientComponent/userInfo/screen/ClientUpdateUserInfo";
 import AddOrderBusiness from "../component/clients/screen/AddOrderBusiness";
 import StoreList from "../component/store/screen/StoreList";
 import AddStore from "../component/store/screen/AddStore";
+import StoreDetail from "../component/store/screen/StoreDetail";
+import ClientProducts from "../clientComponent/products/screen/ClientProducts";
 
 
 function BusinessRouter(params) {
   return(
     <Switch>
+      <PrivateBusinessRoute path={"/admin/storedetail/:id"} component={StoreDetail} />
       <PrivateBusinessRoute path={"/admin/clientdetail/:id"} component={ClientDetail} />
       <PrivateBusinessRoute path={"/admin/stores"} component={StoreList} />
       <PrivateBusinessRoute path={"/admin/addstore"} component={AddStore} />
@@ -67,6 +69,7 @@ function ClientRouter(params) {
     <Switch>
       <PrivateClientRoute path={"/basket"} component={ClientBasket} />
       <PrivateClientRoute path={"/userinfo"} component={ClientUserInfo} />
+      <PrivateClientRoute path={"/products/:id"} component={ClientProducts} />
       <PrivateClientRoute path={"/updateuserinfo"} component={ClientUpdateUserInfo} />
       <PrivateClientRoute path={"/archiveorderdetail/:id"} component={ClientArchiveOrderDetailes} />
       <ProtectedLogin path={"/login"} component={ClientLogin} />
@@ -99,7 +102,7 @@ export const PrivateBusinessRoute = ({ component: Component, ...rest }) => {
         <Route {...rest} render={(props) => (
           !Auth.auth
               ?<Redirect to={"/admin/login"} />
-              :(user_info.role === "admin" ? <Component {...props} /> : <Redirect to={"/products"} /> )
+              :(user_info.role === "admin" ? <Component {...props} /> : <Redirect to={"/business"} /> )
           )} />
     );
 };

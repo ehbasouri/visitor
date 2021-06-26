@@ -11,6 +11,7 @@ import { Link } from "react-router-dom"
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { HOST } from '../../../service/api';
+import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -44,7 +45,7 @@ function ClientArchiveOrderItem({order}) {
             </Avatar>
             }
             title={order.business.name}
-            subheader={moment(order.created_at).format('YYYY/MM/DD  hh:mm  a')}
+            subheader={converEnglishNumToPersian(moment(order.created_at).format('YYYY/MM/DD  hh:mm  a'))}
             align={"right"}
             action={
               order.status === "cancel" ?

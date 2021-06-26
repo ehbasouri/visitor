@@ -5,21 +5,20 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import BallotIcon from '@material-ui/icons/Ballot';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import ExitToApp from '@material-ui/icons/ExitToApp';
-import CategoryIcon from '@material-ui/icons/Category';
 import Cookies from "js-cookie";
 import AuthContext from '../../../App/AuthApi';
 import { 
   Link
 } from "react-router-dom";
-import StoreIcon from '@material-ui/icons/Store';
 import ClientSceneWrapper from '../../../SceneWrapper/ClientSceneWrapper';
 import { Header } from '../../../common/Header';
 import fa from '../../../translation/fa';
 import MainScreen from '../../../common/MainScreen';
 import PersonIcon from '@material-ui/icons/Person';
+import { useDispatch } from "react-redux";
+import { updateGeneralProps } from '../../../redux/actions';
+import { RESET_GENERAL_PROPS } from '../../../consts';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,17 +30,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
-}
-
 function ClientSettings() {
   const classes = useStyles();
   const Auth = useContext(AuthContext);
 
+  const dispatch = useDispatch()
+
   function onLogout(params) {
     Cookies.remove("token");
     Auth.signOut();
+    dispatch(updateGeneralProps({
+      key: RESET_GENERAL_PROPS
+    }))
   }
 
   return (
@@ -60,22 +60,6 @@ function ClientSettings() {
                   <ListItemText className={classes.text}   primary={fa["profile"]} />
               </ListItem>
           </Link>
-          {/* <Link style={{color: "#222"}} to={"products"} >
-              <ListItem button>
-              <ListItemIcon>
-                  <BallotIcon />
-              </ListItemIcon>
-              <ListItemText className={classes.text} primary="محصولات" />
-              </ListItem>
-          </Link> */}
-          {/* <Link style={{color: "#222"}}>
-              <ListItem button>
-              <ListItemIcon>
-                  <StoreIcon />
-              </ListItemIcon>
-              <ListItemText className={classes.text} primary="انبار" />
-              </ListItem>
-          </Link> */}
         </List>
         <Divider />
         <List component="nav" aria-label="secondary mailbox folders">

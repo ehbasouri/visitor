@@ -15,7 +15,6 @@ import { useDispatch } from "react-redux"
 import { updateGeneralProps } from "../../../redux/actions";
 import { BASKET } from "../../../consts";
 import initialState from "../../../redux/reducer/initialState.json"
-import { useEffect } from "react";
 
 
 function ClientBasket() {

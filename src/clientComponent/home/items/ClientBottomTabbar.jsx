@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
 function getRouteValue(key) {
     switch (key) {
-        case "/products":
+        case "/business":
             
             return 2;
         case "/orders":
@@ -61,9 +61,6 @@ export default function BottomTabbar({setValue, value}) {
       showLabels
       className={classes.root}
     >
-        {/* <BottomNavigationAction label="تنظیمات" icon={<SettingsIcon />} />
-        <BottomNavigationAction label="مشتریها" icon={<PeopleIcon />} />
-        <BottomNavigationAction label="سفارشات" icon={<ViewListIcon />} /> */}
           <BottomNavigationAction 
               label={
                   <Link 
@@ -86,7 +83,7 @@ export default function BottomTabbar({setValue, value}) {
             label={
             <Link 
                 style={{color: value === 2 ? "blue" : "gray" }} 
-                to={"/products"} 
+                to={"/business"} 
             >
                 <BallotIcon color={ value === 2 ? "primary" : "disabled"} /> 
             </Link>}/>

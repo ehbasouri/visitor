@@ -6,7 +6,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import BallotIcon from '@material-ui/icons/Ballot';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import CategoryIcon from '@material-ui/icons/Category';
 import Cookies from "js-cookie";
@@ -20,6 +19,9 @@ import { Header } from '../../../common/Header';
 import MainScreen from '../../../common/MainScreen';
 import fa from '../../../translation/fa';
 import PersonIcon from '@material-ui/icons/Person';
+import { useDispatch } from "react-redux";
+import { updateGeneralProps } from '../../../redux/actions';
+import { RESET_GENERAL_PROPS } from '../../../consts';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,17 +33,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
-}
-
 function Settings() {
   const classes = useStyles();
   const Auth = useContext(AuthContext);
 
+  const dispatch = useDispatch()
+
   function onLogout(params) {
     Cookies.remove("token");
     Auth.signOut();
+    dispatch(updateGeneralProps({
+      key: RESET_GENERAL_PROPS
+    }))
   }
 
   return (

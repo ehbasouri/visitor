@@ -104,8 +104,8 @@ function Register() {
               <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
-                {fa["Register page"]}
+              <Typography component="h5" variant="h6">
+                {fa["Business register page"]}
               </Typography>
               {/* <form className={classes.form} > */}
               <TextField

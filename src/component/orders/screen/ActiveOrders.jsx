@@ -1,19 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import OrderItem from '../items/OrderItem';
-import { SearchInput } from '../../../common/SearchInput';
 import MainScreen from '../../../common/MainScreen';
-import fa from '../../../translation/fa';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { API } from '../../../service/api';
-import SimpleBackdrop from '../../../common/SimpleBackdrop';
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { ACTIVE_ORDERS } from '../../../consts';

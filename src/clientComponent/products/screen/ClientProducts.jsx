@@ -8,18 +8,22 @@ import { SearchInput } from "../../../common/SearchInput";
 import ClientProductItem from "../items/ClientProductItem";
 import { API } from "../../../service/api";
 import AddButton from "../../../common/AddButton";
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MainScreen from "../../../common/MainScreen";
 import BasketIcon from "../../../common/BasketIcon";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { PRODUCTS } from "../../../consts";
+import {useParams} from "react-router-dom";
 
 function ClientProducts({router}) {
 
+    const {id} = useParams();
+
     const [name, setName] = useState("");
     const basket = useSelector(state=>state.general_reducer.basket)
+    const business = useSelector(state=>state.general_reducer.business)
+
 
     const products = useSelector(state=>state.general_reducer.products)
     const dispatch = useDispatch()
@@ -29,7 +33,7 @@ function ClientProducts({router}) {
     },[])
 
     async function fetchProducts(searchValue) {
-        const queries = { business_id: "60af7c5b596a15642b1c924a" }
+        const queries = { business_id: id }
         if(searchValue) queries.name= searchValue
         try {
             const {data} = await API.get("product", queries);
@@ -51,7 +55,6 @@ function ClientProducts({router}) {
         }))
     }
 
-
     const debounceCallback = useCallback(
         debounce((value) => {
             fetchProducts(value)
@@ -66,15 +69,17 @@ function ClientProducts({router}) {
 
     return(
         <div className={"mainScreen"}>
-            <Header backEnabled={false} />
+            <Header title={business.name} />
             <MainScreen>
                 <SearchInput value={name} onChange={onSearchValueChange} />
-                {products.map(product=>(
-                    <ClientProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
-                ))}
+                <div className={"mainItemsContainer"} >
+                    {products.map(product=>(
+                        <ClientProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
+                    ))}
+                </div>
             </MainScreen>
                 {basket.products.length > 0 && <AddButton
-                    link={"basket"}
+                    link={"/basket"}
                     icon={<BasketIcon/>}
                 />}
         </div>

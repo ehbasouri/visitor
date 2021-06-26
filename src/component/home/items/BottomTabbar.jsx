@@ -55,9 +55,6 @@ export default function BottomTabbar({setValue, value}) {
       showLabels
       className={classes.root}
     >
-        {/* <BottomNavigationAction label="تنظیمات" icon={<SettingsIcon />} />
-        <BottomNavigationAction label="مشتریها" icon={<PeopleIcon />} />
-        <BottomNavigationAction label="سفارشات" icon={<ViewListIcon />} /> */}
           <BottomNavigationAction 
               label={
                   <Link 

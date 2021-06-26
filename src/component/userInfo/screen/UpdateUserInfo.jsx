@@ -20,6 +20,7 @@ import { updateGeneralProps } from "../../../redux/actions";
 import AuthContext from "../../../App/AuthApi";
 import { useContext } from "react";
 import Typography from '@material-ui/core/Typography';
+import { MOBILE_REGEX } from "../../../consts/mobileRegex";
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -62,6 +63,13 @@ function UpdateUserInfo({history}) {
     const Auth = useContext(AuthContext);
 
     async function updateProduct() {
+        const isMobileValid = MOBILE_REGEX.test(mobile);
+        if (!isMobileValid || mobile.length !== 11 ) {
+            setMessage(fa["please enter valid mobile"]);
+            setShowAlert(true);
+            setSeverity("error")
+            return 
+        }
         setLoading(true);
         const userData = {
             name,

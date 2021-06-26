@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ClientHeader from '../items/ClientHeader';
 import ClientItem from '../items/ClientItem';
@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { CLIENTS } from '../../../consts';
+import { debounce } from "../../../utils/debounce";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,16 +24,21 @@ const useStyles = makeStyles((theme) => ({
 
 function Clients() {
   
+  const [name, setName] = useState("")
+  const user_info = useSelector(state=>state.general_reducer.user_info)
   const clients = useSelector(state=>state.general_reducer.clients)
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    fetchClients();
+      fetchClients();
   },[])
 
-  async function fetchClients(params) {
+  async function fetchClients(searchValue) {
+    if(!user_info.is_active) return;
+    const queries = {}
+    if(searchValue) queries.name= searchValue;
     try {
-      const {data} = await API.get("business/getusers")
+      const {data} = await API.get("business/getusers",queries);
       dispatch(updateGeneralProps({
         key: CLIENTS,
         value: data.users
@@ -42,9 +48,21 @@ function Clients() {
     }
   }
 
+  const debounceCallback = useCallback(
+    debounce((value) => {
+      fetchClients(value)
+    }, 500),
+    []
+  );
+
+  function onSearchValueChange(event) {
+      setName(event.target.value);
+      debounceCallback(event.target.value)
+  }
+
   return (
     <div className={"mainScreen"} >
-        <ClientHeader/>
+        <ClientHeader value={name} onChange={onSearchValueChange} />
         <MainScreen>
           {clients.map(user=>(
             <ClientItem key={user._id} user={user} />

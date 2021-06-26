@@ -51,7 +51,6 @@ function ActiveOrders({history}) {
 
   return (
     <MainScreen>
-      <SearchInput/>
       {active_orders.map(order=>(
         <ClientOrderItem key={order._id} order={order} onDetailsClick={onDetailsClick} />
       ))}

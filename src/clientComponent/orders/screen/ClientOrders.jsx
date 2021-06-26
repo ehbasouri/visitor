@@ -29,6 +29,7 @@ function a11yProps(index) {
 
 function ClientOrders({history}) {
 
+
   const [value, setValue] = useState(1);
 
   const handleChange = (event, newValue) => {
@@ -47,7 +48,7 @@ function ClientOrders({history}) {
       history.push("/orders/active")
       setValue(1)
     }
-  },[])
+  },[history.location.pathname])
 
   return (
     <div className={"mainScreen"}>

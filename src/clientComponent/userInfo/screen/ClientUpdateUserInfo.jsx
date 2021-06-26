@@ -19,6 +19,7 @@ import { USER_INFO } from "../../../consts";
 import { updateGeneralProps } from "../../../redux/actions";
 import { useContext } from "react";
 import AuthContext from "../../../App/AuthApi";
+import { MOBILE_REGEX } from "../../../consts/mobileRegex";
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -57,6 +58,13 @@ function ClientUpdateUserInfo({history}) {
     const Auth = useContext(AuthContext);
 
     async function updateProduct() {
+        const isMobileValid = MOBILE_REGEX.test(mobile);
+        if (!isMobileValid || mobile.length !== 11) {
+            setMessage(fa["please enter valid mobile"]);
+            setShowAlert(true);
+            setSeverity("error")
+            return 
+        }
         setLoading(true);
         const userData = {
             name,
@@ -71,7 +79,6 @@ function ClientUpdateUserInfo({history}) {
                 userData.avatar = imageUploadResponse.data.filename;
             }
             const { data } = await API.put("user", userData);
-            console.log("data :::: ", data)
             Auth.signIn(data);
             dispatch(updateGeneralProps({
                 key: USER_INFO,

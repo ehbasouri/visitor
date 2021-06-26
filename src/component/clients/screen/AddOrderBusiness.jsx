@@ -1,15 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import { blueGrey } from '@material-ui/core/colors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import StoreIcon from '@material-ui/icons/Store';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import moment from "jalali-moment";
@@ -29,6 +24,8 @@ import MainScreen from '../../../common/MainScreen';
 import {useParams} from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from 'react-redux';
+import numberWithCommas from '../../../utils/commaSeperator';
+import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -127,7 +124,6 @@ function AddOrderBusiness({history}) {
 
     try {
       const {data} = await API.post("order", options)
-      console.log("data : ", data);
       history.replace("/admin/archiveorderdetail/" + data._id)
     } catch (error) {
       console.log("error : ", error.response);
@@ -184,7 +180,7 @@ function AddOrderBusiness({history}) {
                 />
                 <OrderInfoItem
                     title={fa["total price"]}
-                    value={getTotalPrice()}
+                    value={converEnglishNumToPersian(numberWithCommas(getTotalPrice()))}
                 />
                 <Button
                     type="submit"

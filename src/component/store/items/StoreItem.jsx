@@ -24,20 +24,23 @@ export default function StoreItem({onDelete, store}) {
     function onEdit() {
         history.push("/admin/updateStore/" + store.name + "/" + store._id)
     }
+    function onItemClick() {
+        history.push("/admin/storedetail/" + store._id)
+    }
 
     return (
-        <div>
+        <div >
             <ListItem
                 button
                 alignItems={"center"}
                 >
-                <ListItemText className={classes.text} primary={store.name} />
+                <ListItemText onClick={onItemClick} className={classes.text} primary={store.name} />
                 <ListItemIcon onClick={onEdit} >
                     <EditIcon/>
                 </ListItemIcon>
-                <ListItemIcon onClick={()=>setShowDelModal(true)} >
+                {/* <ListItemIcon onClick={()=>setShowDelModal(true)} >
                     <DeleteIcon/>
-                </ListItemIcon>
+                </ListItemIcon> */}
             </ListItem>
             <DeleteModal
                 open={showDelModal}

@@ -2,11 +2,13 @@ const fa = {
     "register": "ثبت نام",
     "login": "ورود",
     "please enter username and password": "لطفا نام کاربری و گذرواژه را وارد کنید",
-    "Login page": "صفحه ورود به سیستم",
+    "Client login page": "صفحه ورود به سیستم مشتری",
+    "Business login page": "صفحه ورود به سیستم فروشگاه",
     "username": "نام کاربری",
     "password": "کلمه عبور",
     "please enter name and username and password": "لطفا نام و نام کاربری و رمز عبور را وارد کنید",
-    "Register page": " صفحه ثبت نام ",
+    "Client register page": " صفحه ثبت نام مشتری ",
+    "Business register page": " صفحه ثبت نام فروشگاه ",
     "name": "نام",
     "exit": "خروج",
     "archive": "بایگانی",
@@ -54,8 +56,12 @@ const fa = {
     "canceled": "لغو شده",
     "orders": "سفارشات",
     "add product": "اضافه کردن محصول",
-    "add order": "افزودن سفارش جدید"
-
+    "add order": "افزودن سفارش جدید",
+    "show products": "نمایش محصولات",
+    "from date": "از تاریخ",
+    "to date": "تا تاریخ",
+    "Select category": "دسته بندی را انتخاب کنید",
+    "please enter valid mobile": "لطفاً تلفن همراه معتبری وارد کنید"
 }
 
 export default fa;

@@ -1,7 +1,21 @@
 import { UPDATE_GENERAL_PROPS, RESET_GENERAL_PROPS } from "../../consts";
 import initialState from "./initialState.json"
 
-export const general_reducer = (state = initialState, action) => {
+
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+yesterday.setHours(0,0,0,0);
+
+
+const today = new Date();
+
+const INITIAL_STATE = {
+    ...initialState,
+    fromDate: yesterday,
+    toDate: today
+}
+
+export const general_reducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case UPDATE_GENERAL_PROPS:
             var newProps = {};
@@ -13,7 +27,7 @@ export const general_reducer = (state = initialState, action) => {
             }
             return { ...state, [action.payload.key]: action.payload.value };
         case RESET_GENERAL_PROPS:
-            return initialState;
+            return INITIAL_STATE;
         default:
             return state;
     }

@@ -11,6 +11,8 @@ import { HOST } from '../../../service/api';
 import TextField from '@material-ui/core/TextField';
 import fa from '../../../translation/fa';
 import { Divider } from '@material-ui/core';
+import numberWithCommas from '../../../utils/commaSeperator';
+import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +48,7 @@ export default function InvoiceIrem({product}) {
             <ListItemText primary={product.name} />
 
             <ListItemSecondaryAction>
-                <ListItemText className={classes.count} primary={product.countInBasket + " " + fa["number"]  } />
+                <ListItemText className={classes.count} primary={converEnglishNumToPersian(product.countInBasket) + " " + fa["number"]  } />
             </ListItemSecondaryAction>
           </ListItem>
           <Divider/>
@@ -54,7 +56,7 @@ export default function InvoiceIrem({product}) {
             <ListItemText className={classes.title} primary={fa["Unit price"]} />
 
             <ListItemSecondaryAction>
-                <ListItemText className={classes.price} primary={product.price + " " + fa["toman"] } />
+                <ListItemText className={classes.price} primary={converEnglishNumToPersian(numberWithCommas(product.price)) + " " + fa["toman"] } />
             </ListItemSecondaryAction>
           </ListItem>
           <Divider/>
@@ -62,7 +64,7 @@ export default function InvoiceIrem({product}) {
             <ListItemText className={classes.title} primary={fa["price"]} />
 
             <ListItemSecondaryAction>
-                <ListItemText className={classes.price} primary={ product.countInBasket * product.price + " " + fa["toman"] } />
+                <ListItemText className={classes.price} primary={ converEnglishNumToPersian(numberWithCommas(product.countInBasket * product.price)) + " " + fa["toman"] } />
             </ListItemSecondaryAction>
           </ListItem>
           <Divider className={classes.divider} />

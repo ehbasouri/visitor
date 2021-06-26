@@ -47,7 +47,7 @@ function Orders({history}) {
       history.push("/admin/orders/active")
       setValue(1)
     }
-  },[history])
+  },[history.location.pathname])
 
   return (
     <div className={"mainScreen"}>

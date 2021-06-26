@@ -10,6 +10,8 @@ import MainScreen from "../../../common/MainScreen";
 import fa from "../../../translation/fa";
 import InvoiceIrem from "../../../component/orders/items/InvoiceItem";
 import ArchiveOrderItem from "../../../component/orders/items/ArchiveOrderItem";
+import converEnglishNumToPersian from "../../../utils/EnglishNumToPersianNum";
+import numberWithCommas from "../../../utils/commaSeperator";
 
 function ClientArchiveOrderDetailes(params) {
 
@@ -51,11 +53,11 @@ function ClientArchiveOrderDetailes(params) {
                 ))}
                 <ArchiveOrderItem
                     title={fa["discount"]}
-                    value={orderDetails.discount + " " + fa["toman"]  }
+                    value={converEnglishNumToPersian(numberWithCommas(orderDetails.discount)) + " " + fa["toman"]  }
                 />
                 <ArchiveOrderItem
                     title={fa["total price"]}
-                    value={getTotalPrice() + " " + fa["toman"]  }
+                    value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]  }
                 />
             </MainScreen>}
         </div>

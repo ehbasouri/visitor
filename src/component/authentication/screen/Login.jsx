@@ -95,8 +95,8 @@ function Login() {
               <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
-                {fa["Login page"]}
+              <Typography component="h5" variant="h6">
+                {fa["Business login page"]}
               </Typography>
               {/* <form className={classes.form} > */}
               <TextField

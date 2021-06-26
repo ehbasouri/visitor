@@ -70,7 +70,6 @@ function AddClient(params) {
                 setDescription(data[0].description)
                 set_category({_id : data[0].cat_id, name: "select Category"})
             }
-            console.log("data : ", data);
         } catch (error) {
             console.log("error : ", error);
         }     

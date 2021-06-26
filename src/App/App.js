@@ -4,7 +4,7 @@ import AuthContext from "./AuthApi";
 import Cookies from "js-cookie";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { refreshToken } from "../service/api";
-import { createStore, applyMiddleware } from "redux";
+import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducers from "../redux/reducer";
 

@@ -2,12 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { API } from '../../../service/api';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import SelectCategory from '../../../common/SelectCategory';
+import fa from '../../../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,12 +25,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SelectCategoryModal({
-    parId,
-    addCategories,
-
     category,
-    set_category,
-    updateCategories
+    set_category
 }) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -51,7 +43,7 @@ export default function SelectCategoryModal({
   return (
     <div>
         <Button className={classes.submit} onClick={()=>setOpen(true)} fullWidth size={"large"} variant="outlined">
-            {category ? category.name : "Select category"}
+            {category ? category.name : fa["Select category"]}
         </Button>
         <Modal
             open={open}

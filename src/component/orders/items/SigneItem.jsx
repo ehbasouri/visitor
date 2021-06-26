@@ -11,6 +11,7 @@ import { HOST } from '../../../service/api';
 import fa from '../../../translation/fa';
 import moment from "jalali-moment";
 import { useSelector } from "react-redux";
+import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -41,7 +42,7 @@ export default function SignItem({date}) {
             {fa["date"]}
           </Typography>
           <Typography align={"left"} variant="body2" color="textSecondary" component="p">
-            {moment(date).format('YYYY/MM/DD  hh:mm  a')}
+            {converEnglishNumToPersian(moment(date).format('YYYY/MM/DD  hh:mm  a'))}
           </Typography>
         </CardContent>
       </CardActionArea>

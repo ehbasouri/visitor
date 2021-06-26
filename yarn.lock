@@ -6406,7 +6406,7 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jalali-moment@^3.3.10:
+jalali-moment@^3.3.1, jalali-moment@^3.3.10:
   version "3.3.10"
   resolved "https://registry.yarnpkg.com/jalali-moment/-/jalali-moment-3.3.10.tgz#10cb4c2080925a41ee8c72862ba63f6b5fb04743"
   integrity sha512-hyNsDJXB23MHLnZWPXY+Mu0zsrp+B+KzabyqPP0oGcMsEGp8yMpeVledOY+B/DrIOVeRY7JLz8b3lyJ3/vajsQ==
@@ -6414,6 +6414,13 @@ jalali-moment@^3.3.10:
     commander "^7.0.0"
     inquirer "^7.1.0"
     moment "^2.26.0"
+
+jalali-react-datepicker@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/jalali-react-datepicker/-/jalali-react-datepicker-1.2.1.tgz#0b4bf458867a0ae0eedea0c4c420ef14852cdbe7"
+  integrity sha512-dy4v0/1PskOHHZt4eM2/3MxKwyDZHxW9crXPw8G+ODbXkPIKTkWcYQ6bVYHYIqF3WA48xU3TsxSe6AL9M7uB1g==
+  dependencies:
+    jalali-moment "^3.3.1"
 
 jest-changed-files@^26.6.2:
   version "26.6.2"

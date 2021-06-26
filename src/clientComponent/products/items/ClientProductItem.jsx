@@ -8,11 +8,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { HOST } from '../../../service/api';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { 
-  Link
-} from "react-router-dom";
 import { DeleteModal } from '../../../common/DeleteModal';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import fa from '../../../translation/fa';
@@ -25,7 +20,9 @@ import { BASKET } from '../../../consts';
 
 const useStyles = makeStyles({
   root: {
-    marginTop: 16
+    marginTop: 16,
+    maxWidth: 345,
+    width: "100%"
   },
   cardAction: {
     display: "flex",

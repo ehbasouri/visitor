@@ -24,6 +24,8 @@ import SimpleBackdrop from '../../../common/SimpleBackdrop';
 import { MyModal } from '../../../common/MyModal';
 import ProductListToAdd from '../screen/ProductListToAdd';
 import { useRef } from 'react';
+import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
+import numberWithCommas from '../../../utils/commaSeperator';
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -124,7 +126,7 @@ function OrderItem({order, onDetailsClick}) {
           </Avatar>
         }
         title={order.client.name}
-        subheader={moment(order.created_at).format('YYYY/MM/DD  hh:mm  a')}
+        subheader={converEnglishNumToPersian(moment(order.created_at).format('YYYY/MM/DD  hh:mm  a'))}
         align={"right"}
         action={
           <IconButton
@@ -143,6 +145,14 @@ function OrderItem({order, onDetailsClick}) {
           {order.client.address && <Typography align={"left"} paragraph>{fa["address"]} : </Typography>}
           {order.client.address && <Typography align={"left"}  paragraph>
             {order.client.address}
+          </Typography>}
+          {order.client.mobile && <Typography align={"left"} paragraph>{fa["mobile"]} : </Typography>}
+          {order.client.mobile && <Typography align={"left"}  paragraph>
+            {order.client.mobile}
+          </Typography>}
+          {order.client.phone && <Typography align={"left"} paragraph>{fa["phone"]} : </Typography>}
+          {order.client.phone && <Typography align={"left"}  paragraph>
+            {order.client.phone}
           </Typography>}
           {order.comment && <Typography className={classes.description} align={"left"} paragraph>{fa["description"]} : </Typography>}
           {order.comment && <Typography align={"left"}  paragraph>
@@ -176,7 +186,7 @@ function OrderItem({order, onDetailsClick}) {
           />
           <OrderInfoItem
             title={fa["total price"]}
-            value={getTotalPrice()}
+            value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]}
           />
           <Button
               type="submit"

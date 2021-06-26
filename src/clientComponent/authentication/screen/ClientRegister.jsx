@@ -101,8 +101,8 @@ function ClientRegister({history}) {
               <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
-                {fa["Register page"]}
+              <Typography align={"left"} component="h5" variant="h6">
+                {fa["Client register page"]}
               </Typography>
               {/* <form className={classes.form} > */}
               <TextField

@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "jalali-moment": "^3.3.10",
+    "jalali-react-datepicker": "^1.2.1",
     "js-cookie": "^2.2.1",
     "jss-rtl": "^0.3.0",
     "lodash": "^4.17.21",

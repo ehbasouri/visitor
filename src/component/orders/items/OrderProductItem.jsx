@@ -47,6 +47,7 @@ export default function OrderProductItem({product, setOrder, order}) {
   }
 
   function onAddOrRemovePress(add) {
+    // if(product.countInBasket === product.count && add) return;
     const updatedProducts = JSON.parse(JSON.stringify(order.products));
     const index = findIndex();
     updatedProducts[index].countInBasket = add ? product.countInBasket + 1 : product.countInBasket - 1

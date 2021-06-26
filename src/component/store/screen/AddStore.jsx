@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import SimpleBackdrop from '../../../common/SimpleBackdrop';
 import { API } from '../../../service/api';
 import { handleApiErrors } from '../../../utils/handleApiErrors';
-import {Link} from "react-router-dom";
 import { AlertComponent } from '../../../common/AlertComponent';
 import fa from '../../../translation/fa';
-import { useSelector } from "react-redux";
 import { Header } from '../../../common/Header';
 import MainScreen from '../../../common/MainScreen';
 import {useParams} from "react-router-dom";
@@ -38,8 +35,6 @@ const useStyles = makeStyles((theme) => ({
 function AddStore({history}) {
   
     let { id, storeName } = useParams();
-
-    console.log("id : ", id, storeName);
 
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);

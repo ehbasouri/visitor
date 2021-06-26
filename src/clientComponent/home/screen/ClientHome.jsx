@@ -3,20 +3,20 @@ import ClientSceneWrapper from "../../../SceneWrapper/ClientSceneWrapper";
 import ClientBottomTabbar from "../items/ClientBottomTabbar";
 import { 
   Switch,
+  Route
 } from "react-router-dom";
-import { PrivateClientRoute } from "../../../App/AppRouter";
 import ClientOrders from "../../orders/screen/ClientOrders";
 import ClientSettings from "../../settings/screen/ClientSettings";
-import ClientProducts from "../../products/screen/ClientProducts";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Business from "../../business/screen/Business";
 
 function ClientHomeRouter(params) {
     return(
         <Switch>
-            <PrivateClientRoute path={"/products"} component={ClientProducts} /> 
-            <PrivateClientRoute path={"/orders"} component={ClientOrders} />
-            <PrivateClientRoute path={"/settings"} component={ClientSettings} />
+            <Route path={"/business"} component={Business} /> 
+            <Route path={"/orders"} component={ClientOrders} />
+            <Route path={"/settings"} component={ClientSettings} />
         </Switch>
     )
 }

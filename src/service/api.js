@@ -2,7 +2,8 @@ import axios from "axios";
 import _ from "lodash";
 import Cookies from "js-cookie";
 
-export const HOST = "http://192.168.1.108:5600/";
+export const HOST = "https://api.ehsan2.ir/";
+// "http://localhost:5600/"
 export const BASE_URL = HOST + "api/";
 
 
@@ -44,7 +45,7 @@ export async function request(method, url, data, params = {}, secured = true, he
         headers: {...headers, ...headerOptions},
         data,
     };
-    console.log(options.method + " - " + options.url )
+    // console.log(options.method + " - " + options.url )
     return(Promise.resolve(axios(options)));
 }
 
@@ -69,7 +70,6 @@ function del(url, params = {}, secured, headerOptions) {
 }
 
 async function multipartPost(file) {
-    console.log("image : ", file)
     const data = new FormData();
     data.append("file", file, file.name);
     const headers = getHeaders();

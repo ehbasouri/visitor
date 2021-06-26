@@ -67,7 +67,6 @@ export default function AddCategoryModal({
         try {
             const {data} = await API.post("business/category",{name, edge, parId});
             addCategories(data)
-            console.log("data : ", data);
         } catch (error) {
             console.log("error : ", error);
         }

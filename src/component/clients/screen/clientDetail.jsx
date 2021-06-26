@@ -4,7 +4,6 @@ import { Header } from "../../../common/Header";
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import MainScreen from "../../../common/MainScreen";
-import { useSelector } from "react-redux";
 import fa from "../../../translation/fa";
 import Button from '@material-ui/core/Button';
 import { 
@@ -40,8 +39,6 @@ function ClientDetail(params) {
     let { id } = useParams();
     const [user_detailes, set_user_detailes] = useState({})
 
-    console.log("id : ", id)
-
     useEffect(()=>{
         fetchUser();
     },[])
@@ -49,7 +46,6 @@ function ClientDetail(params) {
     async function fetchUser(params) {
         try {
             const {data} = await API.get("business/getusers",{_id: id});
-            console.log("data : ", data);
             set_user_detailes(data.users[0]);
         } catch (error) {
             console.log("error : ", error)

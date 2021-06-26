@@ -9,7 +9,7 @@ import AddButton from '../../../common/AddButton';
 import StoreItem from '../items/StoreItem';
 
 function StoreList() {
-  const [stores, setStores] = useState([]);
+  const [stores, setStores] = useState(null);
 
   useEffect(()=>{
     fetchClients();
@@ -34,11 +34,11 @@ function StoreList() {
     <div className={"mainScreen"} >
         <Header/>
         <MainScreen>
-          {stores.map(store=>(
+          {stores && stores.map(store=>(
             <StoreItem key={store._id} store={store} onDelete={onDelete} />
           ))}
         </MainScreen>
-        <AddButton link={"addstore"} />
+        {stores && stores.length === 0 &&<AddButton link={"addstore"} />}
     </div>
   );
 }

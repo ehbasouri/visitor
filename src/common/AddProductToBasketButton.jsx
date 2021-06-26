@@ -36,6 +36,7 @@ export function AddProductToBasketButton({product}) {
   }
 
   function onAddOrRemovePress(add) {
+    // if(product.countInBasket === product.count && add) return;
     const updatedProducts = JSON.parse(JSON.stringify(basket.products));
     const index = findIndex();
     updatedProducts[index].countInBasket = add ? product.countInBasket + 1 : product.countInBasket - 1

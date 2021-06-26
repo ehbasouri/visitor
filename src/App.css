@@ -62,6 +62,12 @@
   /* flex-direction: row-reverse; */
 }
 
+.mainItemsContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .mainContainer {
   padding-right: 20px;
   padding-left: 20px;

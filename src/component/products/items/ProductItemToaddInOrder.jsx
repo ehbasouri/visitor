@@ -8,9 +8,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import { HOST } from '../../../service/api';
-import AddCircle from '@material-ui/icons/AddCircle';
-import IconButton from '@material-ui/core/IconButton';
-// import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,12 +58,6 @@ export default function ProductItemToaddInOrder({
               onChange={handleChange}
               inputProps={{ 'aria-label': 'primary checkbox' }}
             />
-                {/* <IconButton onClick={()=>{
-                        closeFnc()
-                        onAddPress(product)
-                    }} edge="center" color="inherit" >
-                    <AddCircle />
-                </IconButton> */}
             </ListItemSecondaryAction>
           </ListItem>
     </List>

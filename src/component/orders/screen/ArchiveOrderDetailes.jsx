@@ -15,6 +15,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CancelIcon from '@material-ui/icons/Cancel';
+import numberWithCommas from "../../../utils/commaSeperator";
+import converEnglishNumToPersian from "../../../utils/EnglishNumToPersianNum";
 
 const useStyles = makeStyles((theme) => ({
     buttonContainer: {
@@ -42,7 +44,6 @@ function ArchiveOrderDetail(params) {
     async function fetchOrderDetail() {
         try {
             const {data} = await API.get("business/order", {_id: id, business_id : user_info._id});
-            console.log("data : ", data);
             setOrderDetails(data[0]);
         } catch (error) {
             console.log("error : ", error);
@@ -76,11 +77,11 @@ function ArchiveOrderDetail(params) {
                 ))}
                 <ArchiveOrderItem
                     title={fa["discount"]}
-                    value={orderDetails.discount + " " + fa["toman"]  }
+                    value={converEnglishNumToPersian(numberWithCommas(orderDetails.discount)) + " " + fa["toman"]  }
                 />
                 <ArchiveOrderItem
                     title={fa["total price"]}
-                    value={getTotalPrice() + " " + fa["toman"]  }
+                    value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]  }
                 />
                 {orderDetails.status === "archive" &&<SignItem date={orderDetails.updated_at} />}
                 { !readyToPrint && orderDetails.status === "archive" && <div className={classes.buttonContainer} >

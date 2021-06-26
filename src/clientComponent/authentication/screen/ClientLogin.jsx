@@ -94,10 +94,9 @@ function ClientLogin() {
               <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
-                {fa["Login page"]}
+              <Typography align={"left"} component="h5" variant="h6">
+                {fa["Client login page"]}
               </Typography>
-              {/* <form className={classes.form} > */}
               <TextField
                   variant="outlined"
                   margin="normal"
@@ -129,13 +128,12 @@ function ClientLogin() {
               >
                   {fa["login"]}
               </Button>
-              {/* </form> */}
           </div>
           <Box mt={8}>
             <Copyright title={fa["register"]} link={"register"} />
           </Box>
           <Box mt={8} >
-            <Copyright title={fa["admin"]} link={"admin"} />
+            <Copyright title={fa["shopping store"]} link={"admin"} />
           </Box>
           <AlertComponent
             open={showAlert}

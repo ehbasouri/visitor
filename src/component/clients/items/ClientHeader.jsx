@@ -4,12 +4,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { SearchInput } from '../../../common/SearchInput';
 
 
-export default function ClientHeader() {
+export default function ClientHeader({
+  value,
+  onChange
+}) {
 
   return (
       <AppBar >
         <Toolbar>
-          <SearchInput/>
+          <SearchInput value={value} onChange={onChange} />
         </Toolbar>
       </AppBar>
   );
