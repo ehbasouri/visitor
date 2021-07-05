@@ -13,31 +13,86 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { PRODUCTS } from "../../../consts";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import SelectCategoryModal from "../items/SelectCategoryModal";
+import SimpleBackdrop from '../../../common/SimpleBackdrop';
+
+const limit = 10
 
 function Products() {
 
+    const [isFetching, setIsFetching] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-  const products = useSelector(state=>state.general_reducer.products)
-  const dispatch = useDispatch()
+    const isScrolling =()=>{
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 / 4)) {
+           console.log("you're at the bottom of the page ... ");
+           setIsFetching(true);
+           // Show loading spinner and make fetch request to api
+        }
+    }
+    // {
+    //     if(window.innerHeight + document.documentElement.scrollTop!==document.documentElement.offsetHeight){
+    //     return;
+    //     }
+    //     setIsFetching(true)
+    // }
+    
+    useEffect(()=>{
+        window.addEventListener("scroll", isScrolling);
+        return () => window.removeEventListener("scroll", isScrolling);
+    }, [])
+
+    useEffect(() => {
+        if (isFetching){
+            fetchProducts();
+        }
+    }, [isFetching]);
+
+    const products = useSelector(state=>state.general_reducer.products)
+    const dispatch = useDispatch()
 
     const [name, setName] = useState("");
+    const [page, setPage] = useState(0);
+    const [finished, setFinished] = useState(false);
+    const [category, set_category] = useState(null)
 
     useEffect(()=>{
         fetchProducts()
     },[])
 
-    async function fetchProducts(searchValue) {
-        const queries = {}
-        if(searchValue) queries.name= searchValue
+    useEffect(()=>{
+        fetchProducts()
+    },[category])
+
+    async function fetchProducts(searchValue) { 
+        if(finished){
+            return;
+        }
+        const queries = { page, limit }
+        if(searchValue) {
+            queries.name = searchValue
+        } else if (name) {
+            queries.name = name
+        }
+        if(category){
+            queries.cat_id = category._id
+        }
         try {
             const {data} = await API.get("business/product", queries);
             dispatch(updateGeneralProps({
                 key: PRODUCTS,
-                value: data
-              }))
+                value: page === 0 ? data : [ ...products, ...data]
+            }))
+
+            setPage(page + limit);
+            if(data.length < 10)
+                setFinished(true);
         } catch (error) {
             console.log("error : ", error);
         }
+        setIsFetching(false);
+        setLoading(false);
     }
 
 
@@ -60,19 +115,40 @@ function Products() {
 
     function onSearchValueChange(event) {
         setName(event.target.value);
+        setPage(0);
+        setFinished(false);
         debounceCallback(event.target.value)
+    }
+
+    function onCatChange(newCat) {
+        setPage(0);
+        setFinished(false);
+        setTimeout(()=>{
+            set_category(newCat);
+        },0);
     }
 
     return(
         <div className={"mainScreen"}>
-            <Header/>
+            <Header title={category ? category.name : ""} />
+            <SelectCategoryModal
+                category={category}
+                set_category={onCatChange}
+            />
             <MainScreen>
                 <SearchInput value={name} onChange={onSearchValueChange} />
-                {products.map(product=>(
-                    <ProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
-                ))}
+                <div className={"mainItemsContainer"} >
+                    {products.map(product=>(
+                        <ProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
+                    ))}
+                    {!finished && <CircularProgress />}
+                </div>
             </MainScreen>
             <AddButton link={"addproduct"} />
+          <SimpleBackdrop
+            open={loading}
+            setOpen={setLoading}
+          />
         </div>
     )
 }

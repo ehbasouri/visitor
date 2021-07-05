@@ -13,6 +13,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import fa from '../../../translation/fa';
 import { AddProductToBasketButton } from '../../../common/AddProductToBasketButton';
 import { useSelector } from 'react-redux';
+import { LazyLoadImage } from 'react-lazy-load-image-component'; 
 
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
@@ -54,13 +55,12 @@ export default function ClientProductItem({product, onDeleteProduct}) {
     <>
     <Card className={classes.root}> 
       <CardActionArea>
-        <CardMedia
-          component="img"
+        <LazyLoadImage
           alt="Contemplative Reptile"
           height="140"
-          image={HOST + product.image}
-          title="Contemplative Reptile"
-        />
+          src={HOST + product.image} 
+          width="100%" 
+          />
         <CardContent>
           <Typography align={"left"} gutterBottom variant="h5" component="h2">
             {product.name}

@@ -8,6 +8,7 @@ import { API } from '../../../service/api';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import SelectCategory from '../../../common/SelectCategory';
+import fa from '../../../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,7 +52,7 @@ export default function SelectCategoryModal({
   return (
     <div>
         <Button className={classes.submit} onClick={()=>setOpen(true)} fullWidth size={"large"} variant="outlined">
-            {category ? category.name : "Select category"}
+            {category ? category.name : fa["Select category"]}
         </Button>
         <Modal
             open={open}
@@ -63,6 +64,7 @@ export default function SelectCategoryModal({
             <div className={classes.paper}>
                 <SelectCategory
                     set_category={onEdgeClick}
+                    client
                 />
             </div>
         </Modal>

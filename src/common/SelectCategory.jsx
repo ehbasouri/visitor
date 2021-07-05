@@ -8,6 +8,8 @@ import SimpleBackdrop from './SimpleBackdrop';
 import ReadOnlyCatItem from './ReadOnlyCatItem';
 import SceneWrapper from '../SceneWrapper/SceneWrapper';
 import MainScreen from './MainScreen';
+import { useSelector } from 'react-redux';
+import fa from '../translation/fa';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,13 +23,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SelectCategory({
-    set_category
+    set_category,
+    client = false
 }) {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [tree, setTree] = useState([{name: "root", _id: "1"}]);
+  const [tree, setTree] = useState([{name: fa["root"], _id: "1"}]);
   const [categories, setCategories] = useState([]);
   const [parId, setParId] = useState("1");
+  const business = useSelector(state=>state.general_reducer.business)
 
   useEffect(()=>{
     fetchCategories(parId);
@@ -35,10 +39,15 @@ function SelectCategory({
 
   async function fetchCategories(parentId) {
     setLoading(true)
+    const queries = {
+      parId : parentId
+    }
+    if(client){
+      queries.business_id = business._id
+    }
+    const url = client ? "category" : "/business/category";
     try {
-      const { data } = await API.get("/business/category",{
-        parId : parentId
-      })
+      const { data } = await API.get(url,queries);
       setCategories(data);
     } catch (error) {
       console.log("error : ", error);

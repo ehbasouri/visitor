@@ -15,10 +15,13 @@ import {
 } from "react-router-dom";
 import { DeleteModal } from '../../../common/DeleteModal';
 import fa from '../../../translation/fa';
+import { LazyLoadImage } from 'react-lazy-load-image-component'; 
 
 const useStyles = makeStyles({
   root: {
-    marginTop: 16
+    marginTop: 16,
+    maxWidth: 345,
+    width: "100%"
   },
 });
 
@@ -30,13 +33,12 @@ export default function ProductItem({product, onDeleteProduct}) {
     <>
     <Card className={classes.root}> 
       <CardActionArea>
-        <CardMedia
-          component="img"
+        <LazyLoadImage
           alt="Contemplative Reptile"
           height="140"
-          image={HOST + product.image}
-          title="Contemplative Reptile"
-        />
+          src={HOST + product.image} 
+          width="100%" 
+          />
         <CardContent>
           <Typography align={"left"} gutterBottom variant="h5" component="h2">
             {product.name}

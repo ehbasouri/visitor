@@ -15,12 +15,46 @@ import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { PRODUCTS } from "../../../consts";
 import {useParams} from "react-router-dom";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import SelectCategoryModal from "../items/SelectCategoryModal";
+import SimpleBackdrop from '../../../common/SimpleBackdrop';
+
+const limit = 10
 
 function ClientProducts({router}) {
 
-    const {id} = useParams();
+    const {id} = useParams(); 
+
+    const [isFetching, setIsFetching] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const isScrolling =()=>{
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 / 4)) {
+           console.log("you're at the bottom of the page");
+           setIsFetching(true);
+           // Show loading spinner and make fetch request to api
+        }
+    }
+    
+    useEffect(()=>{
+        window.addEventListener("scroll", isScrolling);
+        return () => window.removeEventListener("scroll", isScrolling);
+    }, [])
+
+    useEffect(() => {
+        if (isFetching){
+            fetchProducts();
+        }
+    }, [isFetching]);
+
+
+
 
     const [name, setName] = useState("");
+    const [page, setPage] = useState(0);
+    const [finished, setFinished] = useState(false);
+    const [category, set_category] = useState(null)
+    
     const basket = useSelector(state=>state.general_reducer.basket)
     const business = useSelector(state=>state.general_reducer.business)
 
@@ -32,18 +66,41 @@ function ClientProducts({router}) {
         fetchProducts()
     },[])
 
+    useEffect(()=>{
+        fetchProducts()
+    },[category])
+
+
     async function fetchProducts(searchValue) {
-        const queries = { business_id: id }
-        if(searchValue) queries.name= searchValue
+        console.log("fetch more ", finished );
+        if(finished){
+            return;
+        }
+        const queries = { business_id: id, page, limit }
+        if(searchValue) {
+            queries.name = searchValue
+        } else if (name) {
+            queries.name = name
+        }
+        if(category){
+            queries.cat_id = category._id
+        }
+
         try {
             const {data} = await API.get("product", queries);
+            
             dispatch(updateGeneralProps({
                 key: PRODUCTS,
-                value: data
+                value: page === 0 ? data : [ ...products, ...data]
             }));
+            setPage(page+ limit);
+            if(data.length < 10)
+                setFinished(true);
         } catch (error) {
             console.log("error : ", error);
         }
+        setIsFetching(false)
+        setLoading(false);
     }
 
     function onDeleteProduct(delCat) {
@@ -64,24 +121,44 @@ function ClientProducts({router}) {
 
     function onSearchValueChange(event) {
         setName(event.target.value);
+        setPage(0);
+        setFinished(false);
         debounceCallback(event.target.value)
+    }
+
+    function onCatChange(newCat) {
+        setPage(0);
+        setFinished(false);
+        setTimeout(()=>{
+            set_category(newCat);
+        },0);
     }
 
     return(
         <div className={"mainScreen"}>
-            <Header title={business.name} />
+            <Header title={category ? category.name : business.name} />
+            <SelectCategoryModal
+                category={category}
+                set_category={onCatChange}
+            />
             <MainScreen>
                 <SearchInput value={name} onChange={onSearchValueChange} />
                 <div className={"mainItemsContainer"} >
                     {products.map(product=>(
                         <ClientProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
                     ))}
+                    {!finished && <CircularProgress />}
                 </div>
             </MainScreen>
                 {basket.products.length > 0 && <AddButton
                     link={"/basket"}
                     icon={<BasketIcon/>}
                 />}
+
+          <SimpleBackdrop
+            open={loading}
+            setOpen={setLoading}
+          />
         </div>
     )
 }

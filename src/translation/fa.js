@@ -46,7 +46,6 @@ const fa = {
     "buy price": "قیمت خرید",
     "profile": "مشخصات",
     "email": "ایمیل",
-    "address": "آدرس",
     "phone": "تلفن",
     "mobile": "موبایل",
     "sign_url": " تصویر امضاء",
@@ -61,7 +60,8 @@ const fa = {
     "from date": "از تاریخ",
     "to date": "تا تاریخ",
     "Select category": "دسته بندی را انتخاب کنید",
-    "please enter valid mobile": "لطفاً تلفن همراه معتبری وارد کنید"
+    "please enter valid mobile": "لطفاً تلفن همراه معتبری وارد کنید",
+    "root": "دسته اصلی"
 }
 
 export default fa;

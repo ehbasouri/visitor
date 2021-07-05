@@ -11,12 +11,12 @@ import Container from '@material-ui/core/Container';
 import ClientSceneWrapper from '../../../SceneWrapper/ClientSceneWrapper';
 import AuthContext from '../../../App/AuthApi';
 import SimpleBackdrop from '../../../common/SimpleBackdrop';
-import { API } from '../../../service/api';
+import { API, HOST } from '../../../service/api';
 import { handleApiErrors } from '../../../utils/handleApiErrors';
 import {Link} from "react-router-dom";
 import { AlertComponent } from '../../../common/AlertComponent';
 import fa from '../../../translation/fa';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component'; 
 
 function Copyright({link, title}) {
   return (
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+    borderRadius: 0
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -46,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  icon: {
+    width: 60,
+    height: 60,
+    marginBottom: 20
+  }
 }));
 
 function ClientLogin() {
@@ -91,9 +97,13 @@ function ClientLogin() {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-              </Avatar>
+              <LazyLoadImage
+                alt="Contemplative Reptile"
+                height="140"
+                src={HOST + "6621061752611b4ac8a58b4985e71f9e"} 
+                width="100%" 
+                className={classes.icon}
+              />
               <Typography align={"left"} component="h5" variant="h6">
                 {fa["Client login page"]}
               </Typography>

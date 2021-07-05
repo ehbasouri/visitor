@@ -36,6 +36,7 @@ import StoreList from "../component/store/screen/StoreList";
 import AddStore from "../component/store/screen/AddStore";
 import StoreDetail from "../component/store/screen/StoreDetail";
 import ClientProducts from "../clientComponent/products/screen/ClientProducts";
+import NotFound from "../common/NotFound";
 
 
 function BusinessRouter(params) {
@@ -59,6 +60,7 @@ function BusinessRouter(params) {
       <ProtectedLogin path={"/admin/login"} component={Login} />
       <ProtectedLogin path={"/admin/register"} component={Register} />
       <PrivateBusinessRoute path={"/admin"} component={Home} />
+      <Route component={NotFound} />
     </Switch>
   )
 }
@@ -75,6 +77,7 @@ function ClientRouter(params) {
       <ProtectedLogin path={"/login"} component={ClientLogin} />
       <ProtectedLogin path={"/register"} component={ClientRegister} />
       <PrivateClientRoute path={"/"} component={ClientHome} />
+      <Route component={NotFound} />
     </Switch>
   )
 }
