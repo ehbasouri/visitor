@@ -19,7 +19,7 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: [
-      "IranianSans"
+      "Dubai-Bold"
     ].join(','),
   },
 });

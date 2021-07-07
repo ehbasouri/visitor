@@ -2,8 +2,9 @@ import axios from "axios";
 import _ from "lodash";
 import Cookies from "js-cookie";
 
-export const HOST = "https://api.ehsan2.ir/";
-// "http://localhost:5600/"
+export const HOST = 
+// "https://api.ehsan2.ir/";
+"http://localhost:5600/"
 export const BASE_URL = HOST + "api/";
 
 

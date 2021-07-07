@@ -5,7 +5,6 @@ import App from "./App/App" ;
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { swDev } from "./swDev";
-import "./font/IranianSans.ttf";
 
 ReactDOM.render(
   <React.StrictMode>

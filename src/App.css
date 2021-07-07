@@ -1,11 +1,8 @@
 
-@font-face {
-  font-family: 'IranianSans';
-  src: local('IranianSans'), url(./font/IranianSans.ttf) format('truetype');
-}
 
-.fontTest {
-  font-family: IranianSans;
+@font-face {
+  font-family: 'Dubai-Bold';
+  src: local('Dubai-Bold'), url(./font/Dubai-Bold.otf) format('truetype');
 }
 
 .App {

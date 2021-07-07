@@ -18,6 +18,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import fa from "../../../translation/fa";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +69,7 @@ function AddClient(params) {
                 setLocalImage(HOST + data[0].image)
                 setCount(data[0].count)
                 setDescription(data[0].description)
-                set_category({_id : data[0].cat_id, name: "select Category"})
+                set_category({_id : data[0].cat_id, name: fa["Select category"] })
             }
         } catch (error) {
             console.log("error : ", error);

@@ -85,7 +85,7 @@ function AddClient({history}) {
                 setLocalImage(HOST + data[0].image)
                 setCount(data[0].count)
                 setDescription(data[0].description)
-                set_category({_id : data[0].cat_id, name: "select Category"})
+                set_category({_id : data[0].cat_id, name: fa["Select category"] })
             }
             console.log("data : ", data);
         } catch (error) {
