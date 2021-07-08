@@ -22,6 +22,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import { useDispatch } from "react-redux";
 import { updateGeneralProps } from '../../../redux/actions';
 import { RESET_GENERAL_PROPS } from '../../../consts';
+import ShowChartIcon from '@material-ui/icons/ShowChart';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -85,6 +86,14 @@ function Settings() {
                   <StoreIcon />
               </ListItemIcon>
               <ListItemText className={classes.text} primary={fa["store"]} />
+              </ListItem>
+          </Link>
+          <Link to={"analytics"} style={{color: "#222"}}>
+              <ListItem button>
+              <ListItemIcon>
+                  <ShowChartIcon />
+              </ListItemIcon>
+              <ListItemText className={classes.text} primary={fa["analytics"]} />
               </ListItem>
           </Link>
         </List>

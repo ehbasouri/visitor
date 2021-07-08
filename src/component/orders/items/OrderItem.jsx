@@ -81,7 +81,7 @@ function OrderItem({order, onDetailsClick}) {
   function getTotalBuyPrice() {
     let totalBuyPrice = 0
     updatedOrder.products.map(product=> totalBuyPrice = totalBuyPrice + (product.buy_price * product.countInBasket))
-    return totalBuyPrice - discount;
+    return totalBuyPrice;
   }
   
   const handleExpandClick = () => {

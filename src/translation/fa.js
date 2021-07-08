@@ -61,7 +61,13 @@ const fa = {
     "to date": "تا تاریخ",
     "Select category": "دسته بندی را انتخاب کنید",
     "please enter valid mobile": "لطفاً تلفن همراه معتبری وارد کنید",
-    "root": "دسته اصلی"
+    "root": "دسته اصلی",
+    "analytics": "آمار",
+    "earned": "سود",
+    "total sale price": "قیمت فروش کل",
+    "sale price": "قیمت فروش ",
+    "total buy price": "قیمت خرید کل",
+    "total earned": "سود کل"
 }
 
 export default fa;

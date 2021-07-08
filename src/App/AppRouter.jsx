@@ -37,6 +37,7 @@ import AddStore from "../component/store/screen/AddStore";
 import StoreDetail from "../component/store/screen/StoreDetail";
 import ClientProducts from "../clientComponent/products/screen/ClientProducts";
 import NotFound from "../common/NotFound";
+import Analytics from "../component/analytics/screen/Analytics";
 
 
 function BusinessRouter(params) {
@@ -57,6 +58,7 @@ function BusinessRouter(params) {
       <PrivateBusinessRoute path={"/admin/userinfo"} component={UserInfo} />
       <PrivateBusinessRoute path={"/admin/updateuserinfo"} component={UpdateUserInfo} />
       <PrivateBusinessRoute path={"/admin/archiveorderdetail/:id"} component={ArchiveOrderDetail} />
+      <PrivateBusinessRoute path={"/admin/analytics"} component={Analytics} />
       <ProtectedLogin path={"/admin/login"} component={Login} />
       <ProtectedLogin path={"/admin/register"} component={Register} />
       <PrivateBusinessRoute path={"/admin"} component={Home} />
