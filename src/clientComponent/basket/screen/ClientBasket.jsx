@@ -15,6 +15,9 @@ import { useDispatch } from "react-redux"
 import { updateGeneralProps } from "../../../redux/actions";
 import { BASKET } from "../../../consts";
 import initialState from "../../../redux/reducer/initialState.json"
+import ArchiveOrderItem from "../../../component/orders/items/ArchiveOrderItem";
+import converEnglishNumToPersian from "../../../utils/EnglishNumToPersianNum";
+import numberWithCommas from "../../../utils/commaSeperator";
 
 
 function ClientBasket() {
@@ -25,6 +28,8 @@ function ClientBasket() {
     const basket = useSelector(state=>state.general_reducer.basket)
     const user_info = useSelector(state=>state.general_reducer.user_info)
     const business = useSelector(state=>state.general_reducer.business)
+    const cbrs = useSelector(state=>state.general_reducer.cbrs)
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -55,6 +60,12 @@ function ClientBasket() {
         setLoading(false)
     }
 
+    function getTotalPrice() {
+        let totalPrice = 0
+        basket.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
+        return totalPrice 
+    }
+
     return(
         <div className={"mainScreen"}>
             <Header/>
@@ -62,6 +73,10 @@ function ClientBasket() {
                 {basket.products.map(product=>(
                     <BasketItem key={product._id} product={product} />
                 ))}
+                {cbrs[business._id] && cbrs[business._id].show_price &&<ArchiveOrderItem
+                    title={fa["total price"]}
+                    value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]  }
+                />}
                 <TextField
                   id="filled-multiline-flexible"
                   multiline

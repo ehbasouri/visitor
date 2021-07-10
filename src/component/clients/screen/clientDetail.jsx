@@ -16,6 +16,7 @@ import { ClientUserInfoItem } from "../../userInfo/items/ClientUserInfoItem";
 import {useParams} from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
+import UserDrawer from "../items/UserDrawer";
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -56,7 +57,9 @@ function ClientDetail(params) {
 
     return(
         <div className={"mainScreen"}>
-            <Header/>
+            <Header
+                leftComponent={<UserDrawer id={id} />}
+            />
             <div className={"mainContainer"} >
                 <MainScreen>
                     <CardMedia

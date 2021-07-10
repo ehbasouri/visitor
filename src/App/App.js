@@ -11,6 +11,7 @@ import reducers from "../redux/reducer";
 export default function App() {
   
   const [auth, setAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
     readCookies();
@@ -19,6 +20,7 @@ export default function App() {
   function readCookies() {
     const user = Cookies.get("token"); 
     if(user) setAuth(true);
+    setLoading(false);
   }
 
   function signIn(data) {
@@ -33,6 +35,7 @@ export default function App() {
   }
 
   return (
+      loading ? null :
       <Provider store={createStore(reducers, {})} >
         <AuthContext.Provider value={{auth, signIn, signOut}} >
           <AppRouter/>

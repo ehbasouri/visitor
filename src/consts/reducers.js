@@ -8,4 +8,4 @@ export const PRODUCTS = "products";
 export const FROM_DATE = "fromDate";
 export const TO_DATE = "toDate";
 export const BUSINESS_LIST = "business_list";
-
+export const CBRS = "cbrs"

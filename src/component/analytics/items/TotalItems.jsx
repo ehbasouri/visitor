@@ -12,7 +12,9 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'center',
       justifyContent: "center",
       border: "1px solid #aaa",
-      borderRadius: "8px"
+      borderRadius: "8px",
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2)
     }
   }));
 
@@ -22,7 +24,7 @@ export function TotalItems({title, subTitle}) {
 
     return(
         <div className={classes.paper}>
-            <Typography variant="body2" color="textSecondary" align="center">
+            <Typography variant="body2" align="center">
                 {title}
             </Typography>
 

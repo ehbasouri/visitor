@@ -13,7 +13,7 @@ import BasketIcon from "../../../common/BasketIcon";
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
-import { PRODUCTS } from "../../../consts";
+import { CBRS, PRODUCTS } from "../../../consts";
 import {useParams} from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SelectCategoryModal from "../items/SelectCategoryModal";
@@ -27,6 +27,7 @@ function ClientProducts({router}) {
 
     const [isFetching, setIsFetching] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [fetchingCbr, setFetchingCbr] = useState(true);
 
     const isScrolling =()=>{
         if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 / 4)) {
@@ -47,36 +48,57 @@ function ClientProducts({router}) {
         }
     }, [isFetching]);
 
-
-
-
     const [name, setName] = useState("");
     const [page, setPage] = useState(0);
     const [finished, setFinished] = useState(false);
-    const [category, set_category] = useState(null)
+    const [category, set_category] = useState(null);
     
     const basket = useSelector(state=>state.general_reducer.basket)
     const business = useSelector(state=>state.general_reducer.business)
+    const user_info = useSelector(state=>state.general_reducer.user_info)
+    const cbrs = useSelector(state=>state.general_reducer.cbrs)
 
+    console.log("cbrs : ", cbrs);
 
     const products = useSelector(state=>state.general_reducer.products)
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        fetchProducts()
+        fetchCbr();
     },[])
 
     useEffect(()=>{
         fetchProducts()
-    },[category])
+    },[fetchingCbr])
+
+    useEffect(()=>{
+        fetchProducts()
+    },[category, fetchingCbr])
+
+    async function fetchCbr() {
+        setFetchingCbr(true);
+        try {
+            const {data} = await API.get("cbr",{client_id: user_info._id, business_id: id })
+            if(data.length > 0){
+                dispatch(updateGeneralProps({
+                    key: CBRS,
+                    value: {...cbrs, [data[0].business_id] : data[0] }
+                }))
+            }
+        } catch (error) {
+            console.log("error : ", error);
+        }
+        setFetchingCbr(false)
+    }
 
 
     async function fetchProducts(searchValue) {
+        if(fetchingCbr) return;
         console.log("fetch more ", finished );
         if(finished){
             return;
         }
-        const queries = { business_id: id, page, limit }
+        const queries = { business_id: id, page, limit  }
         if(searchValue) {
             queries.name = searchValue
         } else if (name) {
@@ -84,6 +106,12 @@ function ClientProducts({router}) {
         }
         if(category){
             queries.cat_id = category._id
+        }
+
+        if(!cbrs[id]){
+            queries.is_private = false
+        } else if(!cbrs[id].show_private_products) {
+            queries.is_private = cbrs[id].show_private_products 
         }
 
         try {
@@ -135,6 +163,7 @@ function ClientProducts({router}) {
     }
 
     return(
+        fetchingCbr ? null :
         <div className={"mainScreen"}>
             <Header title={category ? category.name : business.name} />
             <SelectCategoryModal

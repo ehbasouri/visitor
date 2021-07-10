@@ -6,6 +6,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { HOST } from '../../../service/api';
 import { AddProductToBasketButton } from '../../../common/AddProductToBasketButton';
+import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
+import numberWithCommas from '../../../utils/commaSeperator';
+import fa from '../../../translation/fa';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BasketItem({product}) {
   const classes = useStyles();
-  const theme = useTheme();
+
+  const business = useSelector(state=>state.general_reducer.business)
+  const cbrs = useSelector(state=>state.general_reducer.cbrs)
 
   return (
     <Card className={classes.root}>
@@ -49,6 +55,9 @@ export default function BasketItem({product}) {
           <Typography align={"left"} variant="subtitle1" color="textSecondary">
             {product.description}
           </Typography>
+          {cbrs[business._id] && cbrs[business._id].show_price && <Typography align={"left"} variant="body2" color="textSecondary" component="p">
+            {converEnglishNumToPersian(numberWithCommas(product.price * product.countInBasket))} {fa["toman"]}
+          </Typography>}
         </CardContent>
         <AddProductToBasketButton product={product} />
       </div>

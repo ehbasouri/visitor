@@ -67,7 +67,10 @@ const fa = {
     "total sale price": "قیمت فروش کل",
     "sale price": "قیمت فروش ",
     "total buy price": "قیمت خرید کل",
-    "total earned": "سود کل"
+    "total earned": "سود کل",
+    "show price": "نمایش قیمت",
+    "show private products": "نمایش محصولات خاص",
+    "private products": "محصولات خاص"
 }
 
 export default fa;

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from '@ant-design/charts';
+import fa from '../../../translation/fa';
 
 const LineChart = ({
     data
 }) => {
+
+  console.log("line chart  : ", data);
   
   var config = {
     data: data,
@@ -21,11 +24,11 @@ const LineChart = ({
     seriesField: 'name',
     color: function color(_ref) {
       var type = _ref.name;
-      return type === 'price' ? '#F4664A' : type === 'earned' ? '#30BF78' : '#FAAD14';
+      return type === fa["buy price"] ? '#F4664A' : type === fa["earned"] ? '#30BF78' : '#FAAD14';
     },
-    lineStyle: function lineStyle(_ref2) {
-      var type = _ref2.type;
-      if (type === 'price') {
+    lineStyle: function lineStyle(_ref2) { 
+      var type = _ref2.name;
+      if (type === fa["buy price"]) {
         return {
           lineDash: [4, 4],
           opacity: 1,

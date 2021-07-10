@@ -18,6 +18,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { BASKET } from '../../../consts';
+import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
+import numberWithCommas from '../../../utils/commaSeperator';
 
 const useStyles = makeStyles({
   root: {
@@ -31,10 +33,12 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ClientProductItem({product, onDeleteProduct}) {
+export default function ClientProductItem({product, onDeleteProduct, show_price}) {
   const classes = useStyles();
   const [showDelModal, setShowDelModal] = useState(false);
   const basket = useSelector(state=>state.general_reducer.basket)
+  const business = useSelector(state=>state.general_reducer.business)
+  const cbrs = useSelector(state=>state.general_reducer.cbrs)
 
   const dispatch = useDispatch();
 
@@ -68,6 +72,11 @@ export default function ClientProductItem({product, onDeleteProduct}) {
           <Typography align={"left"} variant="body2" color="textSecondary" component="p">
             {product.description}
           </Typography>
+
+          {cbrs[business._id] && cbrs[business._id].show_price && <Typography align={"left"} variant="body2" color="textSecondary" component="p">
+            {converEnglishNumToPersian(numberWithCommas(product.price))} {fa["toman"]}
+          </Typography>}
+
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.cardAction} >

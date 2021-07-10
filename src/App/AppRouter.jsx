@@ -38,6 +38,8 @@ import StoreDetail from "../component/store/screen/StoreDetail";
 import ClientProducts from "../clientComponent/products/screen/ClientProducts";
 import NotFound from "../common/NotFound";
 import Analytics from "../component/analytics/screen/Analytics";
+import { useState } from "react";
+import SettingClient from "../component/clients/screen/SettingClient";
 
 
 function BusinessRouter(params) {
@@ -45,6 +47,7 @@ function BusinessRouter(params) {
     <Switch>
       <PrivateBusinessRoute path={"/admin/storedetail/:id"} component={StoreDetail} />
       <PrivateBusinessRoute path={"/admin/clientdetail/:id"} component={ClientDetail} />
+      <PrivateBusinessRoute path="/admin/settingclient/:id" children={<SettingClient />} />
       <PrivateBusinessRoute path={"/admin/stores"} component={StoreList} />
       <PrivateBusinessRoute path={"/admin/addstore"} component={AddStore} />
       <PrivateBusinessRoute path={"/admin/updateStore/:storeName/:id"} component={AddStore} />
@@ -68,7 +71,7 @@ function BusinessRouter(params) {
 }
 
 
-function ClientRouter(params) {
+function ClientRouter() {
   return(
     <Switch>
       <PrivateClientRoute path={"/basket"} component={ClientBasket} />
@@ -85,11 +88,18 @@ function ClientRouter(params) {
 }
 
 export const PrivateClientRoute = ({ component: Component, ...rest }) => {
+  
   const Auth = useContext(AuthContext);
+  let user_info = {}
+  if (Auth) {
+    const user = Cookies.get("token"); 
+    user_info = parseJwt(user);
+  }
     return(
         <Route {...rest} render={(props) => (
           Auth.auth
-              ? <Component {...props} />
+              ? (user_info.role === "admin" ? <Redirect to={"/admin/orders/active"} /> : <Component {...props} />  )
+
               : <Redirect to={"/login"} />
           )} />
     );
@@ -128,6 +138,8 @@ function AppRouter() {
 
   const Auth = useContext(AuthContext);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(()=>{
     getUserInfoToken()
@@ -144,9 +156,11 @@ function AppRouter() {
     } catch (error) {
       console.log("error : ", error);
     }
+    setLoading(false)
   }
 
   return (
+    loading ? null :
     <Router>
         <Switch>
           <Route path={"/admin"} component={BusinessRouter} />

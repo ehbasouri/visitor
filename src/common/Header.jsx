@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  toolbar: {
+    justifyContent: "space-between"
+  }
 }));
 
 export function Header({
@@ -28,15 +31,19 @@ export function Header({
   return (
     <div className={classes.root}>
       <AppBar position="fixed" >
-        <Toolbar variant="dense">
-          {rightComponent}
-          {backEnabled && <IconButton onClick={() => history.goBack()} edge="center" className={classes.menuButton} color="inherit" >
-            <ArrowForwardIcon />
-          </IconButton>}
+        <Toolbar className={classes.toolbar} variant="dense">
+          <div>
+            {rightComponent}
+            {backEnabled && <IconButton onClick={() => history.goBack()} edge="center" className={classes.menuButton} color="inherit" >
+              <ArrowForwardIcon />
+            </IconButton>}
+          </div>
           <Typography variant="h6" color="inherit">
             {title}
           </Typography>
-          {leftComponent}
+          <div>
+            {leftComponent}
+          </div>
         </Toolbar>
       </AppBar>
     </div>

@@ -49,6 +49,7 @@ function StoreDetail(params) {
             {<MainScreen>
                 {products.map(product=>(
                     <ProductStoreItem
+                        key={product._id}
                         title={product.name}
                         value={converEnglishNumToPersian(numberWithCommas(product.count))}
                         image={product.image}

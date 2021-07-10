@@ -35,6 +35,14 @@ function ClientHome({history}) {
         }
     },[user_info])
 
+    useEffect(()=>{
+        console.log("history : ", history.location.pathname);
+        if(history.location.pathname === "/"){
+            console.log("goto business")
+            history.push("/business")
+        }
+    },[history.location.pathname])
+
     return(
         <div>
             <ClientHomeRouter/>

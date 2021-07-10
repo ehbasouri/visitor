@@ -13,5 +13,6 @@
     "products": [],
     "fromDate": null,
     "toDate": null,
-    "business_list": []
+    "business_list": [],
+    "cbrs": {}
 }

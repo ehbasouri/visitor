@@ -46,7 +46,6 @@ function Analytics() {
             const {data} = await API.get("analytics",{
                 fromDate, toDate
             });
-            console.log("data : ", data);
             const computedData = normalizedAnalyticsData(data);
             setAnalyticsData(computedData);
         } catch (error) {
@@ -72,22 +71,23 @@ function Analytics() {
 
                     <TotalItems 
                         title={fa["total sale price"]} 
-                        subTitle={converEnglishNumToPersian(numberWithCommas(analyticsData.total_price))}
+                        subTitle={converEnglishNumToPersian(numberWithCommas(analyticsData.total_price)) + " " + fa["toman"]}
                     />
                     <TotalItems 
                         title={fa["total buy price"]} 
-                        subTitle={converEnglishNumToPersian(numberWithCommas(analyticsData.total_buy_price))}
+                        subTitle={converEnglishNumToPersian(numberWithCommas(analyticsData.total_buy_price)) + " " + fa["toman"]}
                     />
                     <TotalItems 
                         title={fa["total earned"]} 
-                        subTitle={converEnglishNumToPersian(numberWithCommas(analyticsData.total_earned))}
+                        subTitle={converEnglishNumToPersian(numberWithCommas(analyticsData.total_earned)) + " " + fa["toman"] }
                     />
                     <div className={classes.chartContainer} >
                         {
-                            analyticsData.data.lenght > 5 ?
+                            analyticsData.data.length > 9 ?
                             <LineChart
                                 data={analyticsData.data}
-                            />:
+                            />
+                            :
                             <ColumnChart
                                 data={analyticsData.data}
                             />

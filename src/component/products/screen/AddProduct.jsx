@@ -20,7 +20,8 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import MainScreen from "../../../common/MainScreen";
 import fa from "../../../translation/fa";
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -33,8 +34,14 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         backgroundColor: "#C1C1C1"
+    },
+    container: {
+        display: "flex",
+        alignItems: "flex-start",
+        flexDirection: "column",
+        marginBottom: theme.spacing(3)   
     }
-  }));
+}));
 
 function AddClient({history}) {
     
@@ -51,7 +58,8 @@ function AddClient({history}) {
     const [image, setImage] = useState(null);
     const [localImage, setLocalImage] = useState(null);
     const [severity, setSeverity] = useState("error");
-
+    const [is_private, set_is_private] = useState(false);
+    
     const [showAlert, setShowAlert] = useState(false);
     const [message, setMessage] = useState("");
     const classes = useStyles();
@@ -85,9 +93,9 @@ function AddClient({history}) {
                 setLocalImage(HOST + data[0].image)
                 setCount(data[0].count)
                 setDescription(data[0].description)
+                set_is_private(data[0].is_private)
                 set_category({_id : data[0].cat_id, name: fa["Select category"] })
             }
-            console.log("data : ", data);
         } catch (error) {
             console.log("error : ", error);
         }     
@@ -121,7 +129,8 @@ function AddClient({history}) {
             cat_id: category._id,
             store_id,
             count,
-            description
+            description,
+            is_private
         }
         try {
 
@@ -159,6 +168,7 @@ function AddClient({history}) {
             store_id,
             count,
             description,
+            is_private
         }
         try {
 
@@ -194,6 +204,10 @@ function AddClient({history}) {
         } else {
             onSubmit()
         }
+    }
+
+    function handleChange(e) {
+        set_is_private(e.target.checked)
     }
 
     return(
@@ -279,6 +293,18 @@ function AddClient({history}) {
                         value={description}
                         defaultValue={description}
                     />
+                    <div className={classes.container} >
+                        <FormControlLabel
+                            control={
+                            <Switch
+                                checked={is_private}
+                                onChange={handleChange}
+                                color="primary"
+                            />
+                            }
+                            label={fa["private products"]}
+                        />
+                    </div>
                     <Button
                         type="submit"
                         fullWidth
