@@ -6,8 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { swDev } from "./swDev";
 
-import TestChart from "./component/analytics/screen/TestChart";
-
 ReactDOM.render(
   <React.StrictMode>
     <App />
