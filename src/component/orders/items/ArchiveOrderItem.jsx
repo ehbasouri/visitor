@@ -10,9 +10,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+    marginBottom: theme.spacing(2),
+    alignItems: "center",
   },
   count: {
-      color: "#2e7d32"
+      color: "#2e7d32",
   },
   large: {
     width: theme.spacing(7),
@@ -29,10 +31,10 @@ export default function ArchiveOrderItem({title, value}) {
   return (
     <List dense className={classes.root}>
           <ListItem button>
-            <ListItemText primary={title} />
+            <ListItemText id={"text-to-print"} disableTypography primary={title} />
 
             <ListItemSecondaryAction>
-                <ListItemText className={classes.count} primary={value } />
+                <ListItemText id={"text-to-print"} disableTypography className={classes.count} primary={value } />
             </ListItemSecondaryAction>
           </ListItem>
           <Divider className={classes.divider} />

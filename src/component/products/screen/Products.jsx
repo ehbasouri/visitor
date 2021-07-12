@@ -31,13 +31,7 @@ function Products() {
            // Show loading spinner and make fetch request to api
         }
     }
-    // {
-    //     if(window.innerHeight + document.documentElement.scrollTop!==document.documentElement.offsetHeight){
-    //     return;
-    //     }
-    //     setIsFetching(true)
-    // }
-    
+
     useEffect(()=>{
         window.addEventListener("scroll", isScrolling);
         return () => window.removeEventListener("scroll", isScrolling);
@@ -65,14 +59,14 @@ function Products() {
         fetchProducts()
     },[category])
 
-    async function fetchProducts(searchValue) { 
-        if(finished){
+    async function fetchProducts(searchValue, reload) { 
+        if(finished && !reload){
             return;
         }
-        const queries = { page, limit }
+        const queries = { page: reload ? 0 : page, limit }
         if(searchValue) {
             queries.name = searchValue
-        } else if (name) {
+        } else if (name && !reload) {
             queries.name = name
         }
         if(category){
@@ -108,9 +102,9 @@ function Products() {
 
     const debounceCallback = useCallback(
         debounce((value) => {
-            fetchProducts(value)
+            fetchProducts(value, true)
         }, 500),
-        []
+        [category]
     );
 
     function onSearchValueChange(event) {

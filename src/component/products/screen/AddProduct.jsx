@@ -225,7 +225,8 @@ function AddClient({history}) {
                         <CardMedia
                             component="img"
                             alt="Contemplative Reptile"
-                            height="140"
+                            width="100%"
+                            height={null}
                             image={localImage}
                             title="Contemplative Reptile"
                             className={classes.image}

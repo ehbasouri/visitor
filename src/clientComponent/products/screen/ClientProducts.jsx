@@ -31,7 +31,6 @@ function ClientProducts({router}) {
 
     const isScrolling =()=>{
         if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 / 4)) {
-           console.log("you're at the bottom of the page");
            setIsFetching(true);
            // Show loading spinner and make fetch request to api
         }
@@ -57,8 +56,6 @@ function ClientProducts({router}) {
     const business = useSelector(state=>state.general_reducer.business)
     const user_info = useSelector(state=>state.general_reducer.user_info)
     const cbrs = useSelector(state=>state.general_reducer.cbrs)
-
-    console.log("cbrs : ", cbrs);
 
     const products = useSelector(state=>state.general_reducer.products)
     const dispatch = useDispatch()
@@ -92,16 +89,15 @@ function ClientProducts({router}) {
     }
 
 
-    async function fetchProducts(searchValue) {
-        if(fetchingCbr) return;
-        console.log("fetch more ", finished );
-        if(finished){
+    async function fetchProducts(searchValue, reload) {
+        if(fetchingCbr && !reload) return;
+        if(finished && !reload){
             return;
         }
-        const queries = { business_id: id, page, limit  }
+        const queries = { business_id: id, page : reload ? 0 : page , limit  }
         if(searchValue) {
             queries.name = searchValue
-        } else if (name) {
+        } else if (name && !reload) {
             queries.name = name
         }
         if(category){
@@ -113,6 +109,8 @@ function ClientProducts({router}) {
         } else if(!cbrs[id].show_private_products) {
             queries.is_private = cbrs[id].show_private_products 
         }
+
+        console.log("queries : ", queries);
 
         try {
             const {data} = await API.get("product", queries);
@@ -142,9 +140,9 @@ function ClientProducts({router}) {
 
     const debounceCallback = useCallback(
         debounce((value) => {
-            fetchProducts(value)
+            fetchProducts(value, true)
         }, 500),
-        []
+        [category]
     );
 
     function onSearchValueChange(event) {

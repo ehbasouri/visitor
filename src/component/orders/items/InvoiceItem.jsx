@@ -17,8 +17,9 @@ import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    // maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+  },
+  container: {
+    paddingBottom: theme.spacing(3),
   },
   count: {
       color: "#bf360c"
@@ -43,31 +44,33 @@ const useStyles = makeStyles((theme) => ({
 export default function InvoiceIrem({product}) {
   const classes = useStyles();
   return (
-    <List dense className={classes.root}>
-          <ListItem button>
-            <ListItemText primary={product.name} />
+    <div >
+      <List dense className={classes.root}>
+            <ListItem className={classes.container} button>
+              <ListItemText id={"text-to-print"} disableTypography primary={product.name} />
 
-            <ListItemSecondaryAction>
-                <ListItemText className={classes.count} primary={converEnglishNumToPersian(product.countInBasket) + " " + fa["number"]  } />
-            </ListItemSecondaryAction>
-          </ListItem>
-          <Divider/>
-          <ListItem button>
-            <ListItemText className={classes.title} primary={fa["Unit price"]} />
+              <ListItemSecondaryAction>
+                  <ListItemText id={"text-to-print"} disableTypography className={classes.count} primary={converEnglishNumToPersian(product.countInBasket) + " " + fa["number"]  } />
+              </ListItemSecondaryAction>
+            </ListItem>
+            <Divider/>
+            <ListItem className={classes.container} button>
+              <ListItemText id={"text-to-print"} disableTypography className={classes.title} primary={fa["Unit price"]} />
 
-            <ListItemSecondaryAction>
-                <ListItemText className={classes.price} primary={converEnglishNumToPersian(numberWithCommas(product.price)) + " " + fa["toman"] } />
-            </ListItemSecondaryAction>
-          </ListItem>
-          <Divider/>
-          <ListItem button>
-            <ListItemText className={classes.title} primary={fa["price"]} />
+              <ListItemSecondaryAction>
+                  <ListItemText id={"text-to-print"} disableTypography className={classes.price} primary={converEnglishNumToPersian(numberWithCommas(product.price)) + " " + fa["toman"] } />
+              </ListItemSecondaryAction>
+            </ListItem>
+            <Divider/>
+            <ListItem className={classes.container} button>
+              <ListItemText id={"text-to-print"} disableTypography className={classes.title} primary={fa["price"]} />
 
-            <ListItemSecondaryAction>
-                <ListItemText className={classes.price} primary={ converEnglishNumToPersian(numberWithCommas(product.countInBasket * product.price)) + " " + fa["toman"] } />
-            </ListItemSecondaryAction>
-          </ListItem>
-          <Divider className={classes.divider} />
-    </List>
+              <ListItemSecondaryAction>
+                  <ListItemText id={"text-to-print"} disableTypography className={classes.price} primary={ converEnglishNumToPersian(numberWithCommas(product.countInBasket * product.price)) + " " + fa["toman"] } />
+              </ListItemSecondaryAction>
+            </ListItem>
+            <Divider className={classes.divider} />
+      </List>
+    </div>
   );
 }

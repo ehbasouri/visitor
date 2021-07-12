@@ -61,7 +61,7 @@ export default function ClientProductItem({product, onDeleteProduct, show_price}
       <CardActionArea>
         <LazyLoadImage
           alt="Contemplative Reptile"
-          height="140"
+          height={null}
           src={HOST + product.image} 
           width="100%" 
           />

@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
   details: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   content: {
-    flex: '1 0 auto',
+    flex: '1 0 auto'
   },
   cover: {
-    width: 151,
+    width: 151
   },
   controls: {
     display: 'flex',

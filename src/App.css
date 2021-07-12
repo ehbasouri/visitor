@@ -5,6 +5,12 @@
   src: local('Dubai-Bold'), url(./font/Dubai-Bold.otf) format('truetype');
 }
 
+#text-to-print {
+  font-size: 28px ;
+  color: #000;
+  font-family: Dubai-Bold;
+}
+
 .App {
   text-align: center;
 }

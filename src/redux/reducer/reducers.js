@@ -2,17 +2,19 @@ import { UPDATE_GENERAL_PROPS, RESET_GENERAL_PROPS } from "../../consts";
 import initialState from "./initialState.json"
 
 
-const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
-yesterday.setHours(0,0,0,0);
-
-
 const today = new Date();
+today.setHours(0,0,0,0);
+
+
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+tomorrow.setHours(0,0,0,0);
+
 
 const INITIAL_STATE = {
     ...initialState,
-    fromDate: yesterday,
-    toDate: today
+    fromDate: today,
+    toDate: tomorrow
 }
 
 export const general_reducer = (state = INITIAL_STATE, action) => {

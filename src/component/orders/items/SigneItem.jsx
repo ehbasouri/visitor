@@ -31,21 +31,21 @@ export default function SignItem({date}) {
   const user_info = useSelector(state=>state.general_reducer.user_info)
 
   return (
-    <Card className={classes.root}>
+    <div className={classes.root}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
           image={HOST + user_info.sign_url}
         />
         <CardContent>
-          <Typography align={"left"} gutterBottom variant="h5" component="h2">
+          <Typography align={"left"} gutterBottom variant="h4" component="h2">
             {fa["date"]}
           </Typography>
-          <Typography align={"left"} variant="body2" color="textSecondary" component="p">
+          <Typography align={"left"} variant="h5" component="p">
             {converEnglishNumToPersian(moment(date).format('YYYY/MM/DD  hh:mm  a'))}
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </div>
   );
 }

@@ -18,6 +18,14 @@ import {TotalItems} from "../items/TotalItems";
 import numberWithCommas from '../../../utils/commaSeperator';
 import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 
+
+const today = new Date();
+today.setHours(0,0,0,0);
+
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+tomorrow.setHours(0,0,0,0);
+
 const useStyles = makeStyles((theme) => ({
     chartContainer: {
         marginTop: theme.spacing(8)
@@ -34,8 +42,9 @@ function Analytics() {
         total_buy_price: 0,
         total_earned: 0
     })
-    const [fromDate, setFromDate] = useState(null)
-    const [toDate, setToDate] = useState(null)
+
+    const [fromDate, setFromDate] = useState(today)
+    const [toDate, setToDate] = useState(tomorrow)
 
     useEffect(()=>{
         fetchAnalytics();

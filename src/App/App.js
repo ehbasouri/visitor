@@ -7,6 +7,7 @@ import { refreshToken } from "../service/api";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducers from "../redux/reducer";
+import { firebaseAnalytics } from "../service/firebase";
 
 export default function App() {
   
@@ -15,6 +16,7 @@ export default function App() {
 
   useEffect(()=>{
     readCookies();
+    firebaseAnalytics.logEvent("app_is_started");
   },[]);
 
   function readCookies() {

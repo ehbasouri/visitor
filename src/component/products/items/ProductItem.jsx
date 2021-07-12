@@ -23,6 +23,9 @@ const useStyles = makeStyles({
     maxWidth: 345,
     width: "100%"
   },
+  image: {
+    // resize: 
+  }
 });
 
 export default function ProductItem({product, onDeleteProduct}) {
@@ -35,9 +38,9 @@ export default function ProductItem({product, onDeleteProduct}) {
       <CardActionArea>
         <LazyLoadImage
           alt="Contemplative Reptile"
-          height="140"
+          height={null}
           src={HOST + product.image} 
-          width="100%" 
+          width="100%"
           />
         <CardContent>
           <Typography align={"left"} gutterBottom variant="h5" component="h2">
