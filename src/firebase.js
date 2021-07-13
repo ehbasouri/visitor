@@ -15,4 +15,5 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const firebaseAnalytics = firebase.analytics()
+export const messaging = firebase.messaging.isSupported() ? firebase.messaging() : null;
 
