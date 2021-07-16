@@ -84,6 +84,10 @@ function ClientOrderItem({order}) {
           {order.products.map(product=>(
             <ClientOrderProductItem key={product._id} product={product} />
           ))}
+
+          {order.gift.map(product=>(
+            <ClientOrderProductItem isGift key={product._id} product={product} />
+          ))}
           {order.comment && <Typography className={classes.description} align={"left"} >
             {fa["description"]} :
           </Typography>}

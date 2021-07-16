@@ -32,6 +32,7 @@ function SelectCategory({
   const [categories, setCategories] = useState([]);
   const [parId, setParId] = useState("1");
   const business = useSelector(state=>state.general_reducer.business)
+  const cbrs = useSelector(state=>state.general_reducer.cbrs)
 
   useEffect(()=>{
     fetchCategories(parId);
@@ -45,6 +46,16 @@ function SelectCategory({
     if(client){
       queries.business_id = business._id
     }
+    
+    if(!cbrs[business._id]){
+
+      queries.is_private = false
+    } else if(!cbrs[business._id].show_private_products) {
+        queries.is_private = cbrs[business._id].show_private_products ;
+    }
+
+    console.log("queries : ", queries);
+
     const url = client ? "category" : "/business/category";
     try {
       const { data } = await API.get(url,queries);

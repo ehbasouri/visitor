@@ -61,9 +61,9 @@ function ClientBasket() {
     }
 
     function getTotalPrice() {
-        let totalPrice = 0
-        basket.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
-        return totalPrice 
+        let totalPrice = 0;
+        basket.products.map(product=> totalPrice = totalPrice + (product.unit_price * product.unitCountInBasket) + (product.price * product.countInBasket));
+        return totalPrice;
     }
 
     return(

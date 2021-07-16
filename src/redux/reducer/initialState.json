@@ -14,5 +14,6 @@
     "fromDate": null,
     "toDate": null,
     "business_list": [],
-    "cbrs": {}
+    "cbrs": {},
+    "packages": []
 }

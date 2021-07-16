@@ -26,6 +26,7 @@ import ProductListToAdd from '../screen/ProductListToAdd';
 import { useRef } from 'react';
 import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 import numberWithCommas from '../../../utils/commaSeperator';
+import OrderGiftItem from "./OrderGiftItem"
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 function OrderItem({order, onDetailsClick}) {
 
+
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [discount, setDiscount] = React.useState(0);
@@ -71,17 +73,19 @@ function OrderItem({order, onDetailsClick}) {
   const [loading, setLoading] = React.useState(false);
 
   const productListRef = useRef(null);
+  const giftListRef = useRef(null);
 
   function getTotalPrice() {
     let totalPrice = 0
-    updatedOrder.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
-    return totalPrice - discount;
+    updatedOrder.products.map(product=> totalPrice = totalPrice + (product.unit_price * product.unitCountInBasket) + (product.price * product.countInBasket))
+    return Number(totalPrice - discount);
   }
 
   function getTotalBuyPrice() {
     let totalBuyPrice = 0
-    updatedOrder.products.map(product=> totalBuyPrice = totalBuyPrice + (product.buy_price * product.countInBasket))
-    return totalBuyPrice;
+    updatedOrder.products.map(product=> totalBuyPrice = totalBuyPrice  + ((product.buy_price / product.count_in_box) * product.unitCountInBasket) + (product.buy_price * product.countInBasket))
+    updatedOrder.gift.map(giftItem=> totalBuyPrice = totalBuyPrice  + ((giftItem.buy_price / giftItem.count_in_box) * giftItem.unitCountInBasket) + (giftItem.buy_price * giftItem.countInBasket))
+    return Math.round(Number(totalBuyPrice));
   }
   
   const handleExpandClick = () => {
@@ -99,8 +103,12 @@ function OrderItem({order, onDetailsClick}) {
       price: getTotalPrice(),
       discount,
       status: cancel ? "cancel" : "archive",
-      buy_price: getTotalBuyPrice()
+      buy_price: getTotalBuyPrice(),
+      gift: updatedOrder.gift
     }
+
+    console.log("options : ", options);
+
     try {
       const {data} = await API.put("order", options, {id: order._id})
       onDetailsClick(order._id, cancel);
@@ -113,6 +121,13 @@ function OrderItem({order, onDetailsClick}) {
   function onAddProductPress(newProductList) {
     const rawUpdatedOrder = JSON.parse(JSON.stringify(updatedOrder));
     rawUpdatedOrder.products = newProductList;
+    setUpdatedOrder(rawUpdatedOrder);
+  }
+
+
+  function onAddGiftPress(newGiftList) {
+    const rawUpdatedOrder = JSON.parse(JSON.stringify(updatedOrder));
+    rawUpdatedOrder.gift = newGiftList;
     setUpdatedOrder(rawUpdatedOrder);
   }
 
@@ -159,6 +174,7 @@ function OrderItem({order, onDetailsClick}) {
             {order.comment}
           </Typography>}
           <Divider/>
+
           {updatedOrder.products.map(product=>(
             <OrderProductItem key={product._id} setOrder={setUpdatedOrder} order={updatedOrder} product={product} />
           ))}
@@ -184,6 +200,25 @@ function OrderItem({order, onDetailsClick}) {
               value={discount}
               className={classes.input}
           />
+          <MyModal
+            title={fa["add gift"]}
+            ref={giftListRef}
+            content={
+              <ProductListToAdd
+                onAddPress={onAddGiftPress}
+                closeFnc={()=>giftListRef.current.handleOpen(false)}
+                productList={updatedOrder.gift}
+                isGift
+              />}
+          />
+          <Divider/>
+
+          {updatedOrder.gift.map(element=>(
+            <OrderGiftItem key={element._id} setOrder={setUpdatedOrder} order={updatedOrder} product={element} />
+          ))}
+
+          <Divider/>
+
           <OrderInfoItem
             title={fa["total price"]}
             value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]}

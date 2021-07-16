@@ -23,12 +23,18 @@ const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(7),
     height: theme.spacing(7),
+  },
+  itemContainer: {
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    minHeight: "70px"
   }
 }));
 
 export default function OrderProductItem({product, setOrder, order}) {
   const classes = useStyles();
   const [price, setPrice] = React.useState(product.price);
+  const [unit_price, set_unit_price] = React.useState(product.unit_price);
   
   function onPriceChange(e) {
     setPrice(e.target.value)
@@ -36,6 +42,16 @@ export default function OrderProductItem({product, setOrder, order}) {
     const index = rawProducts.findIndex(item=>item._id === product._id)
     if (index > -1) {
       rawProducts[index].price = Number(e.target.value);
+      setOrder({...order, products: rawProducts})
+    }
+  }
+
+  function onUnitPriceChange(e) {
+    set_unit_price(e.target.value)
+    const rawProducts = JSON.parse(JSON.stringify(order.products));
+    const index = rawProducts.findIndex(item=>item._id === product._id)
+    if (index > -1) {
+      rawProducts[index].unit_price = Number(e.target.value);
       setOrder({...order, products: rawProducts})
     }
   }
@@ -55,34 +71,54 @@ export default function OrderProductItem({product, setOrder, order}) {
   }
 
   function onRemovePress() {
-    if(product.countInBasket === 1){
+    if(product.countInBasket === 1 && product.unitCountInBasket === 0){
       const updatedProducts = order.products.filter(item=>item._id !== product._id)
       setOrder({...order, products : updatedProducts })
-    }else {
+    }else if(product.countInBasket > 0) {
       onAddOrRemovePress(false)
+    }
+  }
+
+
+  function onAddOrRemoveUnitPress(add) {
+    // if(product.countInBasket === product.count && add) return;
+    const updatedProducts = JSON.parse(JSON.stringify(order.products));
+    const index = findIndex();
+    updatedProducts[index].unitCountInBasket = add ? product.unitCountInBasket + 1 : product.unitCountInBasket - 1
+    setOrder({...order, products : updatedProducts })
+  }
+
+  function onRemoveUnitPRess() {
+    if(product.unitCountInBasket === 1 && product.countInBasket === 0 ){
+      const updatedProducts = order.products.filter(item=>item._id !== product._id)
+      setOrder({...order, products : updatedProducts })
+    }else if(product.unitCountInBasket > 0 ) {
+      onAddOrRemoveUnitPress(false)
     }
   }
 
   return (
     <List dense className={classes.root}>
-          <ListItem button>
+          <ListItem button className={classes.itemContainer} >
             <ListItemAvatar>
               <Avatar
-                // className={classes.large}
                 src={ HOST + product.image}
               />
             </ListItemAvatar>
             <ListItemText primary={product.name} />
-
+          </ListItem>
+          <ListItem button className={classes.itemContainer} >
             <ListItemSecondaryAction>
                 <AddOrRemoveItemButton
                   product={product}
                   onAddPress={()=>onAddOrRemovePress(true)}
                   onRemovePress={onRemovePress}
+                  onAddOrRemoveUnitPress={()=>onAddOrRemoveUnitPress(true)}
+                  onRemoveUnitPRess={onRemoveUnitPRess}
                 />
-            </ListItemSecondaryAction>
+            </ListItemSecondaryAction> 
           </ListItem>
-              <TextField
+              { product.countInBasket > 0 && <TextField
                   variant="outlined"
                   margin="normal"
                   required
@@ -92,7 +128,18 @@ export default function OrderProductItem({product, setOrder, order}) {
                   onChange={onPriceChange}
                   defaultValue={product.price}
                   value={price}
-              />
+              />}
+              { product.unitCountInBasket > 0 && <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  type="number"
+                  fullWidth
+                  label={fa["unit_price"]}
+                  onChange={onUnitPriceChange}
+                  defaultValue={product.unit_price}
+                  value={unit_price}
+              />}
     </List>
   );
 }

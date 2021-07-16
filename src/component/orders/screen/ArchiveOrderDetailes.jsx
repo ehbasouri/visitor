@@ -59,25 +59,39 @@ function ArchiveOrderTable(params) {
 
     function getTotalPrice() {
         let totalPrice = 0
-        orderDetails.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
-        return totalPrice - orderDetails.discount;
+        orderDetails.products.map(product => {
+            if((product.unitCountInBasket === undefined)){
+                totalPrice = totalPrice + (product.price * product.countInBasket)
+            }else {
+                totalPrice = totalPrice + (product.unit_price * product.unitCountInBasket)  + (product.price * product.countInBasket)
+            }
+        })
+        return totalPrice - orderDetails.discount; 
     }
+
+    console.log("orderDetails : ", orderDetails);
 
     return(
         !orderDetails ? null :
         <div className={classes.tableContainer} >
             <ArchiveOrderItem
+                cssId={"text-to-print"}
                 title={fa["client"]}
                 value={orderDetails.client.name}
             />
             {orderDetails.products.map((product)=>(
-                <InvoiceIrem key={product._id} product={product} />
+                <InvoiceIrem cssId={"text-to-print"} key={product._id} product={product} />
             ))}
-            <ArchiveOrderItem
+            {orderDetails.gift.map((giftItem)=>(
+                <InvoiceIrem gift cssId={"text-to-print"} key={giftItem._id} product={giftItem} />
+            ))}
+            {orderDetails.discount > 0 && <ArchiveOrderItem
+                cssId={"text-to-print"}
                 title={fa["discount"]}
                 value={converEnglishNumToPersian(numberWithCommas(orderDetails.discount)) + " " + fa["toman"]  }
-            />
+            />}
             <ArchiveOrderItem
+                cssId={"text-to-print"}
                 title={fa["total price"]}
                 value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]  }
             />

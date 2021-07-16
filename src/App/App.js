@@ -3,7 +3,7 @@ import AppRouter from "./AppRouter";
 import AuthContext from "./AuthApi";
 import Cookies from "js-cookie";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { refreshToken } from "../service/api";
+import { API, refreshToken } from "../service/api";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducers from "../redux/reducer";
@@ -17,18 +17,22 @@ export default function App() {
   useEffect(()=>{
     readCookies();
     firebaseAnalytics.logEvent("app_is_started");
-    getFcmToken();
   },[]);
 
   function getFcmToken(params) {
     if(messaging){
       // Get registration token. Initially this makes a network call, once retrieved
       // subsequent calls to getToken will return from cache.
-      messaging.getToken({ vapidKey: 'BKTPkuME7U9KLkMNGJFWl-45Pxx-OErm1oWFLsQ4-lRsNXVsAFbKJUdNahSZNgv_OOYKMq0i00dFt42vTjVlfp0' }).then((currentToken) => {
+      messaging.getToken({ vapidKey: 'BKTPkuME7U9KLkMNGJFWl-45Pxx-OErm1oWFLsQ4-lRsNXVsAFbKJUdNahSZNgv_OOYKMq0i00dFt42vTjVlfp0' }).then( async (currentToken) => {
         if (currentToken) {
-          console.log("fcmToken : ", currentToken);
-          // Send the token to your server and update the UI if necessary
-          // ...
+          Cookies.set("fcm_token", currentToken); 
+          try {
+            const {data} = await API.post("fcm",{fcm_token:currentToken
+              //  "dHGWC95nLDOEuHQD36VSMC:APA91bGWE7jm7fxQVZtS1B5CUWMH2wcQKQdEGlqOsQBZVLGwMNj6aaiEZKBHgH2rXRoCx3BpFt41oZHETmoBpj2k9Qx1juSISDXo1TVgT0rsSxfru4IJKfopyxX6O_3LQsn4hg80BZX9"
+            });
+          } catch (error) {
+            console.error(error);
+          }
         } else {
           // Show permission request UI
           console.log('No registration token available. Request permission to generate one.');
@@ -38,6 +42,18 @@ export default function App() {
         console.log('An error occurred while retrieving token. ', err);
         // ...
       });
+    }
+  }
+
+  async function onRemoveFcmToken (){
+    if(messaging){
+      messaging.deleteToken();
+      const fcm_token = Cookies.get("fcm_token"); 
+      try {
+        const {data} = await API.del("fcm",{fcm_token});
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
@@ -51,11 +67,13 @@ export default function App() {
     Cookies.set("token", data.accessToken);
     refreshToken(data.accessToken);
     setAuth(true);
+    getFcmToken();
   }
 
   function signOut(data) {
     Cookies.remove("token");
     setAuth(false);
+    onRemoveFcmToken()
   }
 
   return (

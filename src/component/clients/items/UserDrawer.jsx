@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { 
@@ -62,7 +62,7 @@ export default function UserDrawer({id}) {
         <Link to={"/admin/settingclient/" + id} style={{color: "#222"}}>
             <ListItem button>
                 <ListItemIcon> 
-                    <InboxIcon />
+                  <SettingsIcon /> 
                 </ListItemIcon>
                 <ListItemText primary={fa["setting"]} />
             </ListItem>

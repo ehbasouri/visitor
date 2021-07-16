@@ -13,6 +13,10 @@ import ArchiveOrderItem from "../../../component/orders/items/ArchiveOrderItem";
 import converEnglishNumToPersian from "../../../utils/EnglishNumToPersianNum";
 import numberWithCommas from "../../../utils/commaSeperator";
 
+import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItem from '@material-ui/core/ListItem';
+
 function ClientArchiveOrderDetailes(params) {
 
     let { id } = useParams();
@@ -27,17 +31,28 @@ function ClientArchiveOrderDetailes(params) {
     async function fetchOrderDetail() {
         try {
             const {data} = await API.get("client/order", {_id: id, client_id : user_info._id});
-            console.log("data : ", data);
             setOrderDetails(data[0]);
         } catch (error) {
             console.log("error : ", error);
         }
     }
 
+    // function getTotalPrice() {
+    //     let totalPrice = 0
+    //     orderDetails.products.map(product=> totalPrice = totalPrice + (product.unit_price * product.unitCountInBasket) + (product.price * product.countInBasket))
+    //     return totalPrice - orderDetails.discount;
+    // }
+
     function getTotalPrice() {
         let totalPrice = 0
-        orderDetails.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
-        return totalPrice - orderDetails.discount;
+        orderDetails.products.map(product => {
+            if((product.unitCountInBasket === undefined)){
+                totalPrice = totalPrice + (product.price * product.countInBasket)
+            }else {
+                totalPrice = totalPrice + (product.unit_price * product.unitCountInBasket)  + (product.price * product.countInBasket)
+            }
+        })
+        return totalPrice - orderDetails.discount; 
     }
 
     return(
@@ -51,10 +66,13 @@ function ClientArchiveOrderDetailes(params) {
                 {orderDetails.products.map((product)=>(
                     <InvoiceIrem key={product._id} product={product} />
                 ))}
-                <ArchiveOrderItem
+                {orderDetails.gift.map((product)=>(
+                    <InvoiceIrem gift key={product._id} product={product} />
+                ))}
+                { orderDetails.discount > 0 && <ArchiveOrderItem
                     title={fa["discount"]}
                     value={converEnglishNumToPersian(numberWithCommas(orderDetails.discount)) + " " + fa["toman"]  }
-                />
+                />}
                 <ArchiveOrderItem
                     title={fa["total price"]}
                     value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]  }

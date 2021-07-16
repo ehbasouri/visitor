@@ -50,10 +50,12 @@ function AddClient({history}) {
     const [loading, setLoading] = useState(id ? true : false);
     const [name, setName] = useState("")
     const [price, setPrice] = useState(0)
+    const [unit_price, set_unit_price] = useState(0) 
     const [buy_price, set_buy_price] = useState(0)
     const [category, set_category] = useState(null)
     const [store_id, set_store_id] = useState(null)
     const [count, setCount] = useState(0)
+    const [count_in_box, set_count_in_box] = useState(0)
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
     const [localImage, setLocalImage] = useState(null);
@@ -86,12 +88,16 @@ function AddClient({history}) {
     async function fetchOrderDetail(params) {
         try {
             const {data} = await API.get("business/product",{_id: id});
+            console.log("data" , data[0])
             if(data.length > 0){
                 setName(data[0].name);
                 setPrice(data[0].price);
+                set_unit_price(data[0].unit_price);
+                
                 set_buy_price(data[0].buy_price);
                 setLocalImage(HOST + data[0].image)
                 setCount(data[0].count)
+                set_count_in_box(data[0].count_in_box)
                 setDescription(data[0].description)
                 set_is_private(data[0].is_private)
                 set_category({_id : data[0].cat_id, name: fa["Select category"] })
@@ -168,7 +174,9 @@ function AddClient({history}) {
             store_id,
             count,
             description,
-            is_private
+            is_private,
+            unit_price,
+            count_in_box
         }
         try {
 
@@ -268,6 +276,17 @@ function AddClient({history}) {
                         required
                         type="number"
                         fullWidth
+                        label={fa["unit_price"]}
+                        onChange={e=>set_unit_price(e.target.value)}
+                        value={unit_price}
+                        defaultValue={unit_price}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        type="number"
+                        fullWidth
                         label={fa["buy price"]}
                         onChange={e=>set_buy_price(e.target.value)}
                         value={buy_price}
@@ -283,6 +302,17 @@ function AddClient({history}) {
                         onChange={e=>setCount(e.target.value)}
                         value={count}
                         defaultValue={count}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        type="number"
+                        fullWidth
+                        label={fa["count_in_box"]}
+                        onChange={e=>set_count_in_box(e.target.value)}
+                        value={count_in_box}
+                        defaultValue={count_in_box}
                     />
                     <TextField
                         variant="outlined"

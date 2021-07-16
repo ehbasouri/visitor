@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import { useSelector } from 'react-redux';
 import numberWithCommas from '../../../utils/commaSeperator';
 import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
+import OrderGiftItem from "../../orders/items/OrderGiftItem"
 
 moment.locale('fa', { useGregorianParser: true });
 
@@ -65,7 +66,8 @@ const newOrder = {
     "products": [],
     "discount": 0,
     "price": 0,
-    "client": {}
+    "client": {},
+    "gift": []
 }
 
 function AddOrderBusiness({history}) {
@@ -78,6 +80,8 @@ function AddOrderBusiness({history}) {
     let { id } = useParams();
 
   const productListRef = useRef(null);
+  const giftListRef = useRef(null);
+  
 
 
     useEffect(()=>{
@@ -99,9 +103,10 @@ function AddOrderBusiness({history}) {
     return totalPrice - discount;
   }
 
-  function getTotalBuyPrice() {
+  function getTotalBuyPrice() { 
     let totalBuyPrice = 0
-    updatedOrder.products.map(product=> totalBuyPrice = totalBuyPrice + (product.buy_price * product.countInBasket))
+    updatedOrder.products.map(product=> totalBuyPrice = totalBuyPrice  + ((product.buy_price / product.count_in_box) * product.unitCountInBasket) + (product.buy_price * product.countInBasket))
+    updatedOrder.gift.map(giftItem=> totalBuyPrice = totalBuyPrice  + ((giftItem.buy_price / giftItem.count_in_box) * giftItem.unitCountInBasket) + (giftItem.buy_price * giftItem.countInBasket))
     return totalBuyPrice - discount;
   }
 
@@ -137,6 +142,12 @@ function AddOrderBusiness({history}) {
     setUpdatedOrder(rawUpdatedOrder);
   }
 
+  function onAddGiftPress(newGiftList) {
+    const rawUpdatedOrder = JSON.parse(JSON.stringify(updatedOrder));
+    rawUpdatedOrder.gift = newGiftList;
+    setUpdatedOrder(rawUpdatedOrder);
+  }
+
   return (
     <div className={"mainScreen"}>
         <Header/>
@@ -166,7 +177,7 @@ function AddOrderBusiness({history}) {
                         productList={updatedOrder.products}
                     />}
                 />
-                <Divider/>
+                
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -178,6 +189,24 @@ function AddOrderBusiness({history}) {
                     value={discount}
                     className={classes.input}
                 />
+
+              <MyModal
+                title={fa["add gift"]}
+                ref={giftListRef}
+                content={
+                  <ProductListToAdd
+                    onAddPress={onAddGiftPress}
+                    closeFnc={()=>giftListRef.current.handleOpen(false)}
+                    productList={updatedOrder.gift}
+                    isGift
+                  />}
+              />
+              <Divider/>
+
+              {updatedOrder.gift.map(element=>(
+                <OrderGiftItem key={element._id} setOrder={setUpdatedOrder} order={updatedOrder} product={element} />
+              ))}
+                <Divider/>
                 <OrderInfoItem
                     title={fa["total price"]}
                     value={converEnglishNumToPersian(numberWithCommas(getTotalPrice()))}

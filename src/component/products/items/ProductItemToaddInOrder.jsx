@@ -12,7 +12,7 @@ import { HOST } from '../../../service/api';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   count: {
       color: "#d84315"
@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductItemToaddInOrder({
   product, 
   productList = [], 
-  setAddedProductList = () => null
+  setAddedProductList = () => null,
+  isGift = false
 }) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState(checkProduct());
@@ -35,7 +36,7 @@ export default function ProductItemToaddInOrder({
   function handleChange(event) {
     setChecked(event.target.checked);
     if(event.target.checked){
-      setAddedProductList([...productList, {...product, countInBasket : 1}])
+      setAddedProductList([...productList, {...product, countInBasket : isGift ? 0 : 1, unitCountInBasket: isGift ? 1 : 0}])
     } else{
       const updatedList = productList.filter((element)=>element._id !== product._id)
       setAddedProductList(updatedList);

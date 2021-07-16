@@ -18,7 +18,7 @@ const fa = {
     "add to basket": "افزودن به سبد",
     "search": "جستجو",
     "comment": "نظر",
-    "submit": "ارسال",
+    "submit": "ثبت",
     "product name": "نام محصول",
     "price": "قیمت",
     "Unit price": "قیمت واحد",
@@ -70,7 +70,15 @@ const fa = {
     "total earned": "سود کل",
     "show price": "نمایش قیمت",
     "show private products": "نمایش محصولات خاص",
-    "private products": "محصولات خاص"
+    "private products": "محصولات خاص",
+    "package": "سبد",
+    "detailes": "جزییات",
+    "box": "باکس",
+    "unit": "تکی",
+    "count_in_box": "تعداد در باکس",
+    "unit_price": "قیمت تکی",
+    "add gift": "افزودن هدیه",
+    "private category": "دسته بندی خاص"
 }
 
 export default fa;

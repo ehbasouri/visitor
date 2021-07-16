@@ -39,6 +39,8 @@ export default function AddCategoryModal({
     const classes = useStyles();
     const [name, setName] = React.useState(category ? category.name : "");
     const [edge, setEdge] = React.useState(category ? category.edge : false);
+    const [is_private, set_is_private] = React.useState(category ? category.is_private : false);
+    
     const [loading, setLoading] = React.useState(false);
 
     const handleClose = () => {
@@ -52,7 +54,7 @@ export default function AddCategoryModal({
     async function updateCategoryItem(params) {
         setLoading(true);
         try {
-            const {data} = await API.put("business/category", {name, edge},{catId: category._id});
+            const {data} = await API.put("business/category", {name, edge, is_private},{catId: category._id});
             updateCategories({...data, name, edge})
         } catch (error) {
             console.log("error : ", error);
@@ -65,7 +67,7 @@ export default function AddCategoryModal({
     async function addNewCategory(params) {
         setLoading(true);
         try {
-            const {data} = await API.post("business/category",{name, edge, parId});
+            const {data} = await API.post("business/category",{name, edge, parId, is_private});
             addCategories(data)
         } catch (error) {
             console.log("error : ", error);
@@ -85,6 +87,10 @@ export default function AddCategoryModal({
 
     function handleChange(value) {
         setEdge(value.target.checked)
+    }
+
+    function handleIsPrivateChange(value) {
+        set_is_private(value.target.checked)
     }
 
   return (
@@ -116,6 +122,16 @@ export default function AddCategoryModal({
                 />
                 }
                 label={fa["latest level"]}
+            />
+            <FormControlLabel
+                control={
+                <Switch
+                    checked={is_private}
+                    onChange={handleIsPrivateChange}
+                    color="primary"
+                />
+                }
+                label={fa["private category"]}
             />
             <Button
                 loa

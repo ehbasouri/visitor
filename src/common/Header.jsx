@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     justifyContent: "space-between"
+  },
+  iconContainer: {
+    width: "40px",
   }
 }));
 
@@ -32,7 +35,7 @@ export function Header({
     <div className={classes.root}>
       <AppBar position="fixed" >
         <Toolbar className={classes.toolbar} variant="dense">
-          <div>
+          <div className={classes.iconContainer} >
             {rightComponent}
             {backEnabled && <IconButton onClick={() => history.goBack()} edge="center" className={classes.menuButton} color="inherit" >
               <ArrowForwardIcon />
@@ -41,7 +44,7 @@ export function Header({
           <Typography variant="h6" color="inherit">
             {title}
           </Typography>
-          <div>
+          <div className={classes.iconContainer} >
             {leftComponent}
           </div>
         </Toolbar>

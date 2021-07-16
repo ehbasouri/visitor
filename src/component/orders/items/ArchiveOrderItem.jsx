@@ -26,15 +26,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ArchiveOrderItem({title, value}) {
+export default function ArchiveOrderItem({title, value, cssId}) {
   const classes = useStyles();
   return (
     <List dense className={classes.root}>
           <ListItem button>
-            <ListItemText id={"text-to-print"} disableTypography primary={title} />
+            <ListItemText id={cssId} disableTypography primary={title} />
 
             <ListItemSecondaryAction>
-                <ListItemText id={"text-to-print"} disableTypography className={classes.count} primary={value } />
+                <ListItemText id={cssId} disableTypography className={classes.count} primary={value } />
             </ListItemSecondaryAction>
           </ListItem>
           <Divider className={classes.divider} />

@@ -56,7 +56,7 @@ export default function BasketItem({product}) {
             {product.description}
           </Typography>
           {cbrs[business._id] && cbrs[business._id].show_price && <Typography align={"left"} variant="body2" color="textSecondary" component="p">
-            {converEnglishNumToPersian(numberWithCommas(product.price * product.countInBasket))} {fa["toman"]}
+            {converEnglishNumToPersian(numberWithCommas( (product.unit_price * product.unitCountInBasket) + (product.price * product.countInBasket)))} {fa["toman"]}
           </Typography>}
         </CardContent>
         <AddProductToBasketButton product={product} />

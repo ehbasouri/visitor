@@ -20,6 +20,7 @@ import { updateGeneralProps } from '../../../redux/actions';
 import { BASKET } from '../../../consts';
 import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 import numberWithCommas from '../../../utils/commaSeperator';
+import { ClientProdoctBottomDrawer } from "./ClientProdoctBottomDrawer"
 
 const useStyles = makeStyles({
   root: {
@@ -42,9 +43,9 @@ export default function ClientProductItem({product, onDeleteProduct, show_price}
 
   const dispatch = useDispatch();
 
-  function onAddToBasket() {
+  function onAddToBasket(countInBasket, unitCountInBasket) {
     const addedProductList = JSON.parse(JSON.stringify(basket.products));
-    addedProductList.push({...product, countInBasket: 1});
+    addedProductList.push({...product, countInBasket, unitCountInBasket});
     dispatch(updateGeneralProps({
       key: BASKET, value: {...basket, products: addedProductList}
     }))
@@ -74,16 +75,20 @@ export default function ClientProductItem({product, onDeleteProduct, show_price}
           </Typography>
 
           {cbrs[business._id] && cbrs[business._id].show_price && <Typography align={"left"} variant="body2" color="textSecondary" component="p">
-            {converEnglishNumToPersian(numberWithCommas(product.price))} {fa["toman"]}
+            {fa["box"] + " " + converEnglishNumToPersian(numberWithCommas(product.price))} {fa["toman"]}
+          </Typography>}
+
+          {cbrs[business._id] && cbrs[business._id].show_price && <Typography align={"left"} variant="body2" color="textSecondary" component="p">
+            {fa["unit"] + " " + converEnglishNumToPersian(numberWithCommas(product.unit_price))} {fa["toman"]}
           </Typography>}
 
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.cardAction} >
-        {!isInBasket() ? <Button onClick={onAddToBasket} endIcon={<AddShoppingCartIcon/>} size="small" color="primary">
-          {fa["add to basket"]}
-        </Button>:
-        <AddProductToBasketButton product = {isInBasket()} />}
+        
+        {!isInBasket() ? 
+          <ClientProdoctBottomDrawer  onAddToBasket={onAddToBasket} /> :
+          <AddProductToBasketButton product = {isInBasket()} />}
       </CardActions>
     </Card>
       <DeleteModal

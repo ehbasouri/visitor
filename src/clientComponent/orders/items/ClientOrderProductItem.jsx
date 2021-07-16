@@ -8,19 +8,45 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import { HOST } from '../../../service/api';
+import fa from '../../../translation/fa';
+import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   count: {
-      color: "#d84315"
-  }
+      color: "#444"
+  },
+  container: {
+    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+  },
+  value: {
+    color: "#bf360c",
+    textAlign: "right"
+  },
 }));
 
-export default function ClientOrderProductItem({product}) {
+
+const InvoiceContentItem = ({
+  value,
+  title
+}) =>{
+  const classes = useStyles();
+
+  return (
+    <>
+    <ListItem className={classes.container} button>
+        <ListItemText disableTypography className={classes.count} primary={ title } />
+          <ListItemText disableTypography className={classes.value} primary={ value } />
+    </ListItem>
+    </>
+  )
+}
+
+export default function ClientOrderProductItem({product, isGift}) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([1]);
 
@@ -46,10 +72,19 @@ export default function ClientOrderProductItem({product}) {
               />
             </ListItemAvatar>
             <ListItemText primary={product.name} />
-            <ListItemSecondaryAction>
-                <ListItemText className={classes.count} primary={ "x" + product.countInBasket} />
+            <ListItemSecondaryAction> 
+              { isGift && <CardGiftcardIcon/> }
             </ListItemSecondaryAction>
           </ListItem>
+          { product.countInBasket > 0 && <InvoiceContentItem
+            title={fa["box"]}
+            value={product.countInBasket + "  " + fa["number"]}
+          />}
+          { product.unitCountInBasket > 0 && <InvoiceContentItem
+            title={fa["unit"]}
+            value={product.unitCountInBasket + "  " + fa["number"]}
+          />}
+
     </List>
   );
 }

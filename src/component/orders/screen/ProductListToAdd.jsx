@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useRef} from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import SceneWrapper from "../../../SceneWrapper/SceneWrapper";
@@ -17,6 +17,8 @@ import ProductItemToaddInOrder from "../../products/items/ProductItemToaddInOrde
 import Button from '@material-ui/core/Button';
 import fa from "../../../translation/fa";
 
+const limit = 10
+
 const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
@@ -34,38 +36,111 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function ProductListToAdd({closeFnc, onAddPress, productList = []}) {
+function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false}) { 
 
     const classes = useStyles();
+
+    const [isFetching, setIsFetching] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
     const [addedProductList, setAddedProductList] = useState(productList);
+    const [goingUp, setGoingUp] = useState(false);
+
+    const prevScrollY = useRef(0);
+
+    const isScrolling =(e)=>{
+
+
+        const currentScrollY = e.target.scrollTop;
+        if (prevScrollY.current < currentScrollY && goingUp) {
+        setGoingUp(false);
+        }
+        if (prevScrollY.current > currentScrollY && !goingUp) {
+        setGoingUp(true);
+        }
+        prevScrollY.current = currentScrollY;
+        if(goingUp) return;
+        if (currentScrollY > (((page / limit) - 1) * (document.body.offsetHeight * 3 /4)) + 30) {
+        // if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 /4)) {
+           console.log("you're at the bottom of the page ... ");
+           setIsFetching(true);
+           // Show loading spinner and make fetch request to api
+        }
+    }
+
+    useEffect(()=>{
+        // document.getElementById("myModalID").addEventListener("scroll" , isScrolling);
+        // return () => document.getElementById("myModalID").removeEventListener("scroll", isScrolling);
+    }, [])
+
+    useEffect(() => {
+        if (isFetching){
+            fetchProducts();
+        }
+    }, [isFetching]);
+
     const [name, setName] = useState("");
+    const [page, setPage] = useState(0);
+    const [finished, setFinished] = useState(false);
+    const [category, set_category] = useState(null)
 
     useEffect(()=>{
         fetchProducts()
     },[])
 
-    async function fetchProducts(searchValue) {
-        const queries = {}
-        if(searchValue) queries.name= searchValue
+    useEffect(()=>{
+        fetchProducts()
+    },[category])
+
+    async function fetchProducts(searchValue, reload) { 
+        if(finished && !reload){
+            return;
+        }
+        const queries = { page: reload ? 0 : page, limit }
+        if(searchValue) {
+            queries.name = searchValue
+        } else if (name && !reload) {
+            queries.name = name
+        }
+        if(category){
+            queries.cat_id = category._id
+        }
         try {
             const {data} = await API.get("business/product", queries);
-            setProducts(data);
+            setProducts(page === 0 ? data : [ ...products, ...data]);
+
+            setPage(page + limit);
+            if(data.length < 10)
+                setFinished(true);
         } catch (error) {
             console.log("error : ", error);
         }
+        setIsFetching(false);
+        setLoading(false);
     }
+
+
 
     const debounceCallback = useCallback(
         debounce((value) => {
-            fetchProducts(value)
+            fetchProducts(value, true)
         }, 500),
-        []
+        [category]
     );
 
     function onSearchValueChange(event) {
         setName(event.target.value);
+        setPage(0);
+        setFinished(false);
         debounceCallback(event.target.value)
+    }
+
+    function onCatChange(newCat) {
+        setPage(0);
+        setFinished(false);
+        setTimeout(()=>{
+            set_category(newCat);
+        },0);
     }
 
     return(
@@ -79,12 +154,13 @@ function ProductListToAdd({closeFnc, onAddPress, productList = []}) {
             />
                 <MainScreen>
                     <SearchInput value={name} onChange={onSearchValueChange} />
-                    <List className={classes.root} subheader={<li />}>
+                    <List onScroll={isScrolling} id={"myModalID"} className={classes.root} subheader={<li />}>
                         {products.map(product=>(
                             <ProductItemToaddInOrder 
                                 productList={addedProductList} 
                                 setAddedProductList={setAddedProductList}
                                 key={product._id} 
+                                isGift={isGift}
                                 product={product} />
                         ))}
                     </List>

@@ -40,6 +40,9 @@ import NotFound from "../common/NotFound";
 import Analytics from "../component/analytics/screen/Analytics";
 import { useState } from "react";
 import SettingClient from "../component/clients/screen/SettingClient";
+import Packages from "../component/package/screen/Packages";
+import AddPackage from "../component/package/screen/AddPackage";
+import PackageDetailes from "../clientComponent/products/screen/PackageDetailes";
 
 
 function BusinessRouter(params) {
@@ -49,7 +52,11 @@ function BusinessRouter(params) {
       <PrivateBusinessRoute path={"/admin/clientdetail/:id"} component={ClientDetail} />
       <PrivateBusinessRoute path="/admin/settingclient/:id" children={<SettingClient />} />
       <PrivateBusinessRoute path={"/admin/stores"} component={StoreList} />
+      <PrivateBusinessRoute path={"/admin/packages"} component={Packages} />
       <PrivateBusinessRoute path={"/admin/addstore"} component={AddStore} />
+      <PrivateBusinessRoute path={"/admin/addpackage"} component={AddPackage} />
+      <PrivateBusinessRoute path={"/admin/editpackage/:id"} component={AddPackage} />
+      
       <PrivateBusinessRoute path={"/admin/updateStore/:storeName/:id"} component={AddStore} />
       <PrivateBusinessRoute path={"/admin/addorderbusiness/:id"} component={AddOrderBusiness} />
       <PrivateBusinessRoute path={"/admin/addproduct"} component={AddProduct} />
@@ -76,6 +83,7 @@ function ClientRouter() {
     <Switch>
       <PrivateClientRoute path={"/basket"} component={ClientBasket} />
       <PrivateClientRoute path={"/userinfo"} component={ClientUserInfo} />
+      <PrivateClientRoute path={"/products/package/:id"} component={PackageDetailes} />
       <PrivateClientRoute path={"/products/:id"} component={ClientProducts} />
       <PrivateClientRoute path={"/updateuserinfo"} component={ClientUpdateUserInfo} />
       <PrivateClientRoute path={"/archiveorderdetail/:id"} component={ClientArchiveOrderDetailes} />

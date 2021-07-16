@@ -18,6 +18,7 @@ import {useParams} from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SelectCategoryModal from "../items/SelectCategoryModal";
 import SimpleBackdrop from '../../../common/SimpleBackdrop';
+import ClientPackages from "../items/ClientPackages";
 
 const limit = 10
 
@@ -110,8 +111,6 @@ function ClientProducts({router}) {
             queries.is_private = cbrs[id].show_private_products 
         }
 
-        console.log("queries : ", queries);
-
         try {
             const {data} = await API.get("product", queries);
             
@@ -168,8 +167,9 @@ function ClientProducts({router}) {
                 category={category}
                 set_category={onCatChange}
             />
+            <SearchInput value={name} onChange={onSearchValueChange} />
+            <ClientPackages business_id={id} />
             <MainScreen>
-                <SearchInput value={name} onChange={onSearchValueChange} />
                 <div className={"mainItemsContainer"} >
                     {products.map(product=>(
                         <ClientProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
