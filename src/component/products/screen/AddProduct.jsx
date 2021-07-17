@@ -136,7 +136,9 @@ function AddClient({history}) {
             store_id,
             count,
             description,
-            is_private
+            is_private,
+            unit_price,
+            count_in_box
         }
         try {
 

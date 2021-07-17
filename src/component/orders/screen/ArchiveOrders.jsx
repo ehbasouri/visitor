@@ -1,6 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { SearchInput } from '../../../common/SearchInput';
 import MainScreen from '../../../common/MainScreen';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -9,6 +7,7 @@ import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { ARCHIVE_ORDERS, FROM_DATE, TO_DATE } from '../../../consts';
 import ArchiveOrder from '../items/ArchiveOrder';
+import OrderItem from '../items/OrderItem';
 import { MyRangeDatePicker } from '../../../common/MyRangeDatePicker';
 import { useState } from 'react';
 
@@ -28,7 +27,7 @@ function ArchiveOrders({history}) {
   async function fetchOrders() {
       const queries = {
         business_id : user_info._id, 
-        status: "archive",
+        status: "archive"
         // page: 20,
         // limit: 10
       }

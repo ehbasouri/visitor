@@ -3,8 +3,8 @@ import _ from "lodash";
 import Cookies from "js-cookie";
 
 export const HOST = 
-"https://api.ehsan2.ir/";
-// "http://192.168.1.158:5600/"
+// "https://api.ehsan2.ir/";
+"http://192.168.1.158:5600/"
 export const BASE_URL = HOST + "api/";
 
 

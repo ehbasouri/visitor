@@ -78,7 +78,12 @@ const fa = {
     "count_in_box": "تعداد در باکس",
     "unit_price": "قیمت تکی",
     "add gift": "افزودن هدیه",
-    "private category": "دسته بندی خاص"
+    "private category": "دسته بندی خاص",
+    "debt": "بدهی",
+    "paied amount": "پرداختی",
+    "debt amount": "مانده",
+    "debt account": "مانده حساب",
+    "back to store": "بازگشت به انبار"
 }
 
 export default fa;

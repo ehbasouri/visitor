@@ -43,6 +43,10 @@ import SettingClient from "../component/clients/screen/SettingClient";
 import Packages from "../component/package/screen/Packages";
 import AddPackage from "../component/package/screen/AddPackage";
 import PackageDetailes from "../clientComponent/products/screen/PackageDetailes";
+import ClientOrderList from "../component/clients/screen/ClientOrderList";
+import DebtClient from "../component/clients/screen/DebtClient";
+import OrderDetail from "../component/orders/screen/OrderDetail";
+import DebtScreen from "../component/debt/screen/DebtScreen";
 
 
 function BusinessRouter(params) {
@@ -55,8 +59,10 @@ function BusinessRouter(params) {
       <PrivateBusinessRoute path={"/admin/packages"} component={Packages} />
       <PrivateBusinessRoute path={"/admin/addstore"} component={AddStore} />
       <PrivateBusinessRoute path={"/admin/addpackage"} component={AddPackage} />
+      <PrivateBusinessRoute path={"/admin/debts"} component={DebtScreen} />
       <PrivateBusinessRoute path={"/admin/editpackage/:id"} component={AddPackage} />
-      
+      <PrivateBusinessRoute path={"/admin/clientorderlist/:client_name/:id"} component={ClientOrderList} />
+      <PrivateBusinessRoute path={"/admin/debtclient/:client_name/:id"} component={DebtClient} />
       <PrivateBusinessRoute path={"/admin/updateStore/:storeName/:id"} component={AddStore} />
       <PrivateBusinessRoute path={"/admin/addorderbusiness/:id"} component={AddOrderBusiness} />
       <PrivateBusinessRoute path={"/admin/addproduct"} component={AddProduct} />
@@ -68,6 +74,7 @@ function BusinessRouter(params) {
       <PrivateBusinessRoute path={"/admin/userinfo"} component={UserInfo} />
       <PrivateBusinessRoute path={"/admin/updateuserinfo"} component={UpdateUserInfo} />
       <PrivateBusinessRoute path={"/admin/archiveorderdetail/:id"} component={ArchiveOrderDetail} />
+      <PrivateBusinessRoute path={"/admin/activeorderdetail/:id"} component={OrderDetail} />
       <PrivateBusinessRoute path={"/admin/analytics"} component={Analytics} />
       <ProtectedLogin path={"/admin/login"} component={Login} />
       <ProtectedLogin path={"/admin/register"} component={Register} />

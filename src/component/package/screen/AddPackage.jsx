@@ -84,6 +84,7 @@ function AddPackage({history}) {
   const user_info = useSelector(state=>state.general_reducer.user_info)
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
+  const [showModal, setShowModal] = useState(0);
 
   useEffect(()=>{
     fetchPackage();
@@ -206,6 +207,19 @@ function AddPackage({history}) {
   }
 
   return (
+    showModal ? (
+      showModal === 1 ? <ProductListToAdd
+        onAddPress={onAddProductPress}
+        closeFnc={()=>setShowModal(0)}
+        productList={updatedOrder.products}
+    />:
+    <ProductListToAdd
+      onAddPress={onAddGiftPress}
+      closeFnc={()=>setShowModal(0)}
+      productList={updatedOrder.gift}
+      isGift
+    />
+    ) :
     <div className={"mainScreen"}>
         <Header/>
         <MainScreen>
@@ -225,16 +239,16 @@ function AddPackage({history}) {
                 {updatedOrder.products.map(product=>(
                     <OrderProductItem key={product._id} setOrder={setUpdatedOrder} order={updatedOrder} product={product} />
                 ))}
-                <MyModal
-                    title={fa["add product"]}
-                    ref={productListRef}
-                    content={
-                    <ProductListToAdd
-                        onAddPress={onAddProductPress}
-                        closeFnc={()=>productListRef.current.handleOpen(false)}
-                        productList={updatedOrder.products}
-                    />}
-                />
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={()=>setShowModal(1)}
+                >
+                    {fa["add product"]}
+                </Button>
+                
                 
                 <TextField
                     variant="outlined"
@@ -247,18 +261,16 @@ function AddPackage({history}) {
                     value={discount}
                     className={classes.input}
                 />
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={()=>setShowModal(2)}
+                >
+                    {fa["add gift"]}
+                </Button>
 
-              <MyModal
-                title={fa["add gift"]}
-                ref={giftListRef}
-                content={
-                  <ProductListToAdd
-                    onAddPress={onAddGiftPress}
-                    closeFnc={()=>giftListRef.current.handleOpen(false)}
-                    productList={updatedOrder.gift}
-                    isGift
-                  />}
-              />
               <Divider/>
               {updatedOrder.gift.map(element=>(
                 <OrderGiftItem key={element._id} setOrder={setUpdatedOrder} order={updatedOrder} product={element} />

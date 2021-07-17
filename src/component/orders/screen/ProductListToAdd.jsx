@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ProductItemToaddInOrder from "../../products/items/ProductItemToaddInOrder";
 import Button from '@material-ui/core/Button';
 import fa from "../../../translation/fa";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const limit = 10
 
@@ -33,6 +34,13 @@ const useStyles = makeStyles((theme) => ({
     ul: {
       backgroundColor: 'inherit',
       padding: 0,
+    },
+    loader: {
+        display:"flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(3),
     }
   }));
 
@@ -105,6 +113,7 @@ function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false
         if(category){
             queries.cat_id = category._id
         }
+        setLoading(true);
         try {
             const {data} = await API.get("business/product", queries);
             setProducts(page === 0 ? data : [ ...products, ...data]);
@@ -163,6 +172,11 @@ function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false
                                 isGift={isGift}
                                 product={product} />
                         ))}
+                        {loading && 
+                            <div className={classes.loader} >
+                                <CircularProgress />
+                            </div>
+                        }
                     </List>
                 <Button
                     type="submit"

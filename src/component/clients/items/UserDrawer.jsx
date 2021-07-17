@@ -14,6 +14,8 @@ import {
   Link
 } from "react-router-dom";
 import fa from '../../../translation/fa';
+import ListIcon from '@material-ui/icons/List';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const useStyles = makeStyles({
   list: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function UserDrawer({id}) {
+export default function UserDrawer({id, client_name}) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -59,6 +61,22 @@ export default function UserDrawer({id}) {
         </ListItem>
       </List>
       <Divider />
+        <Link to={"/admin/clientorderlist/" + client_name + "/" + id} style={{color: "#222"}}>
+            <ListItem button>
+                <ListItemIcon> 
+                  <ListIcon /> 
+                </ListItemIcon>
+                <ListItemText primary={fa["orders"]} />
+            </ListItem>
+        </Link>
+        <Link to={"/admin/debtclient/" + client_name + "/" + id} style={{color: "#222"}}>
+            <ListItem button>
+                <ListItemIcon> 
+                  <AttachMoneyIcon /> 
+                </ListItemIcon>
+                <ListItemText primary={fa["debt"]} />
+            </ListItem>
+        </Link>
         <Link to={"/admin/settingclient/" + id} style={{color: "#222"}}>
             <ListItem button>
                 <ListItemIcon> 

@@ -24,6 +24,7 @@ import { updateGeneralProps } from '../../../redux/actions';
 import { RESET_GENERAL_PROPS } from '../../../consts';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -95,6 +96,14 @@ function Settings() {
                   <ShowChartIcon />
               </ListItemIcon>
               <ListItemText className={classes.text} primary={fa["analytics"]} />
+              </ListItem>
+          </Link>
+          <Link to={"debts"} style={{color: "#222"}}>
+              <ListItem button>
+              <ListItemIcon>
+                  <AttachMoneyIcon />
+              </ListItemIcon>
+              <ListItemText className={classes.text} primary={fa["debt account"]} />
               </ListItem>
           </Link>
 

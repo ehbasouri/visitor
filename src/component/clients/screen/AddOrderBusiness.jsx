@@ -76,6 +76,9 @@ function AddOrderBusiness({history}) {
   const [discount, setDiscount] = React.useState(0);
   const [updatedOrder, setUpdatedOrder] = React.useState(newOrder);
   const [loading, setLoading] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(0);
+
+
     const user_info = useSelector(state=>state.general_reducer.user_info)
     let { id } = useParams();
 
@@ -149,6 +152,19 @@ function AddOrderBusiness({history}) {
   }
 
   return (
+    showModal ? (
+      showModal === 1 ? <ProductListToAdd
+          onAddPress={onAddProductPress}
+          closeFnc={()=>setShowModal(0)}
+          productList={updatedOrder.products}
+        /> : 
+        <ProductListToAdd
+          onAddPress={onAddGiftPress}
+          closeFnc={()=>setShowModal(0)}
+          productList={updatedOrder.gift}
+          isGift
+        />
+    ) :
     <div className={"mainScreen"}>
         <Header/>
         <MainScreen>
@@ -167,16 +183,25 @@ function AddOrderBusiness({history}) {
                 {updatedOrder.products.map(product=>(
                     <OrderProductItem key={product._id} setOrder={setUpdatedOrder} order={updatedOrder} product={product} />
                 ))}
-                <MyModal
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={()=>setShowModal(1)}
+              >
+                  {fa["add product"]}
+              </Button>
+                {/* <MyModal
                     title={fa["add product"]}
                     ref={productListRef}
                     content={
                     <ProductListToAdd
                         onAddPress={onAddProductPress}
-                        closeFnc={()=>productListRef.current.handleOpen(false)}
+                        closeFnc={()=>setShowModal(0)}
                         productList={updatedOrder.products}
                     />}
-                />
+                /> */}
                 
                 <TextField
                     variant="outlined"
@@ -189,19 +214,27 @@ function AddOrderBusiness({history}) {
                     value={discount}
                     className={classes.input}
                 />
-
-              <MyModal
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={()=>setShowModal(2)}
+                >
+                    {fa["add gift"]}
+                </Button>
+              {/* <MyModal
                 title={fa["add gift"]}
                 ref={giftListRef}
                 content={
                   <ProductListToAdd
                     onAddPress={onAddGiftPress}
-                    closeFnc={()=>giftListRef.current.handleOpen(false)}
+                    closeFnc={()=>setShowModal(0)}
                     productList={updatedOrder.gift}
                     isGift
                   />}
               />
-              <Divider/>
+              <Divider/> */}
 
               {updatedOrder.gift.map(element=>(
                 <OrderGiftItem key={element._id} setOrder={setUpdatedOrder} order={updatedOrder} product={element} />

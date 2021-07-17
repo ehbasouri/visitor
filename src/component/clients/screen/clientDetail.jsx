@@ -58,7 +58,7 @@ function ClientDetail(params) {
     return(
         <div className={"mainScreen"}>
             <Header
-                leftComponent={<UserDrawer id={id} />}
+                leftComponent={<UserDrawer id={id} client_name={user_detailes.name} />}
             />
             <div className={"mainContainer"} >
                 <MainScreen>
