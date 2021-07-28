@@ -45,7 +45,7 @@ function ClientArchiveOrderItem({order}) {
             </Avatar>
             }
             title={order.business.name}
-            subheader={converEnglishNumToPersian(moment(order.created_at).format('YYYY/MM/DD  hh:mm  a'))}
+            subheader={converEnglishNumToPersian(moment(order.updated_at).format('YYYY/MM/DD  hh:mm  a'))}
             align={"right"}
             action={
               order.status === "cancel" ?

@@ -8,6 +8,7 @@ import { updateGeneralProps } from '../../../redux/actions';
 import { ARCHIVE_ORDERS, FROM_DATE, TO_DATE } from '../../../consts';
 import ClientArchiveOrderItem from '../items/ClientArchiveOrderItem';
 import { MyRangeDatePicker } from '../../../common/MyRangeDatePicker';
+import { firebsaeAnalyticsLogEvent } from '../../../utils/firebaseAnalyticsLogEvent';
 
 function ArchiveOrders({history}) {
 
@@ -20,6 +21,7 @@ function ArchiveOrders({history}) {
 
   useEffect(()=>{
     fetchOrders() 
+    firebsaeAnalyticsLogEvent("client_archive_orders_screen")
   },[fromDate, toDate])
 
   async function fetchOrders() {

@@ -16,6 +16,7 @@ import numberWithCommas from "../../../utils/commaSeperator";
 import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItem from '@material-ui/core/ListItem';
+import { firebsaeAnalyticsLogEvent } from "../../../utils/firebaseAnalyticsLogEvent";
 
 function ClientArchiveOrderDetailes(params) {
 
@@ -26,6 +27,7 @@ function ClientArchiveOrderDetailes(params) {
 
     useEffect(()=>{
         fetchOrderDetail();
+        firebsaeAnalyticsLogEvent("client_archive_order_detailes_screen")
     },[])
 
     async function fetchOrderDetail() {
@@ -77,6 +79,14 @@ function ClientArchiveOrderDetailes(params) {
                     title={fa["total price"]}
                     value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]  }
                 />
+                { orderDetails.paied_amount && getTotalPrice() !== orderDetails.paied_amount && <ArchiveOrderItem
+                    title={fa["paied amount"]}
+                    value={converEnglishNumToPersian(numberWithCommas(orderDetails.paied_amount)) + " " + fa["toman"]  }
+                />}
+                {orderDetails.paied_amount && getTotalPrice() !== orderDetails.paied_amount && <ArchiveOrderItem
+                    title={fa["debt amount"]}
+                    value={converEnglishNumToPersian(numberWithCommas(getTotalPrice() - orderDetails.paied_amount)) + " " + fa["toman"]  }
+                />}
             </MainScreen>}
         </div>
     )

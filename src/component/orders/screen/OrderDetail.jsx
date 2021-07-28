@@ -47,64 +47,106 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function OrderItem() {
+function OrderDetail() {
 
   const history = useHistory()
   let { id } = useParams();
 
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
   const [discount, setDiscount] = React.useState(0);
   const [updatedOrder, setUpdatedOrder] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [paied_amount, set_paied_amount] = React.useState(null);
   const [showModal, setShowModal] = React.useState(0);
 
-  const productListRef = useRef(null);
-  const giftListRef = useRef(null);
-
-    const user_info = useSelector(state=>state.general_reducer.user_info)
-
-    useEffect(()=>{
-        fetchOrderDetail();
-    },[])
-
-    async function fetchOrderDetail() {
-        try {
-            const {data} = await API.get("business/order", {_id: id, business_id : user_info._id});
-            console.log("data : ", data);
-            setUpdatedOrder(data[0]);
-        } catch (error) {
-            console.log("error : ", error);
-        }
-    }
+  const user_info = useSelector(state=>state.general_reducer.user_info)
 
   useEffect(()=>{
-    set_paied_amount(getTotalPrice())
-  },[updatedOrder])
+      fetchOrderDetail();
+  },[]) 
+  
+  useEffect(()=>{
+    if(updatedOrder && typeof updatedOrder.paied_amount === "number"){
+      set_paied_amount(updatedOrder.paied_amount)
+    } else {
+      set_paied_amount(getTotalPrice())
+    }
+  },[updatedOrder, discount])
 
+  async function fetchOrderDetail() {
+    try {
+        const {data} = await API.get("business/order", {_id: id, business_id : user_info._id});
+        setUpdatedOrder(data[0]);
+        
+        fetchProducts(data[0]);
 
-function getTotalPrice() {
-    if(!updatedOrder) return
-    let totalPrice = 0
-    updatedOrder.products.map(product => {
-        if((product.unitCountInBasket === undefined)){
-            totalPrice = totalPrice + (product.price * product.countInBasket)
-        }else {
-            totalPrice = totalPrice + (product.unit_price * product.unitCountInBasket)  + (product.price * product.countInBasket)
+        if(data[0] && typeof data[0].discount === "number"){
+          setDiscount(data[0].discount)
         }
-    })
-    return Number(totalPrice - discount); 
-}
+    } catch (error) {
+        console.log("error : ", error);
+    }
+  }
+
+  async function fetchProducts(rawOrder) {
+    try {
+      const rawResult = {...rawOrder};
+      const ids = []
+      rawResult.products.map(element=>ids.push(element._id))
+      const giftIds = []
+      rawResult.gift.map(element=>giftIds.push(element._id))
+      if(giftIds.length > 0){
+        const updatedGiftsRes = await API.get("business/productbyIds",{ids: giftIds.join()})
+        const updatedGift = mergeArrays(updatedGiftsRes.data, rawResult.gift);
+        rawResult.gift = updatedGift
+
+      }
+      if(ids.length > 0){
+        const updatedProductsRes = await API.get("business/productbyIds",{ids: ids.join()})
+        const updatedProducts = mergeArrays(updatedProductsRes.data, rawResult.products);
+        rawResult.products = updatedProducts;
+      }
+      setUpdatedOrder(rawResult);
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  }
+
+  const mergeArrays = (arr1 = [], arr2 = []) => {
+    let res = [];
+    res = arr1.map(obj => {
+        const index = arr2.findIndex(el => el["_id"] == obj["_id"]);
+        const { countInBasket, unitCountInBasket } = index !== -1 ? arr2[index] : {};
+        return {
+          ...obj,
+          countInBasket,
+          unitCountInBasket,
+        };
+    });
+    return res;
+  };
+
+  function getTotalPrice() {
+      if(!updatedOrder) return
+      let totalPrice = 0
+      updatedOrder.products.map(product => {
+          if((product.unitCountInBasket === undefined)){
+              totalPrice = totalPrice + (product.price * product.countInBasket)
+          }else {
+              totalPrice = totalPrice + (product.unit_price * product.unitCountInBasket)  + (product.price * product.countInBasket)
+          }
+      })
+      return Number(totalPrice - discount); 
+  }
 
   function getTotalBuyPrice() {
     if(!updatedOrder) return
     let totalBuyPrice = 0
-    updatedOrder.products.map(product=> {
+    updatedOrder.products.map(product => {
       if((product.unitCountInBasket === undefined)){
         totalBuyPrice = totalBuyPrice + (product.buy_price * product.countInBasket)
       }else {
-          totalBuyPrice = totalBuyPrice + ((product.buy_price / product.count_in_box) * product.unitCountInBasket)  + (product.buy_price * product.countInBasket)
+        totalBuyPrice = totalBuyPrice + ( Math.floor(product.buy_price / product.count_in_box) * product.unitCountInBasket)  + (product.buy_price * product.countInBasket)
       }
     })
     updatedOrder.gift.map(product=> {
@@ -114,22 +156,15 @@ function getTotalPrice() {
           totalBuyPrice = totalBuyPrice + ((product.buy_price / product.count_in_box) * product.unitCountInBasket)  + (product.buy_price * product.countInBasket)
       }
     })
-    console.log("totalBuyPrice", totalBuyPrice)
     return Math.round(Number(totalBuyPrice));
   }
-
-  console.log("updatedOrder : ", updatedOrder);
-  
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   function onDiscountChange(e) {
     setDiscount(e.target.value)
   }
 
   async function onDoneClick(cancel) {
-    setLoading(true);
+    // setLoading(true);
     const options = {
       products: updatedOrder.products ,
       price: getTotalPrice(),
@@ -222,16 +257,6 @@ function getTotalPrice() {
               >
                   {fa["add product"]}
               </Button>
-                {/* <MyModal
-                    title={fa["add product"]}
-                    ref={productListRef}
-                    content={
-                    <ProductListToAdd
-                        onAddPress={onAddProductPress}
-                        closeFnc={()=>productListRef.current.handleOpen(false)}
-                        productList={updatedOrder.products}
-                    />}
-                /> */}
                 <Divider/>
                 <TextField
                     variant="outlined"
@@ -253,17 +278,6 @@ function getTotalPrice() {
                 >
                     {fa["add gift"]}
                 </Button>
-                {/* <MyModal
-                    title={fa["add gift"]}
-                    ref={giftListRef}
-                    content={
-                    <ProductListToAdd
-                        onAddPress={onAddGiftPress}
-                        closeFnc={()=>giftListRef.current.handleOpen(false)}
-                        productList={updatedOrder.gift}
-                        isGift
-                    />}
-                /> */}
                 <Divider/>
 
                 {updatedOrder.gift.map(element=>(
@@ -321,4 +335,4 @@ function getTotalPrice() {
   );
 }
 
-export default SceneWrapper(OrderItem)
+export default SceneWrapper(OrderDetail)

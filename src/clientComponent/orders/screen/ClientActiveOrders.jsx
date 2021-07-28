@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux"
 import { updateGeneralProps } from '../../../redux/actions';
 import { ACTIVE_ORDERS } from '../../../consts';
 import ClientOrderItem from '../items/ClientOrderItem';
+import { firebsaeAnalyticsLogEvent } from '../../../utils/firebaseAnalyticsLogEvent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +30,7 @@ function ActiveOrders({history}) {
 
   useEffect(()=>{
     fetchOrders()
+    firebsaeAnalyticsLogEvent("client_active_orders_screen")
   },[])
 
   async function fetchOrders() {

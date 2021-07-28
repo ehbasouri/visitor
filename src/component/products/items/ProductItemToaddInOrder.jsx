@@ -23,7 +23,7 @@ export default function ProductItemToaddInOrder({
   product, 
   productList = [], 
   setAddedProductList = () => null,
-  isGift = false
+  isGift = false 
 }) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState(checkProduct());
@@ -49,7 +49,9 @@ export default function ProductItemToaddInOrder({
             <ListItemAvatar>
               <Avatar
                 src={ HOST + product.image}
-              />
+              >
+                {product.name[0]}
+              </Avatar>
             </ListItemAvatar>
             <ListItemText primary={product.name} />
             <ListItemSecondaryAction>

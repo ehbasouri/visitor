@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function DebtScreenItem({debt}) {
+export function DebtScreenItem({debt}) {
   
   const classes = useStyles();
 

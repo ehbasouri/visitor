@@ -27,7 +27,7 @@ const theme = createMuiTheme({
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const SceneWrapper = (WrappedComponent) => {
-    return function (props) {
+  return function (props) {
         
         return (
             <StylesProvider jss={jss} >

@@ -78,7 +78,6 @@ function AddOrderBusiness({history}) {
   const [loading, setLoading] = React.useState(false);
   const [showModal, setShowModal] = React.useState(0);
 
-
     const user_info = useSelector(state=>state.general_reducer.user_info)
     let { id } = useParams();
 
@@ -123,16 +122,16 @@ function AddOrderBusiness({history}) {
       ...updatedOrder ,
       price: getTotalPrice(),
       discount,
-      status: "archive",
+      status: "active",
       buy_price: getTotalBuyPrice(),
       business_id: user_info._id,
       client_id: updatedOrder.client._id,
-      business: user_info
+      business: user_info,
     }
-
+    console.log("options : ", options);
     try {
       const {data} = await API.post("order", options)
-      history.replace("/admin/archiveorderdetail/" + data._id)
+      history.replace("/admin/activeorderdetail/" + data._id)
     } catch (error) {
       console.log("error : ", error.response);
     }
@@ -192,16 +191,6 @@ function AddOrderBusiness({history}) {
               >
                   {fa["add product"]}
               </Button>
-                {/* <MyModal
-                    title={fa["add product"]}
-                    ref={productListRef}
-                    content={
-                    <ProductListToAdd
-                        onAddPress={onAddProductPress}
-                        closeFnc={()=>setShowModal(0)}
-                        productList={updatedOrder.products}
-                    />}
-                /> */}
                 
                 <TextField
                     variant="outlined"
@@ -223,18 +212,6 @@ function AddOrderBusiness({history}) {
                 >
                     {fa["add gift"]}
                 </Button>
-              {/* <MyModal
-                title={fa["add gift"]}
-                ref={giftListRef}
-                content={
-                  <ProductListToAdd
-                    onAddPress={onAddGiftPress}
-                    closeFnc={()=>setShowModal(0)}
-                    productList={updatedOrder.gift}
-                    isGift
-                  />}
-              />
-              <Divider/> */}
 
               {updatedOrder.gift.map(element=>(
                 <OrderGiftItem key={element._id} setOrder={setUpdatedOrder} order={updatedOrder} product={element} />

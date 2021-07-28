@@ -1,10 +1,9 @@
 import axios from "axios";
 import _ from "lodash";
-import Cookies from "js-cookie";
 
 export const HOST = 
-// "https://api.ehsan2.ir/";
-"http://192.168.1.158:5600/"
+"https://api.ehsan2.ir/";
+// "http://localhost:5600/"
 export const BASE_URL = HOST + "api/";
 
 
@@ -15,7 +14,7 @@ export async function refreshToken(newToken) {
     if(newToken){
         TOKEN = newToken;
     } else {
-        const token = Cookies.get("token");
+        const token = localStorage.getItem("token");
         if (token) {
             TOKEN = token;
         }

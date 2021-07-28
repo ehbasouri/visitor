@@ -52,7 +52,7 @@ export default function ArchiveOrder({order}) {
                       className={classes.inline}
                       color="textPrimary"
                   >
-                      {converEnglishNumToPersian(moment(order.created_at).format('YYYY/MM/DD  hh:mm  a'))}
+                      {converEnglishNumToPersian(moment(order.updated_at).format('YYYY/MM/DD  hh:mm  a'))}
                   </Typography>
                   </React.Fragment>
               }

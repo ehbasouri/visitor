@@ -72,7 +72,19 @@ function AddClient({history}) {
 
     useEffect(()=>{
         fetchClients();
-      },[])
+        fetchCategory();
+    },[])
+
+    async function fetchCategory(cat_id) {
+        try {
+            const { data } = await API.get("/business/category",{_id: cat_id});
+            if(data.length > 0){
+                set_category(data[0])
+            }
+        } catch (error) {
+          console.log("error : ", error);
+        }
+    }
     
     async function fetchClients(params) {
         try {
@@ -93,7 +105,6 @@ function AddClient({history}) {
                 setName(data[0].name);
                 setPrice(data[0].price);
                 set_unit_price(data[0].unit_price);
-                
                 set_buy_price(data[0].buy_price);
                 setLocalImage(HOST + data[0].image)
                 setCount(data[0].count)
@@ -101,6 +112,7 @@ function AddClient({history}) {
                 setDescription(data[0].description)
                 set_is_private(data[0].is_private)
                 set_category({_id : data[0].cat_id, name: fa["Select category"] })
+                fetchCategory(data[0].cat_id);
             }
         } catch (error) {
             console.log("error : ", error);

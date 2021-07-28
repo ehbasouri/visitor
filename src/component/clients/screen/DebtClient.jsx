@@ -12,6 +12,8 @@ import DebtItem from '../items/DebtItem';
 import fa from '../../../translation/fa';
 import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 import numberWithCommas from '../../../utils/commaSeperator';
+import AddDebtPaiedModal from "../items/AddDebtPaiedModal"
+import EditButton from "../../../common/EditButton";
 
 function DebtClient({history}) {
     let { id, client_name } = useParams();
@@ -19,17 +21,36 @@ function DebtClient({history}) {
   const user_info = useSelector(state=>state.general_reducer.user_info)
   const [debt, set_debt] = useState(null)
   const [paieds, set_paieds] = useState([])
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [client_detailes, set_client_detailes] = useState({})
 
   useEffect(()=>{
-      fetchDebt()
-      fetchOrders()
+    fetchData()
   },[])
+
+  useEffect(()=>{
+    fetchUser();
+  },[])
+
+  async function fetchUser() {
+      try {
+          const {data} = await API.get("business/getusers",{_id: id});
+          set_client_detailes(data.users[0]);
+      } catch (error) {
+          console.log("error : ", error)
+      }
+  }
+
+  function fetchData() {
+    fetchDebt()
+    fetchPaieds()
+  }
 
   async function fetchDebt() {
       const queries = {
         business_id : user_info._id, 
         client_id: id
-      }
+      } 
       try {
           const {data} = await API.get("debt", queries);
           if(data && data.length > 0){
@@ -40,7 +61,7 @@ function DebtClient({history}) {
       }
   }
 
-  async function fetchOrders() {
+  async function fetchPaieds() {
     const queries = {
       business_id : user_info._id, 
       client_id: id
@@ -48,7 +69,7 @@ function DebtClient({history}) {
     try {
         const {data} = await API.get("paied", queries);
         if(data && data.length > 0){
-          set_paieds(data);
+            set_paieds(data);
         }
     } catch (error) {
         console.log("error : ", error);
@@ -66,7 +87,19 @@ function DebtClient({history}) {
             {paieds.map(debt=>(
                 <DebtItem key={debt._id} debt={debt} client_name={client_name} />
             ))}
-        </MainScreen>}
+        </MainScreen>} 
+          <AddDebtPaiedModal 
+            open={showAddModal}
+            setOpen={setShowAddModal}
+            business_id = {user_info._id}
+            client_id= {id}
+            fetchData={fetchData}
+            client={client_detailes}
+            business={user_info}
+          />
+        <EditButton 
+          onClick={()=>setShowAddModal(true)} 
+        />
     </div>
   );
 }

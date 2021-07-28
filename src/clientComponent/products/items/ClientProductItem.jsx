@@ -21,6 +21,7 @@ import { BASKET } from '../../../consts';
 import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 import numberWithCommas from '../../../utils/commaSeperator';
 import { ClientProdoctBottomDrawer } from "./ClientProdoctBottomDrawer"
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const useStyles = makeStyles({
   root: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles({
   cardAction: {
     display: "flex",
     justifyContent: "flex-end"
+  },
+  image: {
+    minHeight: 200
   }
 });
 
@@ -62,9 +66,10 @@ export default function ClientProductItem({product, onDeleteProduct, show_price}
       <CardActionArea>
         <LazyLoadImage
           alt="Contemplative Reptile"
-          height={null}
+          // height={null}
           src={HOST + product.image} 
           width="100%" 
+          className={classes.image}
           />
         <CardContent>
           <Typography align={"left"} gutterBottom variant="h5" component="h2">

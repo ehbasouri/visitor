@@ -19,6 +19,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import SelectCategoryModal from "../items/SelectCategoryModal";
 import SimpleBackdrop from '../../../common/SimpleBackdrop';
 import ClientPackages from "../items/ClientPackages";
+import { firebsaeAnalyticsLogEvent } from "../../../utils/firebaseAnalyticsLogEvent";
 
 const limit = 10
 
@@ -33,7 +34,6 @@ function ClientProducts({router}) {
     const isScrolling =()=>{
         if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 / 4)) {
            setIsFetching(true);
-           // Show loading spinner and make fetch request to api
         }
     }
     
@@ -63,6 +63,7 @@ function ClientProducts({router}) {
 
     useEffect(()=>{
         fetchCbr();
+        firebsaeAnalyticsLogEvent("client_products_screen")
     },[])
 
     useEffect(()=>{
@@ -181,11 +182,6 @@ function ClientProducts({router}) {
                     link={"/basket"}
                     icon={<BasketIcon/>}
                 />}
-
-          <SimpleBackdrop
-            open={loading}
-            setOpen={setLoading}
-          />
         </div>
     )
 }

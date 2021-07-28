@@ -18,7 +18,7 @@ import Button from '@material-ui/core/Button';
 import fa from "../../../translation/fa";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const limit = 10
+const limit = 20
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,6 +41,22 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(3),
+    },
+    buttonContainer: {
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        width: "100vw",
+        backgroundColor: "#fff",
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    itemContainer: {
+        paddingBottom: theme.spacing(6)
     }
   }));
 
@@ -56,20 +72,8 @@ function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false
 
     const prevScrollY = useRef(0);
 
-    const isScrolling =(e)=>{
-
-
-        const currentScrollY = e.target.scrollTop;
-        if (prevScrollY.current < currentScrollY && goingUp) {
-        setGoingUp(false);
-        }
-        if (prevScrollY.current > currentScrollY && !goingUp) {
-        setGoingUp(true);
-        }
-        prevScrollY.current = currentScrollY;
-        if(goingUp) return;
-        if (currentScrollY > (((page / limit) - 1) * (document.body.offsetHeight * 3 /4)) + 30) {
-        // if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 /4)) {
+    const isScrolling =()=>{
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 / 4)) {
            console.log("you're at the bottom of the page ... ");
            setIsFetching(true);
            // Show loading spinner and make fetch request to api
@@ -77,8 +81,8 @@ function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false
     }
 
     useEffect(()=>{
-        // document.getElementById("myModalID").addEventListener("scroll" , isScrolling);
-        // return () => document.getElementById("myModalID").removeEventListener("scroll", isScrolling);
+        window.addEventListener("scroll", isScrolling);
+        return () => window.removeEventListener("scroll", isScrolling);
     }, [])
 
     useEffect(() => {
@@ -159,37 +163,41 @@ function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false
                 rightComponent={
                 <IconButton onClick={closeFnc} edge="center" color="inherit" >
                     <CloseIcon />
-                </IconButton>}
+                </IconButton>} 
             />
                 <MainScreen>
                     <SearchInput value={name} onChange={onSearchValueChange} />
-                    <List onScroll={isScrolling} id={"myModalID"} className={classes.root} subheader={<li />}>
-                        {products.map(product=>(
-                            <ProductItemToaddInOrder 
-                                productList={addedProductList} 
-                                setAddedProductList={setAddedProductList}
-                                key={product._id} 
-                                isGift={isGift}
-                                product={product} />
-                        ))}
-                        {loading && 
-                            <div className={classes.loader} >
-                                <CircularProgress />
-                            </div>
-                        }
-                    </List>
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    onClick={()=>{
-                        onAddPress(addedProductList)
-                        closeFnc()
-                    }}
-                >
-                    {fa["done"]}
-                </Button>
+                    {/* <List onScroll={isScrolling} id={"myModalID"} className={classes.root} subheader={<li />}> */}
+                        <div className={classes.itemContainer} >
+                            {products.map(product=>(
+                                <ProductItemToaddInOrder 
+                                    productList={addedProductList} 
+                                    setAddedProductList={setAddedProductList}
+                                    key={product._id} 
+                                    isGift={isGift}
+                                    product={product} />
+                            ))}
+                            {loading && 
+                                <div className={classes.loader} >
+                                    <CircularProgress />
+                                </div>
+                            }
+                        </div>
+                    {/* </List> */}
+                    <div className={classes.buttonContainer} >
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            onClick={()=>{
+                                onAddPress(addedProductList)
+                                closeFnc()
+                            }}
+                        >
+                            {fa["done"]}
+                        </Button>
+                    </div>
                 </MainScreen>
         </div>
     )

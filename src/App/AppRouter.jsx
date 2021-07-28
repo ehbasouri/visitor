@@ -15,7 +15,6 @@ import Products from "../component/products/screen/Products";
 import Categories from "../component/categories/screen/Categories";
 import AddProduct from "../component/products/screen/AddProduct";
 import Register from "../component/authentication/screen/Register";
-import Cookies from "js-cookie";
 import { parseJwt } from "../utils/parsJwt";
 import ClientLogin from "../clientComponent/authentication/screen/ClientLogin";
 import ClientRegister from "../clientComponent/authentication/screen/ClientRegister";
@@ -47,6 +46,8 @@ import ClientOrderList from "../component/clients/screen/ClientOrderList";
 import DebtClient from "../component/clients/screen/DebtClient";
 import OrderDetail from "../component/orders/screen/OrderDetail";
 import DebtScreen from "../component/debt/screen/DebtScreen";
+import ClientDebts from "../clientComponent/debt/screen/ClientDebts";
+import DebtDetailes from "../clientComponent/debt/screen/DebtDetailes";
 
 
 function BusinessRouter(params) {
@@ -90,7 +91,9 @@ function ClientRouter() {
     <Switch>
       <PrivateClientRoute path={"/basket"} component={ClientBasket} />
       <PrivateClientRoute path={"/userinfo"} component={ClientUserInfo} />
+      <PrivateClientRoute path={"/debts"} component={ClientDebts} />
       <PrivateClientRoute path={"/products/package/:id"} component={PackageDetailes} />
+      <PrivateClientRoute path={"/debtdetailes/:business_name/:id"} component={DebtDetailes} />
       <PrivateClientRoute path={"/products/:id"} component={ClientProducts} />
       <PrivateClientRoute path={"/updateuserinfo"} component={ClientUpdateUserInfo} />
       <PrivateClientRoute path={"/archiveorderdetail/:id"} component={ClientArchiveOrderDetailes} />
@@ -107,7 +110,7 @@ export const PrivateClientRoute = ({ component: Component, ...rest }) => {
   const Auth = useContext(AuthContext);
   let user_info = {}
   if (Auth) {
-    const user = Cookies.get("token"); 
+    const user = localStorage.getItem("token"); 
     user_info = parseJwt(user);
   }
     return(
@@ -124,7 +127,7 @@ export const PrivateBusinessRoute = ({ component: Component, ...rest }) => {
   const Auth = useContext(AuthContext);
   let user_info = {}
   if (Auth) {
-    const user = Cookies.get("token"); 
+    const user = localStorage.getItem("token"); 
     user_info = parseJwt(user);
   }
 
@@ -162,7 +165,7 @@ function AppRouter() {
 
   function getUserInfoToken() {
     try {
-      const user_token = Cookies.get("token")
+      const user_token = localStorage.getItem("token")
       const user_info = parseJwt(user_token);
       dispatch(updateGeneralProps({
         key: USER_INFO,

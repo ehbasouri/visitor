@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -6,7 +6,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import ExitToApp from '@material-ui/icons/ExitToApp';
-import Cookies from "js-cookie";
 import AuthContext from '../../../App/AuthApi';
 import { 
   Link
@@ -19,6 +18,8 @@ import PersonIcon from '@material-ui/icons/Person';
 import { useDispatch } from "react-redux";
 import { updateGeneralProps } from '../../../redux/actions';
 import { RESET_GENERAL_PROPS } from '../../../consts';
+import { firebsaeAnalyticsLogEvent } from '../../../utils/firebaseAnalyticsLogEvent';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,8 +37,12 @@ function ClientSettings() {
 
   const dispatch = useDispatch()
 
+  useEffect(()=>{
+    firebsaeAnalyticsLogEvent("client_setting_screen");
+  },[])
+
   function onLogout(params) {
-    Cookies.remove("token");
+    localStorage.removeItem("token");
     Auth.signOut();
     dispatch(updateGeneralProps({
       key: RESET_GENERAL_PROPS
@@ -58,6 +63,14 @@ function ClientSettings() {
                       <PersonIcon />
                   </ListItemIcon>
                   <ListItemText className={classes.text}   primary={fa["profile"]} />
+              </ListItem>
+          </Link>
+          <Link to={"debts"} style={{color: "#222"}}>
+              <ListItem button>
+              <ListItemIcon>
+                  <AttachMoneyIcon />
+              </ListItemIcon>
+              <ListItemText className={classes.text} primary={fa["debt account"]} />
               </ListItem>
           </Link>
         </List>

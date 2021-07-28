@@ -5,8 +5,6 @@ import fa from '../../../translation/fa';
 const LineChart = ({
     data
 }) => {
-
-  console.log("line chart  : ", data);
   
   var config = {
     data: data,

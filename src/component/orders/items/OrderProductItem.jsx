@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -35,6 +35,11 @@ export default function OrderProductItem({product, setOrder, order}) {
   const classes = useStyles();
   const [price, setPrice] = React.useState(product.price);
   const [unit_price, set_unit_price] = React.useState(product.unit_price);
+
+  useEffect(()=>{
+    setPrice(product.price);
+    set_unit_price(product.unit_price);
+  },[product.price, product.unit_price])
   
   function onPriceChange(e) {
     setPrice(e.target.value)

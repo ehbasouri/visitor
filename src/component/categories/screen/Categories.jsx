@@ -9,7 +9,6 @@ import SceneWrapper from '../../../SceneWrapper/SceneWrapper';
 import { API } from '../../../service/api';
 import AddCategoryModal from '../items/AddCategoryModal';
 import SimpleBackdrop from '../../../common/SimpleBackdrop';
-import DeleteCategoryModal from '../items/DeleteCategoryModal';
 import Button from '@material-ui/core/Button';
 import MainScreen from '../../../common/MainScreen';
 import fa from '../../../translation/fa';

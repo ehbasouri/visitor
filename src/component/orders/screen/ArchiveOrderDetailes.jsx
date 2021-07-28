@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
         // paddingRight: theme.spacing(2),
         // paddingTop: theme.spacing(2),
         // paddingBottom: theme.spacing(2),
+    },
+    backtoStore: {
+        marginTop: theme.spacing(3)
     }
   }));
 
@@ -69,8 +72,6 @@ function ArchiveOrderTable(params) {
         return totalPrice - orderDetails.discount; 
     }
 
-    console.log("orderDetails : ", orderDetails);
-
     return(
         !orderDetails ? null :
         <div className={classes.tableContainer} >
@@ -95,12 +96,12 @@ function ArchiveOrderTable(params) {
                 title={fa["total price"]}
                 value={converEnglishNumToPersian(numberWithCommas(getTotalPrice())) + " " + fa["toman"]  }
             />
-            { orderDetails.paied_amount && getTotalPrice() !== orderDetails.paied_amount && <ArchiveOrderItem
+            { typeof orderDetails.paied_amount === "number" && getTotalPrice() !== orderDetails.paied_amount && <ArchiveOrderItem
                 cssId={"text-to-print"}
                 title={fa["paied amount"]}
                 value={converEnglishNumToPersian(numberWithCommas(orderDetails.paied_amount)) + " " + fa["toman"]  }
             />}
-            {orderDetails.paied_amount && getTotalPrice() !== orderDetails.paied_amount && <ArchiveOrderItem
+            {typeof orderDetails.paied_amount === "number" && getTotalPrice() !== orderDetails.paied_amount && <ArchiveOrderItem
                 cssId={"text-to-print"}
                 title={fa["debt amount"]}
                 value={converEnglishNumToPersian(numberWithCommas(getTotalPrice() - orderDetails.paied_amount)) + " " + fa["toman"]  }
@@ -165,7 +166,6 @@ function ArchiveOrderDetailes() {
           paied_amount: orderDetails.paied_amount,
           is_debt: orderDetails.is_debt
         }
-        console.log("options : ", options);
         try {
           const {data} = await API.put("order", options, {id: orderDetails._id})
           history.replace("/admin/activeorderdetail/" + orderDetails._id)
@@ -210,7 +210,7 @@ function ArchiveOrderDetailes() {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    className={classes.submit}
+                    className={classes.backtoStore}
                     onClick={onEditClick}
                 >
                     {fa["back to store"]}

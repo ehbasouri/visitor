@@ -28,6 +28,9 @@ export default function SelectCategoryModal({
     category,
     set_category
 }) {
+
+    console.log("category : ", category);
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 

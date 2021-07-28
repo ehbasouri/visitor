@@ -33,10 +33,14 @@ const useStyles = makeStyles((theme) => ({
   },
   doneIcon: {
     color: "green"
+  },
+  subtitle: {
+    display: "flex",
+    flexDirection: "column"
   }
 }));
 
-export default function DebtItem({debt, client_name}) {
+export default function DebtItem({debt, url = "/admin/archiveorderdetail/" }) {
   
   const classes = useStyles();
 
@@ -44,7 +48,7 @@ export default function DebtItem({debt, client_name}) {
 
   const onClick = () => {
     if(debt.order_id){
-      history.push("/admin/archiveorderdetail/" + debt.order_id)
+      history.push( url + debt.order_id)
     }
   }
 
@@ -61,7 +65,7 @@ export default function DebtItem({debt, client_name}) {
             <ListItemText
               primary={converEnglishNumToPersian(numberWithCommas(debt.amount)) + " " + fa["toman"] }
               secondary={
-                  <React.Fragment>
+                  <div className={classes.subtitle} >
                   <Typography
                       component="span"
                       variant="body2"
@@ -70,7 +74,15 @@ export default function DebtItem({debt, client_name}) {
                   >
                       {converEnglishNumToPersian(moment(debt.created_at).format('YYYY/MM/DD  hh:mm  a'))}
                   </Typography>
-                  </React.Fragment>
+                  <Typography
+                      component="span"
+                      variant="body2"
+                      className={classes.inline}
+                      color="textPrimary"
+                  >
+                      {debt.description}
+                  </Typography>
+                  </div>
               }
             />
         </ListItem>

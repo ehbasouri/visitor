@@ -16,6 +16,7 @@ import {
 import { DeleteModal } from '../../../common/DeleteModal';
 import fa from '../../../translation/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component'; 
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const useStyles = makeStyles({
   root: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles({
     width: "100%"
   },
   image: {
-    // resize: 
+    minHeight: 200
   }
 });
 
@@ -38,9 +39,11 @@ export default function ProductItem({product, onDeleteProduct}) {
       <CardActionArea>
         <LazyLoadImage
           alt="Contemplative Reptile"
-          height={null}
+          // height={200}
           src={HOST + product.image} 
           width="100%"
+          effect={"blur"}
+          className={classes.image}
           />
         <CardContent>
           <Typography align={"left"} gutterBottom variant="h5" component="h2">

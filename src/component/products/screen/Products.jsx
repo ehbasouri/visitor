@@ -139,10 +139,6 @@ function Products() {
                 </div>
             </MainScreen>
             <AddButton link={"addproduct"} />
-          <SimpleBackdrop
-            open={loading}
-            setOpen={setLoading}
-          />
         </div>
     )
 }

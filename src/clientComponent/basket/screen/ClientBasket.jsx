@@ -18,6 +18,7 @@ import initialState from "../../../redux/reducer/initialState.json"
 import ArchiveOrderItem from "../../../component/orders/items/ArchiveOrderItem";
 import converEnglishNumToPersian from "../../../utils/EnglishNumToPersianNum";
 import numberWithCommas from "../../../utils/commaSeperator";
+import { firebsaeAnalyticsLogEvent } from "../../../utils/firebaseAnalyticsLogEvent";
 
 
 function ClientBasket() {
@@ -54,7 +55,9 @@ function ClientBasket() {
                 key: BASKET, value: initialState.basket
             }))
             history.replace("/orders/active")
+            firebsaeAnalyticsLogEvent("client_placed_order_success")
         } catch (error) {
+            firebsaeAnalyticsLogEvent("client_placed_order_error")
             console.log("error : ", error.response);
         }
         setLoading(false)

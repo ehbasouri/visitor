@@ -13,6 +13,7 @@ import ArchiveOrderItem from "../../../component/orders/items/ArchiveOrderItem";
 import converEnglishNumToPersian from "../../../utils/EnglishNumToPersianNum";
 import numberWithCommas from "../../../utils/commaSeperator";
 import Button from '@material-ui/core/Button';
+import { firebsaeAnalyticsLogEvent } from "../../../utils/firebaseAnalyticsLogEvent";
 
 
 
@@ -27,6 +28,7 @@ function PackageDetailes(params) {
 
     useEffect(()=>{
         fetchPackageDetail();
+        firebsaeAnalyticsLogEvent("client_package_detailes_screen");
     },[])
 
     async function fetchPackageDetail() {

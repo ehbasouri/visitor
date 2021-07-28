@@ -8,7 +8,6 @@ import Divider from '@material-ui/core/Divider';
 import BallotIcon from '@material-ui/icons/Ballot';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import CategoryIcon from '@material-ui/icons/Category';
-import Cookies from "js-cookie";
 import AuthContext from '../../../App/AuthApi';
 import { 
   Link
@@ -43,7 +42,7 @@ function Settings() {
   const dispatch = useDispatch()
 
   function onLogout(params) {
-    Cookies.remove("token");
+    localStorage.removeItem("token");
     Auth.signOut();
     dispatch(updateGeneralProps({
       key: RESET_GENERAL_PROPS

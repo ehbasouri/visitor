@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,6 +17,7 @@ import {Link} from "react-router-dom";
 import { AlertComponent } from '../../../common/AlertComponent';
 import fa from '../../../translation/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component'; 
+import { firebsaeAnalyticsLogEvent } from '../../../utils/firebaseAnalyticsLogEvent';
 
 function Copyright() {
   return (
@@ -79,8 +80,12 @@ function ClientRegister({history}) {
         password,
         name
       })
+      firebsaeAnalyticsLogEvent("client_register_success")
+      firebsaeAnalyticsLogEvent(username + "_register_success")
       Auth.signIn(data);
     } catch (error) {
+      firebsaeAnalyticsLogEvent("client_register_error")
+      firebsaeAnalyticsLogEvent("client_register_error")
       const errorMessage = handleApiErrors(error);
       setMessage(errorMessage);
       setShowAlert(true);

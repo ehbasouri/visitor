@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -17,6 +15,7 @@ import {Link} from "react-router-dom";
 import { AlertComponent } from '../../../common/AlertComponent';
 import fa from '../../../translation/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component'; 
+import { firebsaeAnalyticsLogEvent } from '../../../utils/firebaseAnalyticsLogEvent';
 
 function Copyright({link, title}) {
   return (
@@ -77,8 +76,11 @@ function ClientLogin() {
         username,
         password
       })
+      firebsaeAnalyticsLogEvent("client_logined_is_success")
+      firebsaeAnalyticsLogEvent(username + "_logined_is_success")
       Auth.signIn(data);
     } catch (error) {
+      firebsaeAnalyticsLogEvent("client_logined_is_error")
       const errorMessage = handleApiErrors(error);
       setMessage(errorMessage);
       setShowAlert(true);
