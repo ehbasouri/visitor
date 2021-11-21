@@ -14,7 +14,6 @@ function useAuth() {
     const [password, setPassword] = useState("");
     const Auth = useContext(AuthContext);
   
-  
     async function onRegister() {
       if(username.length < 1 || password.length < 1){
         setShowAlert(true);
@@ -73,18 +72,20 @@ function useAuth() {
     }
 
     return {
+        //stat
         username, 
         password, 
+        showAlert, 
+        message,
+        loading,
+        name,
+        // functions
         onUsernameChange, 
         onPasswordChange, 
         onRegister,
         onLogin,
-        showAlert, 
         setShowAlert, 
-        message,
-        loading,
         setLoading,
-        name,
         onNameChange
     }
 

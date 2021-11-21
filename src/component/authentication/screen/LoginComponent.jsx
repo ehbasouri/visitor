@@ -1,46 +1,53 @@
-import React, {  } from 'react';
-import Container from '@material-ui/core/Container';
-import {useAuthStyles} from "../auth.style"
-import { LoginProvider } from './useLoginContext';
-import { AuthButton, AuthIcon, AuthTitle, AuthUserNameTextInput, AuthPasswordTextInput, AuthLinkButton, AuthAlertComponent, AuthSimpleBackdrop } from '../items';
-import { useAuth } from './useAuth';
+import React from "react";
+import Container from "@material-ui/core/Container";
+import { useAuthStyles } from "../auth.style";
+import { LoginProvider } from "./useLoginContext";
+import {
+  AuthButton,
+  AuthIcon,
+  AuthTitle,
+  AuthUserNameTextInput,
+  AuthPasswordTextInput,
+  AuthLinkButton,
+  AuthAlertComponent,
+  AuthSimpleBackdrop,
+} from "../items";
+import { useAuth } from "./useAuth";
 
-function LoginComponent({children}) {
-
+function LoginComponent({ children }) {
   const classes = useAuthStyles();
 
   const {
-    username, 
-    password, 
-    onUsernameChange, 
-    onPasswordChange, 
+    username,
+    password,
+    onUsernameChange,
+    onPasswordChange,
     onLogin,
-    showAlert, 
-    setShowAlert, 
+    showAlert,
+    setShowAlert,
     message,
     loading,
-    setLoading
+    setLoading,
   } = useAuth();
 
   return (
-    <LoginProvider 
-        value={{
-            username, 
-            password, 
-            onUsernameChange, 
-            onPasswordChange, 
-            onSubmit: onLogin,
-            showAlert, 
-            setShowAlert, 
-            message,
-            loading,
-            setLoading
-        }} >
-        <Container component="main" maxWidth="xs">
-          <div className={classes.paper}>
-              {children}
-          </div>
-        </Container>
+    <LoginProvider
+      value={{
+        username,
+        password,
+        onUsernameChange,
+        onPasswordChange,
+        onSubmit: onLogin,
+        showAlert,
+        setShowAlert,
+        message,
+        loading,
+        setLoading,
+      }}
+    >
+      <Container component="main" maxWidth="xs">
+        <div className={classes.paper}>{children}</div>
+      </Container>
     </LoginProvider>
   );
 }
@@ -54,4 +61,4 @@ LoginComponent.LoginPasswordTextInput = AuthPasswordTextInput;
 LoginComponent.LoginAlertComponent = AuthAlertComponent;
 LoginComponent.LoginSimpleBackdrop = AuthSimpleBackdrop;
 
-export {LoginComponent};
+export { LoginComponent };

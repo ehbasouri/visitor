@@ -58,6 +58,7 @@ function OrderDetail() {
   const [loading, setLoading] = React.useState(false);
   const [paied_amount, set_paied_amount] = React.useState(null);
   const [showModal, setShowModal] = React.useState(0);
+  const [debt, set_debt] = React.useState(null);
 
   const user_info = useSelector(state=>state.general_reducer.user_info)
 
@@ -70,6 +71,9 @@ function OrderDetail() {
       set_paied_amount(updatedOrder.paied_amount)
     } else {
       set_paied_amount(getTotalPrice())
+    }
+    if (updatedOrder) {
+      fetchDebt() 
     }
   },[updatedOrder, discount])
 
@@ -200,6 +204,20 @@ function OrderDetail() {
     setUpdatedOrder(rawUpdatedOrder);
   }
 
+  async function fetchDebt() {
+    const queries = {
+      business_id : user_info._id, 
+      client_id: updatedOrder.client_id
+    } 
+    try {
+        const {data} = await API.get("debt", queries);
+        if(data && data.length > 0){
+          set_debt(data[0]);
+        }
+    } catch (error) {
+        console.log("error : ", error);
+    }
+}
 
   function onAddGiftPress(newGiftList) {
     const rawUpdatedOrder = JSON.parse(JSON.stringify(updatedOrder));
@@ -301,10 +319,14 @@ function OrderDetail() {
                     value={paied_amount}
                     className={classes.input}
                 />
-                <OrderInfoItem
+                {getTotalPrice() - paied_amount > 0 && <OrderInfoItem
                     title={fa["debt amount"]}
                     value={converEnglishNumToPersian(numberWithCommas(getTotalPrice() - paied_amount)) + " " + fa["toman"]}
-                />
+                />}
+                {debt && debt.amount - debt.paied_amount > 0 && <OrderInfoItem
+                    title={fa["all debt"]}
+                    value={converEnglishNumToPersian(numberWithCommas(debt.amount - debt.paied_amount)) + " " + fa["toman"]}
+                />}
                 <Button
                     type="submit"
                     fullWidth

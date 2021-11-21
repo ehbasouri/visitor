@@ -83,6 +83,7 @@ const fa = {
     "paied amount": "پرداختی",
     "debt amount": "مانده",
     "debt account": "مانده حساب",
+    "all debt": " کل مانده",
     "back to store": "بازگشت به انبار",
     "pay with client": "پرداخت از طرف مشتری",
     "add new debt": "افزودن بدهی جدید"

@@ -45,12 +45,18 @@ function ArchiveOrderTable(params) {
     let { id } = useParams();
 
     const [orderDetails, setOrderDetails] = useState(null);
+    const [debt, set_debt] = React.useState(null);
     const user_info = useSelector(state=>state.general_reducer.user_info)
 
     useEffect(()=>{
         fetchOrderDetail();
     },[])
 
+    useEffect(()=>{
+        if(orderDetails){
+            fetchDebt() 
+        }
+      },[orderDetails])
     async function fetchOrderDetail() {
         try {
             const {data} = await API.get("business/order", {_id: id, business_id : user_info._id});
@@ -70,6 +76,21 @@ function ArchiveOrderTable(params) {
             }
         })
         return totalPrice - orderDetails.discount; 
+    }
+
+    async function fetchDebt() {
+        const queries = {
+            business_id : user_info._id, 
+            client_id: orderDetails.client_id
+        } 
+        try {
+            const {data} = await API.get("debt", queries);
+            if(data && data.length > 0){
+            set_debt(data[0]);
+            }
+        } catch (error) {
+            console.log("error : ", error);
+        }
     }
 
     return(
@@ -106,6 +127,10 @@ function ArchiveOrderTable(params) {
                 title={fa["debt amount"]}
                 value={converEnglishNumToPersian(numberWithCommas(getTotalPrice() - orderDetails.paied_amount)) + " " + fa["toman"]  }
             />}
+            {debt && debt.amount - debt.paied_amount > 0 && <ArchiveOrderItem
+                cssId={"text-to-print"}
+                title={fa["all debt"]}
+                value={converEnglishNumToPersian(numberWithCommas(debt.amount - debt.paied_amount)) + " " + fa["toman"]}/>}
             {orderDetails.status === "archive" &&<SignItem date={orderDetails.updated_at} />}
             {/* { !readyToPrint && orderDetails.status === "archive" && } */}
             {orderDetails.status === "cancel" && <Typography align={"left"} variant="subtitle1" className={classes.canceledText}>

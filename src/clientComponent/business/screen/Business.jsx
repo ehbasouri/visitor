@@ -26,7 +26,7 @@ function Business({history}) {
     },[])
 
     async function fetchBusinesses(searchValue) {
-        const queries = { is_active : true}
+        const queries = { is_active : true, is_public: true}
         if(searchValue) queries.name= searchValue;
         try {
             const {data} = await API.get("business", queries);
