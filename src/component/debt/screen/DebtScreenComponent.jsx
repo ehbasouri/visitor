@@ -8,13 +8,10 @@ import { DebtList, TotalDebt } from '../items';
 
 function DebtScreenComponent({children}) {
   
-  const {
-    debts,
-    total_debt
-  } = useDebt();
+  const debtContext = useDebt();
 
   return (
-    <DebtProvider value={{ debts, total_debt }} >
+    <DebtProvider value={debtContext} >
       <div className={"mainScreen"} >
           <Header title={fa["debt account"]} />
           <MainScreen>

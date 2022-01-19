@@ -86,7 +86,8 @@ const fa = {
     "all debt": " کل مانده",
     "back to store": "بازگشت به انبار",
     "pay with client": "پرداخت از طرف مشتری",
-    "add new debt": "افزودن بدهی جدید"
+    "add new debt": "افزودن بدهی جدید",
+    "select": "انتخاب"
 }
 
 export default fa;

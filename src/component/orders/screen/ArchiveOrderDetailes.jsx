@@ -84,9 +84,14 @@ function ArchiveOrderTable(params) {
             client_id: orderDetails.client_id
         } 
         try {
-            const {data} = await API.get("debt", queries);
+            const {data} = await API.get("paied", queries);
             if(data && data.length > 0){
-            set_debt(data[0]);
+                let total_debt = 0;
+                data.map(element=>{
+                total_debt = element.is_debt ?  total_debt + element.amount : total_debt - element.amount
+                })
+                set_debt(total_debt);
+
             }
         } catch (error) {
             console.log("error : ", error);
@@ -127,10 +132,10 @@ function ArchiveOrderTable(params) {
                 title={fa["debt amount"]}
                 value={converEnglishNumToPersian(numberWithCommas(getTotalPrice() - orderDetails.paied_amount)) + " " + fa["toman"]  }
             />}
-            {debt && debt.amount - debt.paied_amount > 0 && <ArchiveOrderItem
+            {debt  > 0 && <ArchiveOrderItem
                 cssId={"text-to-print"}
                 title={fa["all debt"]}
-                value={converEnglishNumToPersian(numberWithCommas(debt.amount - debt.paied_amount)) + " " + fa["toman"]}/>}
+                value={converEnglishNumToPersian(numberWithCommas(debt)) + " " + fa["toman"]}/>}
             {orderDetails.status === "archive" &&<SignItem date={orderDetails.updated_at} />}
             {/* { !readyToPrint && orderDetails.status === "archive" && } */}
             {orderDetails.status === "cancel" && <Typography align={"left"} variant="subtitle1" className={classes.canceledText}>

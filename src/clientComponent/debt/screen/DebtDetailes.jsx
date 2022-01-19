@@ -17,7 +17,7 @@ function DebtDetailes({history}) {
     let { id, business_name } = useParams();
 
   const user_info = useSelector(state=>state.general_reducer.user_info)
-  const [debt, set_debt] = useState(null)
+  const [debt, set_debt] = useState(0)
   const [paieds, set_paieds] = useState([])
 
   useEffect(()=>{
@@ -25,7 +25,7 @@ function DebtDetailes({history}) {
   },[])
 
   function fetchData() {
-    fetchDebt()
+    // fetchDebt()
     fetchPaieds()
   }
 
@@ -53,6 +53,13 @@ function DebtDetailes({history}) {
         const {data} = await API.get("paied", queries);
         if(data && data.length > 0){
             set_paieds(data);
+
+            let total_debt = 0;
+            data.map(element=>{
+              total_debt = element.is_debt ?  total_debt + element.amount : total_debt - element.amount
+            })
+            set_debt(total_debt);
+
         }
     } catch (error) {
         console.log("error : ", error);
@@ -65,7 +72,7 @@ function DebtDetailes({history}) {
         {debt && <MainScreen>
             <TotalItems
                 title={fa["debt amount"]}
-                subTitle={converEnglishNumToPersian(numberWithCommas(debt.amount - debt.paied_amount)) + " " + fa["toman"]}
+                subTitle={converEnglishNumToPersian(numberWithCommas(debt)) + " " + fa["toman"]}
             />
             {paieds.map(debt=>(
                 <DebtItem url={"/archiveorderdetail/"} key={debt._id} debt={debt} business_name={business_name} />

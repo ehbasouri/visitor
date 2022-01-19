@@ -36,14 +36,14 @@ export default function ClientDebtItem({debt}) {
               primary={debt.business.name}
               secondary={
                   <React.Fragment>
-                  <Typography
+                  {/* <Typography
                       component="span"
                       variant="body2"
                       className={classes.inline}
                       color="textPrimary"
                   >
                     {converEnglishNumToPersian(numberWithCommas(debt.amount - debt.paied_amount)) + " " + fa["toman"]}
-                  </Typography>
+                  </Typography> */}
                   </React.Fragment>
               }
             />

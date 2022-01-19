@@ -19,7 +19,7 @@ function DebtClient({history}) {
     let { id, client_name } = useParams();
 
   const user_info = useSelector(state=>state.general_reducer.user_info)
-  const [debt, set_debt] = useState(null)
+  const [debt, set_debt] = useState(0)
   const [paieds, set_paieds] = useState([])
   const [showAddModal, setShowAddModal] = useState(false);
   const [client_detailes, set_client_detailes] = useState({})
@@ -42,7 +42,6 @@ function DebtClient({history}) {
   }
 
   function fetchData() {
-    fetchDebt()
     fetchPaieds()
   }
 
@@ -55,6 +54,7 @@ function DebtClient({history}) {
           const {data} = await API.get("debt", queries);
           if(data && data.length > 0){
             set_debt(data[0]);
+
           }
       } catch (error) {
           console.log("error : ", error);
@@ -68,6 +68,13 @@ function DebtClient({history}) {
     }
     try {
         const {data} = await API.get("paied", queries);
+
+        let total_debt = 0;
+        data.map(element=>{
+          total_debt = element.is_debt ?  total_debt + element.amount : total_debt - element.amount
+        })
+        set_debt(total_debt);
+
         if(data && data.length > 0){
             set_paieds(data);
         }
@@ -79,10 +86,10 @@ function DebtClient({history}) {
   return (
   <div className={"mainScreen"}>
     <Header title={client_name} />
-        {debt && <MainScreen>
+        {paieds && <MainScreen>
             <TotalItems
                 title={fa["debt amount"]}
-                subTitle={converEnglishNumToPersian(numberWithCommas(debt.amount - debt.paied_amount)) + " " + fa["toman"]}
+                subTitle={converEnglishNumToPersian(numberWithCommas(debt)) + " " + fa["toman"]}
             />
             {paieds.map(debt=>(
                 <DebtItem key={debt._id} debt={debt} client_name={client_name} />

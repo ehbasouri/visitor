@@ -11,3 +11,4 @@ export const BUSINESS_LIST = "business_list";
 export const CBRS = "cbrs";
 export const DEBTS = "debts";
 export const PACKAGES = "packages";
+export const PAIED_OBJECT = "paiedObject";

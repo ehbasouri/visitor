@@ -12,6 +12,7 @@ import { HOST } from '../../../service/api';
 import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 import numberWithCommas from '../../../utils/commaSeperator';
 import fa from '../../../translation/fa';
+import { useDebtContext } from '../screen/useDebtContext';
 
 const useStyles = makeStyles((theme) => ({
   inline: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export function DebtScreenItem({debt}) {
   
   const classes = useStyles();
-
+  const {getClientTotalDebt} = useDebtContext();
   return (
       <Link to={`/admin/debtclient/${debt.client.name}/${debt.client._id}`} > 
         <ListItem alignItems="flex-start">
@@ -42,7 +43,7 @@ export function DebtScreenItem({debt}) {
                       className={classes.inline}
                       color="textPrimary"
                   >
-                    {converEnglishNumToPersian(numberWithCommas(debt.amount - debt.paied_amount)) + " " + fa["toman"]}
+                    {converEnglishNumToPersian(numberWithCommas(getClientTotalDebt(debt.client_id))) + " " + fa["toman"]}
                   </Typography>
                   </React.Fragment>
               }

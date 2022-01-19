@@ -58,7 +58,7 @@ function OrderDetail() {
   const [loading, setLoading] = React.useState(false);
   const [paied_amount, set_paied_amount] = React.useState(null);
   const [showModal, setShowModal] = React.useState(0);
-  const [debt, set_debt] = React.useState(null);
+  const [debt, set_debt] = React.useState(0);
 
   const user_info = useSelector(state=>state.general_reducer.user_info)
 
@@ -210,14 +210,18 @@ function OrderDetail() {
       client_id: updatedOrder.client_id
     } 
     try {
-        const {data} = await API.get("debt", queries);
+        const {data} = await API.get("paied", queries);
         if(data && data.length > 0){
-          set_debt(data[0]);
+            let total_debt = 0;
+            data.map(element=>{
+              total_debt = element.is_debt ?  total_debt + element.amount : total_debt - element.amount
+            })
+            set_debt(total_debt);
         }
     } catch (error) {
         console.log("error : ", error);
     }
-}
+  }
 
   function onAddGiftPress(newGiftList) {
     const rawUpdatedOrder = JSON.parse(JSON.stringify(updatedOrder));
@@ -323,10 +327,10 @@ function OrderDetail() {
                     title={fa["debt amount"]}
                     value={converEnglishNumToPersian(numberWithCommas(getTotalPrice() - paied_amount)) + " " + fa["toman"]}
                 />}
-                {debt && debt.amount - debt.paied_amount > 0 && <OrderInfoItem
+                <OrderInfoItem
                     title={fa["all debt"]}
-                    value={converEnglishNumToPersian(numberWithCommas(debt.amount - debt.paied_amount)) + " " + fa["toman"]}
-                />}
+                    value={converEnglishNumToPersian(numberWithCommas(debt)) + " " + fa["toman"]}
+                />
                 <Button
                     type="submit"
                     fullWidth
