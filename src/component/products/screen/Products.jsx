@@ -16,14 +16,36 @@ import { PRODUCTS } from "../../../consts";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SelectCategoryModal from "../items/SelectCategoryModal";
 import SimpleBackdrop from '../../../common/SimpleBackdrop';
+import ProductStoreItem from "../../store/items/ProductStoreItem";
+import fa from "../../../translation/fa";
+import converEnglishNumToPersian from "../../../utils/EnglishNumToPersianNum";
+import numberWithCommas from "../../../utils/commaSeperator";
+import { 
+  Link
+} from "react-router-dom";
 
-const limit = 10
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
+import ListIcon from '@material-ui/icons/List';
+import Crop54Icon from '@material-ui/icons/Crop54';
+
+function DisableElevation(showDetails, setShowDetails) {
+  return (
+    <ButtonGroup disableElevation variant="contained" color="primary">
+      <Button onClick={()=>setShowDetails(false)} startIcon={<ListIcon/>} variant={showDetails ? 'outlined' : 'contained'} />
+      <Button onClick={()=>setShowDetails(true)} startIcon={<Crop54Icon/>} variant={!showDetails ? 'outlined' : 'contained'} />
+    </ButtonGroup>
+  );
+}
+
+
+const limit = 20
 
 function Products() {
 
     const [isFetching, setIsFetching] = useState(false);
     const [loading, setLoading] = useState(true);
-
+    const [showDetails, setShowDetails] = useState(false)
     const isScrolling =()=>{
         if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 3 / 4)) {
            console.log("you're at the bottom of the page ... ");
@@ -130,10 +152,14 @@ function Products() {
                 set_category={onCatChange}
             />
             <MainScreen>
+            {DisableElevation(showDetails, setShowDetails)}
                 <SearchInput value={name} onChange={onSearchValueChange} />
                 <div className={"mainItemsContainer"} >
                     {products.map(product=>(
-                        <ProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
+                        !showDetails ? 
+                            <ProductStoreItem title={product?.name} value={
+                                fa["buy price"] + " " + converEnglishNumToPersian(numberWithCommas(product?.buy_price))}/> :
+                          <ProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
                     ))}
                     {!finished && <CircularProgress />}
                 </div>

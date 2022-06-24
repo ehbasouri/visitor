@@ -40,7 +40,7 @@ export default function ProductStoreItem({title, value, image}) {
   return (
     <List dense className={classes.root}>
         <ListItem button>
-            <Avatar src={HOST + image} aria-label="recipe" className={classes.avatar} />
+            {image && <Avatar src={HOST + image} aria-label="recipe" className={classes.avatar} />}
             <ListItemText primary={title} />
 
             <ListItemSecondaryAction>
