@@ -81,8 +81,8 @@ function OrderDetail() {
     try {
         const {data} = await API.get("business/order", {_id: id, business_id : user_info._id});
         setUpdatedOrder(data[0]);
-        
-        fetchProducts(data[0]);
+
+        data[0] && !data[0]?.is_package && fetchProducts(data[0]);
 
         if(data[0] && typeof data[0].discount === "number"){
           setDiscount(data[0].discount)
@@ -93,6 +93,7 @@ function OrderDetail() {
   }
 
   async function fetchProducts(rawOrder) {
+    console.log('fetching pl ...');
     try {
       const rawResult = {...rawOrder};
       const ids = []

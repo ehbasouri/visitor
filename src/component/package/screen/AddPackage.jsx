@@ -114,17 +114,51 @@ function AddPackage({history}) {
   const productListRef = useRef(null);
   const giftListRef = useRef(null);
 
+  // function getTotalPrice() {  
+  //   let totalPrice = 0
+  //   updatedOrder.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
+  //   return totalPrice - discount;
+  // }
+
   function getTotalPrice() {
+    if(!updatedOrder) return
     let totalPrice = 0
-    updatedOrder.products.map(product=> totalPrice = totalPrice + (product.price * product.countInBasket))
-    return totalPrice - discount;
-  }
+    updatedOrder.products.map(product => {
+        if((product.unitCountInBasket === undefined)){
+            totalPrice = totalPrice + (product.price * product.countInBasket)
+        }else {
+            totalPrice = totalPrice + (product.unit_price * product.unitCountInBasket)  + (product.price * product.countInBasket)
+        }
+    })
+    return Number(totalPrice - discount); 
+}
+
+  // function getTotalBuyPrice() {
+  //   let totalBuyPrice = 0
+  //   updatedOrder.products.map(product=> totalBuyPrice = totalBuyPrice  + ((product.buy_price / product.count_in_box) * product.unitCountInBasket) + (product.buy_price * product.countInBasket))
+  //   updatedOrder.gift.map(giftItem=> totalBuyPrice = totalBuyPrice  + ((giftItem.buy_price / giftItem.count_in_box) * giftItem.unitCountInBasket) + (giftItem.buy_price * giftItem.countInBasket))
+  //   return totalBuyPrice - discount;
+  // }
+
 
   function getTotalBuyPrice() {
+    if(!updatedOrder) return
     let totalBuyPrice = 0
-    updatedOrder.products.map(product=> totalBuyPrice = totalBuyPrice  + ((product.buy_price / product.count_in_box) * product.unitCountInBasket) + (product.buy_price * product.countInBasket))
-    updatedOrder.gift.map(giftItem=> totalBuyPrice = totalBuyPrice  + ((giftItem.buy_price / giftItem.count_in_box) * giftItem.unitCountInBasket) + (giftItem.buy_price * giftItem.countInBasket))
-    return totalBuyPrice - discount;
+    updatedOrder.products.map(product => {
+      if((product.unitCountInBasket === undefined)){
+        totalBuyPrice = totalBuyPrice + (product.buy_price * product.countInBasket)
+      }else {
+        totalBuyPrice = totalBuyPrice + ( Math.floor(product.buy_price / product.count_in_box) * product.unitCountInBasket)  + (product.buy_price * product.countInBasket)
+      }
+    })
+    updatedOrder.gift.map(product=> {
+      if((product.unitCountInBasket === undefined)){
+        totalBuyPrice = totalBuyPrice + (product.buy_price * product.countInBasket)
+      }else {
+          totalBuyPrice = totalBuyPrice + ((product.buy_price / product.count_in_box) * product.unitCountInBasket)  + (product.buy_price * product.countInBasket)
+      }
+    })
+    return Math.round(Number(totalBuyPrice));
   }
 
   function onDiscountChange(e) {

@@ -52,8 +52,10 @@ function PackageDetailes(params) {
         const orderData = {
             ...orderDetails,
             client_id: user_info._id,
-            client: user_info
+            client: user_info,
+            is_package: true,
         }
+        console.log('orderData : ', orderData);
         if(orderData.comment.length === 0) delete orderData.comment
         delete orderData.name
         delete orderData._id
@@ -62,9 +64,10 @@ function PackageDetailes(params) {
         delete orderData.__v
         try {
             const {data} = await API.post("order", orderData);
+            console.log('data : ', data);
             history.replace("/orders/active")
         } catch (error) {
-            console.log("error : ", error.response);
+            console.log("error : ", error);
         }
         setLoading(false)
     }
