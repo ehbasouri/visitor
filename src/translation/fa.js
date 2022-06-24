@@ -44,6 +44,7 @@ const fa = {
     "Are you sure to delete ?": "مطمئناً حذف می کنید؟",
     "edit": "ویرایش",
     "buy price": "قیمت خرید",
+    "buy": " خرید",
     "profile": "مشخصات",
     "email": "ایمیل",
     "phone": "تلفن",

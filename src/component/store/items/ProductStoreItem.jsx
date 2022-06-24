@@ -11,6 +11,9 @@ import { HOST } from '../../../service/api';
 import TextField from '@material-ui/core/TextField';
 import fa from '../../../translation/fa';
 import { Divider } from '@material-ui/core';
+import { 
+  Link
+} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,17 +38,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ProductStoreItem({title, value, image}) {
+export default function ProductStoreItem({title, value, image, ...product}) {
   const classes = useStyles();
   return (
     <List dense className={classes.root}>
         <ListItem button>
-            {image && <Avatar src={HOST + image} aria-label="recipe" className={classes.avatar} />}
             <ListItemText primary={title} />
 
-            <ListItemSecondaryAction>
-                <ListItemText className={classes.count} primary={value } />
-            </ListItemSecondaryAction>
+            <Link style={{color: "#fff"}} to={"editproduct/" + product?._id} >
+              <ListItemSecondaryAction>
+                  <ListItemText className={classes.count} primary={value } />
+              </ListItemSecondaryAction>
+            </Link>
         </ListItem>
         <Divider className={classes.divider} />
     </List>

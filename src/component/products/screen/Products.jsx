@@ -157,8 +157,8 @@ function Products() {
                 <div className={"mainItemsContainer"} >
                     {products.map(product=>(
                         !showDetails ? 
-                            <ProductStoreItem title={product?.name} value={
-                                fa["buy price"] + " " + converEnglishNumToPersian(numberWithCommas(product?.buy_price))}/> :
+                            <ProductStoreItem {...product} title={`${converEnglishNumToPersian(product?.count)} ${fa['box']} : ${product?.name}`} value={
+                                fa["buy"] + " " + converEnglishNumToPersian(numberWithCommas(product?.buy_price))}/> :
                           <ProductItem onDeleteProduct={onDeleteProduct} key={product._id} product={product} />
                     ))}
                     {!finished && <CircularProgress />}

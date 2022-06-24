@@ -53,6 +53,7 @@ function StoreDetail(params) {
                         title={product.name}
                         value={converEnglishNumToPersian(numberWithCommas(product.count))}
                         image={product.image}
+                        {...product}
                     />
                 ))}
             </MainScreen>}
