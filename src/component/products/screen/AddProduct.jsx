@@ -3,7 +3,6 @@ import SceneWrapper from "../../../SceneWrapper/SceneWrapper";
 import { Header } from "../../../common/Header";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import DropDown from "../../../common/DropDown";
 import SelectCategoryModal from "../items/SelectCategoryModal";
 import SimpleBackdrop from "../../../common/SimpleBackdrop";
 import { API, HOST } from "../../../service/api";
@@ -22,6 +21,7 @@ import MainScreen from "../../../common/MainScreen";
 import fa from "../../../translation/fa";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import { BuyProductDrawer } from "./BuyProductDrawer";
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -100,7 +100,6 @@ function AddClient({history}) {
     async function fetchOrderDetail(params) {
         try {
             const {data} = await API.get("business/product",{_id: id});
-            console.log("data" , data[0])
             if(data.length > 0){
                 setName(data[0].name);
                 setPrice(data[0].price);
@@ -232,6 +231,14 @@ function AddClient({history}) {
         set_is_private(e.target.checked)
     }
 
+    function onAddNewBuy(newCount, newBuPrice) {
+        const newPaiedAmount = newCount * newBuPrice;
+        const paiedAmount = count * buy_price;
+        const totalNewBuyPrice = (newPaiedAmount + paiedAmount) / (count + newCount);
+        setCount(count + newCount)
+        set_buy_price(Math.floor(totalNewBuyPrice));
+    }
+
     return(
         <div className={"mainScreen"}>
             <Header/>
@@ -360,6 +367,7 @@ function AddClient({history}) {
                     >
                     {fa["submit"]}
                 </Button>
+                {id && <BuyProductDrawer onAddNewBuy={onAddNewBuy} />}
             </MainScreen>
             </div>
 
