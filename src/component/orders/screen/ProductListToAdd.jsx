@@ -17,6 +17,8 @@ import ProductItemToaddInOrder from "../../products/items/ProductItemToaddInOrde
 import Button from '@material-ui/core/Button';
 import fa from "../../../translation/fa";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SelectCategoryModal from "../../products/items/SelectCategoryModal";
+import { AddOrRemoveItemButton } from "../items/AddOrRemoveItemButton";
 
 const limit = 20
 
@@ -69,7 +71,6 @@ function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false
     const [products, setProducts] = useState([]);
     const [addedProductList, setAddedProductList] = useState(productList);
     const [goingUp, setGoingUp] = useState(false);
-
     const prevScrollY = useRef(0);
 
     const isScrolling =()=>{
@@ -154,7 +155,7 @@ function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false
         setTimeout(()=>{
             set_category(newCat);
         },0);
-    }
+    } 
 
     return(
         <div className={"mainScreen"}>
@@ -168,14 +169,20 @@ function ProductListToAdd({closeFnc, onAddPress, productList = [], isGift= false
                 <MainScreen>
                     <SearchInput value={name} onChange={onSearchValueChange} />
                     {/* <List onScroll={isScrolling} id={"myModalID"} className={classes.root} subheader={<li />}> */}
+                    <SelectCategoryModal
+                        category={category}
+                        set_category={onCatChange}
+                    />
                         <div className={classes.itemContainer} >
                             {products.map(product=>(
+                                <>
                                 <ProductItemToaddInOrder 
                                     productList={addedProductList} 
                                     setAddedProductList={setAddedProductList}
                                     key={product._id} 
                                     isGift={isGift}
                                     product={product} />
+                                </>
                             ))}
                             {loading && 
                                 <div className={classes.loader} >

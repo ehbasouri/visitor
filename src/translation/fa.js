@@ -2,6 +2,7 @@ const fa = {
     "register": "ثبت نام",
     "login": "ورود",
     "please enter username and password": "لطفا نام کاربری و گذرواژه را وارد کنید",
+    "please enter correct password": "لطفا رمز عبور صحیح را وارد کنید",
     "Client login page": "صفحه ورود به سیستم مشتری",
     "Business login page": "صفحه ورود به سیستم فروشگاه",
     "username": "نام کاربری",

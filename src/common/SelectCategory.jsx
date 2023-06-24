@@ -54,8 +54,6 @@ function SelectCategory({
         queries.is_private = cbrs[business._id].show_private_products ;
     }
 
-    console.log("queries : ", queries);
-
     const url = client ? "category" : "/business/category";
     try {
       const { data } = await API.get(url,queries);

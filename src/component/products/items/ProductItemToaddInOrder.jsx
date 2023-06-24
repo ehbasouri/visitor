@@ -8,6 +8,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import { HOST } from '../../../service/api';
+import { AddOrRemoveItemButton } from '../../orders/items/AddOrRemoveItemButton';
+import { useMemo } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +30,10 @@ export default function ProductItemToaddInOrder({
   const classes = useStyles();
   const [checked, setChecked] = React.useState(checkProduct());
 
+  const SelectedProduct = useMemo(() => {
+    return productList.find((element) => element?._id === product?._id)
+  }, [product?._id, productList])
+
   function checkProduct() {
     const index = productList.findIndex(element => element._id === product._id);
     return index > -1
@@ -42,6 +48,40 @@ export default function ProductItemToaddInOrder({
       setAddedProductList(updatedList);
     }
   }
+
+  function findIndex(params) {
+    const index = productList.findIndex(item=>item._id === product._id)
+    return index
+  }
+  const onAddOrRemovePress = (add) => {
+
+    // if(product.countInBasket === product.count && add) return;
+    const updatedProducts = JSON.parse(JSON.stringify(productList));
+    const index = findIndex();
+    updatedProducts[index].countInBasket = add ? SelectedProduct.countInBasket + 1 : SelectedProduct.countInBasket - 1
+    setAddedProductList(updatedProducts)
+  }
+  const onRemovePress = () => {
+    if(SelectedProduct.countInBasket === 1 && SelectedProduct.unitCountInBasket === 0){
+      handleChange({target : {value: false}})
+    }else if(SelectedProduct.countInBasket > 0) {
+      onAddOrRemovePress(false)
+    }
+  }
+  const onAddOrRemoveUnitPress = (add) => {
+    const updatedProducts = JSON.parse(JSON.stringify(productList));
+    const index = findIndex();
+    updatedProducts[index].unitCountInBasket = add ? SelectedProduct.unitCountInBasket + 1 : SelectedProduct.unitCountInBasket - 1
+    setAddedProductList(updatedProducts)
+  }
+  const onRemoveUnitPRess = () => {
+    if(SelectedProduct.unitCountInBasket === 1 && SelectedProduct.countInBasket === 0 ){
+      handleChange({target : {value: false}})
+    }else if(SelectedProduct.unitCountInBasket > 0 ) {
+      onAddOrRemoveUnitPress(false)
+    }
+  }
+
 
   return (
     <List dense className={classes.root}>
@@ -63,6 +103,13 @@ export default function ProductItemToaddInOrder({
             />
             </ListItemSecondaryAction>
           </ListItem>
+            {checked && <AddOrRemoveItemButton
+              product={{...SelectedProduct, ...product}}
+              onAddPress={()=>onAddOrRemovePress(true)}
+              onRemovePress={onRemovePress}
+              onAddOrRemoveUnitPress={()=>onAddOrRemoveUnitPress(true)}
+              onRemoveUnitPRess={onRemoveUnitPRess}
+              />}
     </List>
   );
 }

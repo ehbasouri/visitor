@@ -16,6 +16,9 @@ import numberWithCommas from '../../../utils/commaSeperator';
 import converEnglishNumToPersian from '../../../utils/EnglishNumToPersianNum';
 import { useSelector } from "react-redux";
 import moment from "jalali-moment";
+import { useCallback } from "react";
+import { Button, TextField } from "@material-ui/core";
+import { AlertComponent } from "../../../common/AlertComponent";
 
 const today = new Date();
 today.setHours(0,0,0,0);
@@ -27,11 +30,16 @@ tomorrow.setHours(0,0,0,0);
 const useStyles = makeStyles((theme) => ({
     chartContainer: {
         marginTop: theme.spacing(8)
-    }
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
 }));
 
 function Analytics() {
-
+    const [isAutenticated, setIsAuthenticated] = useState(false)
+    const [password, setPassword] = useState('')
+    const [showAlert, setShowAlert] = useState(false)
     const classes = useStyles();
     const user_info = useSelector(state=>state.general_reducer.user_info)
 
@@ -45,24 +53,20 @@ function Analytics() {
     const [fromDate, setFromDate] = useState(today)
     const [toDate, setToDate] = useState(tomorrow)
 
-    useEffect(()=>{
-        // fetchAnalytics();
-        fetchOrders();
-    },[fromDate, toDate]);
 
-    async function fetchAnalytics() {
-        try {
-            const {data} = await API.get("analytics",{
-                fromDate, toDate
-            });
-            const computedData = normalizedAnalyticsData(data);
-            setAnalyticsData(computedData);
-        } catch (error) {
-            console.log("error : ", error)
-        }
-    }
+    // async function fetchAnalytics() {
+    //     try {
+    //         const {data} = await API.get("analytics",{
+    //             fromDate, toDate
+    //         });
+    //         const computedData = normalizedAnalyticsData(data);
+    //         setAnalyticsData(computedData);
+    //     } catch (error) {
+    //         console.log("error : ", error)
+    //     }
+    // }
 
-    async function fetchOrders() {
+    const fetchOrders = useCallback(async () => {
         const queries = {
           business_id : user_info._id, 
           status: "archive"
@@ -75,7 +79,6 @@ function Analytics() {
         }
         try {
             const {data} = await API.get("business/order", queries);
-            console.log("data : ", data);
             const orders = []
             data.map(order => {
                 const year = moment(order.updated_at).format('YYYY/MM/DD')
@@ -98,26 +101,36 @@ function Analytics() {
             })
             const computedData = normalizedAnalyticsData(orders.reverse());
             setAnalyticsData(computedData);
-            console.log("orders :: ", orders)
         } catch (error) {
             console.log("error : ", error);
             console.log("error : ", error.response);
         }
-    }
+    }, [fromDate, toDate, user_info._id])
 
+    useEffect(()=>{
+        // fetchAnalytics();
+        fetchOrders();
+    },[fetchOrders]);
 
     function setFilterDate({start, end}) {
         setFromDate(start)
         setToDate(end)
     }
 
-    console.log("analyticsData : ", analyticsData);
+    const onSubmit = () => {
+        if (password === 'esiesi1731') {
+            setIsAuthenticated(true)
+            setShowAlert(false)
+        } else {
+            setShowAlert(true)
+        }
+    }
 
     return(
         <div className={"mainScreen"}>
             <Header/>
             <div className={"mainContainer"} >
-                <MainScreen>
+                {isAutenticated ? <MainScreen>
                 <MyRangeDatePicker
                     setFilterDate={setFilterDate}
                 />
@@ -146,7 +159,37 @@ function Analytics() {
                             />
                         }
                     </div>
+                </MainScreen> : 
+                <MainScreen>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label={fa["password"]}
+                        type="password"
+                        autoComplete="current-password"
+                        onChange={(element) => setPassword(element.target.value)}
+                        value={password}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={onSubmit}
+                    >
+                        {fa['submit']}
+                    </Button>
+                    <AlertComponent
+                        open={showAlert}
+                        setOpen={setShowAlert}
+                        message={fa["please enter correct password"]}
+                    />
                 </MainScreen>
+                }
             </div>
         </div>
     )

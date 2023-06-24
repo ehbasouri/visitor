@@ -76,7 +76,6 @@ function AddOrderBusiness({ history }) {
   const [updatedOrder, setUpdatedOrder] = React.useState(newOrder);
   const [loading, setLoading] = React.useState(false);
   const [showModal, setShowModal] = React.useState(0);
-
   const user_info = useSelector((state) => state.general_reducer.user_info);
   let { id } = useParams();
 
